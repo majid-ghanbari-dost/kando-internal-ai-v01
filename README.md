@@ -114,7 +114,7 @@ This is not semantic language understanding. The parser now removes request phra
 - Latest verification: CI Run 43215850991, 50/50 tests passed; Manifest 46/46 verified; source archive SHA-256 `e82840707f259129f173cae83d9ee2c95eb5315928b7309b64840596e6c8a05e`. PR #5 remains open and unmerged.
 
 
-## Human Mapping Review Decision (Build 0.6 — fixture-only)
+## Human Mapping Review Decision (Build 0.6 — fixture-only, CI verified)
 
 - `CatalogMappingReviewDecisionExporter` creates and verifies `kandoo.catalog-mapping-review-decision` v1 artifacts.
 - Every decision is bound to a separately verified Build 0.5 proposal ID and content SHA-256, plus its exact store/profile identity.
@@ -122,3 +122,6 @@ This is not semantic language understanding. The parser now removes request phra
 - Decision ID and content digest are deterministic; imports reject tampering, unknown/duplicate fields, unsupported values, non-canonical JSON, stale proposals and cross-store/profile reuse.
 - Reviewer reference is opaque fixture metadata, not authenticated identity. No persistence, approval authority, mapping activation, Hub or real store data is included.
 - Contract: `docs/MAPPING-REVIEW-DECISION-V1.md`.
+
+- Verification: CI Run 43262521925; 66/66 tests passed; Manifest 51/51 independently verified; inner source archive SHA-256 `0db32d0a8d109c95a320dcf70ba6d03fc372a2388e15fe800af0b256eda2fd21`.
+- Limitation: without a durable registry, this build does not globally prevent duplicate decisions or support revocation; deterministic IDs only make identical artifacts detectable by a future registry.
