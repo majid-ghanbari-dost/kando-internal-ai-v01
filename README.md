@@ -112,3 +112,13 @@ This is not semantic language understanding. The parser now removes request phra
 - Verification does not approve, persist, activate, or apply mappings. No Hub, real store data, external model, or parent-repository change is involved.
 
 - Latest verification: CI Run 43215850991, 50/50 tests passed; Manifest 46/46 verified; source archive SHA-256 `e82840707f259129f173cae83d9ee2c95eb5315928b7309b64840596e6c8a05e`. PR #5 remains open and unmerged.
+
+
+## Human Mapping Review Decision (Build 0.6 — fixture-only)
+
+- `CatalogMappingReviewDecisionExporter` creates and verifies `kandoo.catalog-mapping-review-decision` v1 artifacts.
+- Every decision is bound to a separately verified Build 0.5 proposal ID and content SHA-256, plus its exact store/profile identity.
+- Supported outcomes are `Approved`, `Rejected`, and `ChangesRequested`; `Unspecified = 0` is rejected so a default enum value cannot silently approve.
+- Decision ID and content digest are deterministic; imports reject tampering, unknown/duplicate fields, unsupported values, non-canonical JSON, stale proposals and cross-store/profile reuse.
+- Reviewer reference is opaque fixture metadata, not authenticated identity. No persistence, approval authority, mapping activation, Hub or real store data is included.
+- Contract: `docs/MAPPING-REVIEW-DECISION-V1.md`.
