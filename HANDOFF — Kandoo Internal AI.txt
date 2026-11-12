@@ -1,5 +1,5 @@
 # HANDOFF — Kandoo Internal AI
-**نسخه:** 1.11
+**نسخه:** 1.12
 **تاریخ:** ۱۲ نوامبر ۲۰۲۶
 **وضعیت:** Build 0.2.1 و Build 0.2.2 هر دو در CI موفق بوده‌اند. PR شماره 1 و PR شماره 2 باز و ادغام‌نشده‌اند؛ PR شماره 2 اکنون به شاخه Build 0.2.1 retarget شده و Diff آن فقط افزوده‌های Build 0.2.2 را نشان می‌دهد. اتصال به Hub واقعی صریحاً تحت اختیار مدیر پروژه و ممنوع تا تأیید اوست.
 
@@ -685,3 +685,30 @@ Build 0.1 اکنون Solution قابل Build، API محلی، Fake Store Gateway
 - PR #3: `https://github.com/majid-ghanbari-dost/kando-internal-ai-v01/pull/3`؛ Open، Ready for Review، Unmerged. هیچ Merge انجام نشده است.
 - این نتیجه فقط برش اول قرارداد/Fixture/Mapping/Retrieval را اعتبارسنجی می‌کند؛ Build 0.3 به‌عنوان کل فاز هنوز تکمیل نشده است. ادامه کار شامل ارزیابی retrieval دقیق‌تر، گسترش اعتبارسنجی mapping و تست‌های سخت‌گیرانه‌تر روی drift/PII/alias ambiguity است.
 - Hub Integration همچنان خارج از محدوده و نیازمند تأیید مستقل مدیر پروژه Kandoo است.
+
+
+## ۲۸. Build 0.3 — دستاورد اجرایی دوم: اعتبارسنجی ویژگی‌های تایپ‌شده
+
+- در قرارداد Core، نتیجه اعتبارسنجی ویژگی‌ها با `CatalogAttributeValidationResult` اضافه شد.
+- برای هر نوع فروشگاه، مجموعه مستقل و synthetic از `ProductAttributeDefinition` اضافه شد؛ شامل نوع داده، حساسیت، allowlist و مقادیر مجاز.
+- `CatalogAttributeSchemaValidator` اضافه شد و موارد زیر را بررسی می‌کند:
+  1. وجود تعریف برای هر ویژگی.
+  2. allowlist بودن و Public بودن ویژگی.
+  3. تطابق نوع مقدار با تعریف.
+  4. وجود دقیقاً یک payload typed و سازگار با نوع اعلام‌شده.
+  5. قرار داشتن مقدار String در فهرست مجاز، در صورت تعریف محدودیت.
+- چهار تست جدید اضافه شدند: اعتبارسنجی تمام محصولات مصنوعی در برابر schema فروشگاه خودشان؛ رد type mismatch و چند payload؛ رد مقدار خارج از allowed values؛ رد تعریف حساس یا non-allowlisted.
+- فایل‌های اصلی این برش:
+  - `src/Kandoo.InternalAI.Core/CatalogContracts.cs`
+  - `src/Kandoo.InternalAI.Infrastructure/SyntheticCatalogFixtures.cs`
+  - `src/Kandoo.InternalAI.Infrastructure/CatalogAttributeSchemaValidator.cs`
+  - `tests/Kandoo.InternalAI.Tests/CatalogBuild03Tests.cs`
+- Commitهای این برش:
+  - Validation result contract: `61da5b4a1f2bd4fec31f119bbc6ade2755bbd911`
+  - Store-specific attribute definitions: `0d0a42adab52b48fa02300e17c96d1db17d4ede3`
+  - Attribute schema validator: `096b67711a95b5a0580120dc08b061bd4acf877c`
+  - Validation tests: `6117caf262d06a2d1b9548129473f35afc59d3b6`
+  - README: `362f33552190463de54a5c79d13b763d640f40e5`
+  - Technical Challenge: `37a790474074fe8add84576b3f11e5e52d606193`
+- CI برای این برش جدید هنوز در انتظار است؛ نتایج 25/25 و آرشیو بخش قبل فقط به Commit قبلی تعلق دارند و نباید به کد جدید تعمیم داده شوند.
+- گام بعدی: اجرای CI روی HEAD جدید؛ در صورت موفقیت، TRX، Manifest، Source Archive و SHA-256 مجدداً دریافت و بررسی می‌شوند.
