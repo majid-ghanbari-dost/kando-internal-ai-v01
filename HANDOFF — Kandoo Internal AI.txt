@@ -1,5 +1,5 @@
 # HANDOFF — Kandoo Internal AI
-**نسخه:** 1.25
+**نسخه:** 1.26
 **تاریخ:** ۱۲ نوامبر ۲۰۲۶
 **وضعیت:** Build 0.4 در محدوده Fixture-only تکمیل و CI آن تأیید شده است؛ PR #4 باز و ادغام‌نشده است. Build 0.3 از نظر قابلیت‌های اصلی پیاده‌سازی شده اما خروجی قابل‌تحویل Mapping Proposal هنوز باقی است. بسته بازبینی فنی مدیر پروژه و Technical Challenge مرحله بعد در شاخه کاری ثبت شده‌اند. هیچ PR ادغام نشده و اتصال Hub واقعی همچنان نیازمند تأیید مستقل مدیر پروژه Kandoo است.
 
@@ -969,3 +969,15 @@ Build 0.1 اکنون Solution قابل Build، API محلی، Fake Store Gateway
 - Manifest دارای 39 ورودی بود؛ هر 39 فایل با SHA-256 تطبیق داده شد و 39/39 OK بودند.
 - CI URL: https://github.com/majid-ghanbari-dost/kando-internal-ai-v01/actions/runs/43212603522.
 - نسخه 1.25 پس از Commit آزموده‌شده صرفاً نتیجه CI و شماره نسخه هندآف را ثبت می‌کند؛ کد، تست، README، بسته بازبینی و Technical Challenge پس از Commit آزموده‌شده تغییر نکرده‌اند.
+
+
+## ۴۹. راستی‌آزمایی نهایی هندآف v1.25 و بسته مدیر پروژه
+
+- Commit آزموده‌شده: 3c3b21454864da4f070d5395d7c6dacfca40fdf8؛ شامل هندآف v1.25، گزارش مدیر پروژه، Build 0.5 Challenge و README است.
+- CI Run 43212918938 موفق شد؛ TRX برابر 36/36 passed و 0 failed است.
+- Source Artifact ID 13941099235؛ digest sha256:87eecfb5cdcb5000c33f23ee7fe0b5aa12e0a2ec0791f1a8183cf2bb7282e969.
+- Test Artifact ID 13941438692؛ digest sha256:133c5657071baf436c8d9baf7229b869999388f89a09c01282a814ac380ebccf.
+- SHA-256 آرشیو داخلی kandoo-internal-ai-source.tar.gz: 059b4ac482626fa75a3dea92f02f48d1c2c95967649bdf8a3e5dcf838bf30a6d.
+- Manifest دارای 39 ورودی است؛ 39/39 فایل با SHA-256 بررسی و تأیید شدند.
+- CI URL: https://github.com/majid-ghanbari-dost/kando-internal-ai-v01/actions/runs/43212918938.
+- نسخه 1.26 صرفاً همین شواهد را ثبت می‌کند. Commit بعد از آزمون فقط متن هندآف/شماره نسخه را به‌روز می‌کند؛ کد و اسناد بسته بازبینی و Technical Challenge تغییری نکرده‌اند.
