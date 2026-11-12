@@ -1,0 +1,123 @@
+{
+  "corpusId": "kandoo-fa-product-query-v1",
+  "version": 1,
+  "language": "fa-IR",
+  "source": "synthetic",
+  "privacy": "No personal or customer data",
+  "cases": [
+    {
+      "id": "price-001",
+      "question": "قیمت بادكنک لاتكس قرمز چنده؟",
+      "expectedIntent": "CurrentPrice",
+      "expectedQuery": "بادکنک لاتکس قرمز"
+    },
+    {
+      "id": "price-002",
+      "question": "لطفا قیمت بادکنک لاتکس آبی رو بگو",
+      "expectedIntent": "CurrentPrice",
+      "expectedQuery": "بادکنک لاتکس آبی"
+    },
+    {
+      "id": "price-003",
+      "question": "بهای روبان ساتن چقدر است",
+      "expectedIntent": "CurrentPrice",
+      "expectedQuery": "روبان ساتن"
+    },
+    {
+      "id": "price-004",
+      "question": "قیمت چندتایی بادکنک لاتکس",
+      "expectedIntent": "CurrentPrice",
+      "expectedQuery": "چندتایی بادکنک لاتکس"
+    },
+    {
+      "id": "price-005",
+      "question": "قیمت محصولی به نام بادکنک چندتایی",
+      "expectedIntent": "CurrentPrice",
+      "expectedQuery": "محصولی به نام بادکنک چندتایی"
+    },
+    {
+      "id": "price-006",
+      "question": "لطفا قیمت چنده؟",
+      "expectedIntent": "CurrentPrice",
+      "expectedQuery": ""
+    },
+    {
+      "id": "stock-001",
+      "question": "موجودی بادکنک لاتکس قرمز رو بگو",
+      "expectedIntent": "CurrentStock",
+      "expectedQuery": "بادکنک لاتکس قرمز"
+    },
+    {
+      "id": "stock-002",
+      "question": "تعداد بادکنک لاتکس آبی را نشان بده",
+      "expectedIntent": "CurrentStock",
+      "expectedQuery": "بادکنک لاتکس آبی"
+    },
+    {
+      "id": "stock-003",
+      "question": "چندتا بادکنک لاتکس قرمز داریم؟",
+      "expectedIntent": "CurrentStock",
+      "expectedQuery": "بادکنک لاتکس قرمز"
+    },
+    {
+      "id": "stock-004",
+      "question": "چند تا بادکنک لاتکس آبی داریم",
+      "expectedIntent": "CurrentStock",
+      "expectedQuery": "بادکنک لاتکس آبی"
+    },
+    {
+      "id": "stock-005",
+      "question": "انبار روبان ساتن",
+      "expectedIntent": "CurrentStock",
+      "expectedQuery": "روبان ساتن"
+    },
+    {
+      "id": "details-001",
+      "question": "مشخصات محصول بادکنک لاتکس آبی را نشان بده",
+      "expectedIntent": "ProductDetails",
+      "expectedQuery": "بادکنک لاتکس آبی"
+    },
+    {
+      "id": "details-002",
+      "question": "اطلاعات روبان ساتن رو بگو",
+      "expectedIntent": "ProductDetails",
+      "expectedQuery": "روبان ساتن"
+    },
+    {
+      "id": "details-003",
+      "question": "لطفا بادکنک لاتکس قرمز را نشان بده",
+      "expectedIntent": "ProductDetails",
+      "expectedQuery": "بادکنک لاتکس قرمز"
+    },
+    {
+      "id": "details-004",
+      "question": "بادکنک لاتکس قرمز",
+      "expectedIntent": "ProductDetails",
+      "expectedQuery": "بادکنک لاتکس قرمز"
+    },
+    {
+      "id": "preserve-001",
+      "question": "بادکنک لطفا قرمز",
+      "expectedIntent": "ProductDetails",
+      "expectedQuery": "بادکنک لطفا قرمز"
+    },
+    {
+      "id": "preserve-002",
+      "question": "محصول بادکنک چندتایی",
+      "expectedIntent": "ProductDetails",
+      "expectedQuery": "بادکنک چندتایی"
+    },
+    {
+      "id": "preserve-003",
+      "question": "قیمت‌دار بودن بادکنک قرمز",
+      "expectedIntent": "ProductDetails",
+      "expectedQuery": "قیمت دار بودن بادکنک قرمز"
+    },
+    {
+      "id": "empty-001",
+      "question": "قیمت",
+      "expectedIntent": "CurrentPrice",
+      "expectedQuery": ""
+    }
+  ]
+}
