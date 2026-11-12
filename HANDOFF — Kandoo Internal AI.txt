@@ -1,5 +1,5 @@
 # HANDOFF — Kandoo Internal AI
-**نسخه:** 1.10
+**نسخه:** 1.11
 **تاریخ:** ۱۲ نوامبر ۲۰۲۶
 **وضعیت:** Build 0.2.1 و Build 0.2.2 هر دو در CI موفق بوده‌اند. PR شماره 1 و PR شماره 2 باز و ادغام‌نشده‌اند؛ PR شماره 2 اکنون به شاخه Build 0.2.1 retarget شده و Diff آن فقط افزوده‌های Build 0.2.2 را نشان می‌دهد. اتصال به Hub واقعی صریحاً تحت اختیار مدیر پروژه و ممنوع تا تأیید اوست.
 
@@ -668,3 +668,20 @@ Build 0.1 اکنون Solution قابل Build، API محلی، Fake Store Gateway
 - Commit اصلاح: `372fa846d7603f063f1420a4b08457082a6e7a5e`.
 - Artifact تست Run ناموفق: ID `13936438630`؛ فقط برای شواهد تشخیصی است و جایگزین نتیجه موفق نیست.
 - CI مجدد برای Commit اصلاح‌شده هنوز باید اجرا و بررسی شود؛ Manifest و Source Archive هنوز تولید نشده‌اند.
+
+
+## ۲۷. Build 0.3 — CI موفق و آرشیو راستی‌آزمایی‌شده برای برش اول
+
+- **CI: Success** — Run `43204813276`، Run number 72.
+- Commit تحت آزمون: `bd9270ecdca38664d0de3e3502b294535db97ffd`.
+- Restore: Success؛ Release Build: Success؛ Test: Success؛ Manifest: Success؛ Source Archive: Success؛ Upload هر دو Artifact: Success.
+- TRX دانلود و مستقیماً بررسی شد: `total=25, executed=25, passed=25, failed=0`. شامل ۱۷ تست قبلی و ۸ تست جدید Build 0.3.
+- Test Results Artifact ID: `13936208890`؛ Digest: `sha256:efba3ca593c8546484857d2878f46d503921d200746472f4893dfa7f0a926787`.
+- Source Artifact ID: `13936537884`؛ Digest: `sha256:da56b5cb0067fc05a764deff16f8c15a88857909d00d2cb266c541b650fb1b5e`.
+- Source Artifact ZIP دانلود شد و محتویات آن بررسی شد؛ داخل آن آرشیو `kandoo-internal-ai-source.tar.gz` و `MANIFEST-SHA256.txt` وجود داشت.
+- SHA-256 آرشیو Source یعنی `kandoo-internal-ai-source.tar.gz`: `1c0262b9c45f738a95c7ff6baf430986348d335f885c899ea22e67e8a2c3b2ab`.
+- Manifest شامل ۳۳ فایل است؛ اجرای `sha256sum -c` روی تمام ۳۳ مورد، بدون خطا و با نتیجه OK انجام شد.
+- اجرای CI: `https://github.com/majid-ghanbari-dost/kando-internal-ai-v01/actions/runs/43204813276`.
+- PR #3: `https://github.com/majid-ghanbari-dost/kando-internal-ai-v01/pull/3`؛ Open، Ready for Review، Unmerged. هیچ Merge انجام نشده است.
+- این نتیجه فقط برش اول قرارداد/Fixture/Mapping/Retrieval را اعتبارسنجی می‌کند؛ Build 0.3 به‌عنوان کل فاز هنوز تکمیل نشده است. ادامه کار شامل ارزیابی retrieval دقیق‌تر، گسترش اعتبارسنجی mapping و تست‌های سخت‌گیرانه‌تر روی drift/PII/alias ambiguity است.
+- Hub Integration همچنان خارج از محدوده و نیازمند تأیید مستقل مدیر پروژه Kandoo است.
