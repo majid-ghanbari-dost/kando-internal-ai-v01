@@ -19,7 +19,21 @@ public sealed class AssistantServiceTests
         Assert.Equal("fixture", response.DataMode);
         Assert.Single(response.Evidence);
         Assert.Equal("P-100", response.Evidence[0].ProductId);
+        Assert.Single(response.Products);
+        Assert.Equal(250000, response.Products[0].CurrentPriceRials);
         Assert.Contains("داده آزمایشی", response.Answer);
+    }
+
+    [Fact]
+    public async Task PriceQuestion_ExtractsProductAndReturnsPriceIntent()
+    {
+        var response = await CreateService().AskAsync(
+            new AssistantRequest(StoreA, "قیمت بادكنک لاتكس قرمز چنده؟"), CancellationToken.None);
+
+        Assert.True(response.HasGroundedData);
+        Assert.Equal(nameof(AssistantIntent.CurrentPrice), response.Intent);
+        Assert.Equal("P-100", Assert.Single(response.Products).ProductId);
+        Assert.Contains("250,000", response.Answer);
     }
 
     [Fact]
@@ -33,7 +47,8 @@ public sealed class AssistantServiceTests
     [Fact]
     public async Task UnknownTool_IsRejectedWithoutExecution()
     {
-        var service = new AssistantService(new FixedPlanProvider(new AssistantPlan("sql.execute", "SELECT * FROM products")),
+        var service = new AssistantService(new FixedPlanProvider(
+                new AssistantPlan("sql.execute", "SELECT * FROM products", AssistantIntent.ProductDetails)),
             new AssistantToolRegistry([new ProductLookupTool(new FakeStoreReadGateway())]));
         var response = await service.AskAsync(new AssistantRequest(StoreA, "هر چیزی"), CancellationToken.None);
         Assert.False(response.HasGroundedData);
