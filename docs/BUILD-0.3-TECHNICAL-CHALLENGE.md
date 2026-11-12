@@ -81,3 +81,7 @@ Proceed with a fixture-only Build 0.3 after Product Owner approval. Keep the ada
 
 ## 10. Implementation boundary after approval
 The first implementation slice lives on branch `build/0.3-dynamic-catalog`. It adds canonical/extensible contracts, three synthetic catalog fixtures, mapping proposal validation, PII-like field exclusion, unknown-field quarantine, schema-drift invalidation, and store-scoped deterministic retrieval. These are test fixtures, not a production adapter. Build/CI evidence is recorded in the handoff only after the corresponding run is verified.
+
+
+## 11. Typed attribute validation implementation
+The fixture implementation now includes store-specific attribute definitions and a schema validator. It checks definition existence, allowlist and sensitivity, type agreement, exactly one correctly typed payload, and allowed-value constraints. Synthetic tests cover valid catalogs, wrong type/multiple payloads, disallowed values, and sensitive/non-allowlisted definitions.
