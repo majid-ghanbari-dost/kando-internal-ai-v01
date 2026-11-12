@@ -91,3 +91,11 @@ This is not semantic language understanding. The parser now removes request phra
 - Ambiguous catalog queries return candidate identities and clarification only. Cross-store queries return not found.
 - Catalog responses do not contain current price or stock. No real Hub, store database, external model, credentials, or production data is connected.
 - Build 0.4 is implemented only in the independent AI repository; PRs remain unmerged pending Product Owner review.
+
+
+## Project Manager review package (2026-11-12)
+- Current technical review: docs/PROJECT-MANAGER-HANDOFF-REVIEW.md.
+- Build 0.4 is fixture-only complete; PR #4 remains open and unmerged.
+- Build 0.3 remains at approximately 90% because mapping proposals are generated in memory but do not yet have a versioned, deterministic export package.
+- Proposed next step: Build 0.5 mapping-proposal export. Its technical challenge is draft-only and awaits explicit Product Owner approval.
+- The Host has no authentication/authorization and must remain local fixture-only; do not expose it to a network or real store.

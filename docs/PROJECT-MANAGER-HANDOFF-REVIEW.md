@@ -1,0 +1,118 @@
+# Kandoo Internal AI — Project Manager Technical Handoff Review
+
+**Date:** 2026-11-12  
+**Repository:** https://github.com/majid-ghanbari-dost/kando-internal-ai-v01  
+**Review scope:** Independent AI repository only; fixture-backed implementation  
+**Prepared by:** Technical Manager / Architecture Review  
+**Decision requested:** Review the independent repository architecture and test evidence. This document does not request Hub integration approval.
+
+## 1. Executive status
+
+The independent AI repository has progressed through Builds 0.1–0.4. Build 0.4 is complete within its approved fixture-only scope. The HTTP Assistant path can route descriptive product-attribute questions to a typed catalog query tool for three synthetic store profiles.
+
+The repository is **not production-ready** and is **not connected to Kandoo Hub**. The Host has no authentication or authorization and accepts StoreId in the request body. It must remain local fixture-only and must not be exposed to a network or real store environment.
+
+All PRs #1–#4 are open and unmerged. PRs are stacked; no code has been merged to main. The handoff document is mirrored to main as documentation only.
+
+## 2. Delivery status
+
+| Build | Status | Evidence / remaining work |
+|---|---|---|
+| 0.1 foundation | Complete | .NET 8 solution, minimal API, allowlisted legacy lookup tool, fixture gateway, CI |
+| 0.2.1 Persian query evaluation | Complete | Versioned synthetic corpus and parser tests |
+| 0.2.2 ambiguity-safe clarification | Complete | Explicit resolution states and regression tests |
+| 0.3 dynamic catalog | ~90% | Canonical contracts, three synthetic profiles, typed attributes, mapping proposal generation, quarantine, PII-like exclusion, schema-drift invalidation, approved aliases and scoped retrieval. Missing: versioned deterministic export/review package for mapping proposals |
+| 0.4 Assistant catalog integration | 100% fixture-only | HTTP path reaches catalog tool; typed attributes/evidence; ambiguity and tenant isolation; 36/36 tests passed |
+
+The overall operational product remains substantially incomplete: no real LLM provider, authentication/authorization, Hub adapter, real store data, production deployment or operational validation.
+
+## 3. Build 0.4 verified implementation
+
+- IAssistantCatalogTool is a narrow typed contract. Legacy IAssistantTool / ProductLookupResult remains unchanged.
+- CatalogQueryTool wraps CatalogProductQueryService.
+- Host registers fixture repository, query service and catalog tool.
+- FakeModelProvider routes a small fixed set of Persian attribute markers deterministically. This is not semantic LLM capability.
+- AssistantService dispatches catalog.product.describe explicitly and handles Resolved, ClarificationRequired and NotFound.
+- Resolved responses carry product identity, typed attribute slots, source-field provenance, profile/version evidence and fixture mode.
+- Ambiguous responses contain candidate identities and a clarification question only; they do not return a selected product or catalog evidence.
+- Descriptive catalog responses do not contain current price or stock.
+- HTTP tests cover party supplies, grocery, clothing, typed decimal diameter, ambiguity, not-found/cross-store behavior and legacy lookup regression.
+
+### CI evidence
+
+Latest verified executable/test commit: cac340976fb27e05bed0ac5f745cf4ee23bd4af7
+
+- CI Run: 43210201902 — Success
+- Tests: 36/36 passed, 0 failed
+- Source Artifact ID: 13941215567
+- Test Artifact ID: 13941260566
+- Source archive SHA-256: 4b5bcab954526b51a9f5b418ce13c100741448dc0aa55c80499abedb2fc26bd0
+- Manifest: 37/37 entries verified
+- CI URL: https://github.com/majid-ghanbari-dost/kando-internal-ai-v01/actions/runs/43210201902
+
+The branch head later advanced to 7679aff634ea296d2c868eaa10b276508e19bced for handoff-only documentation. CI on that later documentation head is pending; do not conflate the tested commit with the current branch head.
+
+## 4. PR and branch state
+
+| PR | Scope | Base → Head | State |
+|---|---|---|---|
+| #1 | Build 0.2.1 | main → build/0.2.1-query-evaluation | Open, unmerged |
+| #2 | Build 0.2.2 | build/0.2.1-query-evaluation → build/0.2.2-clarification | Open, unmerged |
+| #3 | Build 0.3 | build/0.2.2-clarification → build/0.3-dynamic-catalog | Open, unmerged |
+| #4 | Build 0.4 | build/0.3-dynamic-catalog → build/0.4-assistant-catalog-integration | Open, unmerged |
+
+No review submissions or inline review threads were present for PR #3 or PR #4 at the time of this check. No PR was merged or closed.
+
+## 5. Architecture and security boundaries
+
+### Confirmed safeguards in the fixture implementation
+- Store-scoped fixture profiles, products, aliases, searches and evidence.
+- Only approved aliases are searchable.
+- Unknown mapping fields are quarantined.
+- PII-like source field names are excluded by the current conservative name-token filter.
+- Attribute definitions enforce allowlist, public sensitivity, type and allowed-value constraints.
+- Schema version drift marks a proposal Invalidated.
+- Current price/stock are not part of CatalogProduct.
+- No arbitrary SQL, shell, filesystem, network or write tool is exposed.
+
+### Material limitations / risks
+1. **No authentication or authorization:** AssistantRequest.StoreId is supplied by the caller. A real service must derive tenant identity from an authenticated principal, not trust request-body StoreId.
+2. **Local-only Host:** no auth middleware or network security boundary exists. Do not expose this Host to LAN/public network.
+3. **No real LLM:** FakeModelProvider is a deterministic rule-based test double.
+4. **Tool dispatch split:** legacy lookup uses IAssistantToolRegistry; catalog uses a separate interface and explicit branch. This is bounded for Build 0.4 but needs a deliberate unified policy/dispatch design before external model planning.
+5. **Basic retrieval:** catalog matching uses normalized substring matching. Semantic ranking, typo tolerance, relevance thresholds and multi-turn clarification state are absent.
+6. **No mapping export:** CatalogMappingProposal exists only in memory. There is no versioned deterministic export package or human review artifact yet.
+7. **PII screening is not sufficient for production:** field-name heuristics are defense-in-depth only. A production mapping process requires explicit reviewed source classification and allowlist approval.
+8. **No persistence or restore semantics:** fixtures are static. No durable Store Intelligence store, snapshot, change feed, checkpoint or rebuild mechanism exists.
+9. **No live operational reads:** current price, stock and invoice state are not wired to a live Gateway.
+10. **No observability/security operations:** authentication, authorization, rate limiting, audit, secret management, deployment hardening and incident handling are not implemented.
+
+## 6. Parent Kandoo Hub blockers — separate project boundary
+
+The parent Kandoo repository audit identified incomplete write-path closure. In particular, CompleteTimeout can update invoice/DraftLock state through a direct transaction path without producing an Operation Log entry; direct write wrappers also require a complete call-site audit.
+
+Before any live AI ingestion is approved, the Kandoo Project Manager must close or explicitly account for:
+- all operational write paths and Operation Log coverage;
+- consistent snapshot/high-water-mark semantics;
+- paginated and integrity-checked Change Feed from Replication Log;
+- store identity and authorization;
+- PII minimization/redaction, including invoice payloads;
+- restore/rebuild/checkpoint semantics;
+- proof that volatile price/stock are read live, not from stale projection.
+
+This AI repository review does not waive any parent-repository blocker.
+
+## 7. Recommended decisions
+
+1. **Accept Build 0.4 as a successful fixture-only implementation slice**, subject to normal code review; do not describe it as a production-ready assistant.
+2. **Do not approve Hub integration yet.** Mission 4.1 and the snapshot/change-feed/identity/privacy blockers remain.
+3. Close Build 0.3 by implementing Build 0.5 mapping-proposal export and human-review package, after Product Owner approves its Technical Challenge.
+4. Before connecting an external LLM, require a separate security/tool-planning challenge covering untrusted model output, tool argument validation, tenant binding, prompt injection, timeouts, budgets, audit and deny-by-default behavior.
+5. Keep all PRs unmerged until the Product Owner explicitly decides the merge sequence.
+
+## 8. Proposed next step
+
+Build 0.5 is proposed as a fixture-only, deterministic export of mapping proposals. It will serialize only the mapping proposal metadata (field names, target keys/types, quarantine/exclusion reasons, schema version and validation issues), with a versioned envelope, stable ordering, integrity digest and round-trip tests. It will not approve or apply mappings and will not access real schemas or databases.
+
+Technical Challenge: docs/BUILD-0.5-MAPPING-PROPOSAL-EXPORT-CHALLENGE.md  
+Status: Draft; implementation has not started and awaits explicit Product Owner approval.
