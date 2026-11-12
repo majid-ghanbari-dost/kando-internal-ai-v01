@@ -21,8 +21,9 @@ All PRs #1–#4 are open and unmerged. PRs are stacked; no code has been merged 
 | 0.1 foundation | Complete | .NET 8 solution, minimal API, allowlisted legacy lookup tool, fixture gateway, CI |
 | 0.2.1 Persian query evaluation | Complete | Versioned synthetic corpus and parser tests |
 | 0.2.2 ambiguity-safe clarification | Complete | Explicit resolution states and regression tests |
-| 0.3 dynamic catalog | ~90% | Canonical contracts, three synthetic profiles, typed attributes, mapping proposal generation, quarantine, PII-like exclusion, schema-drift invalidation, approved aliases and scoped retrieval. Missing: versioned deterministic export/review package for mapping proposals |
+| 0.3 dynamic catalog | 100% fixture-only | Canonical contracts, three synthetic profiles, typed attributes, mapping proposal generation, quarantine, PII-like exclusion, schema-drift invalidation, approved aliases, scoped retrieval; portable proposal export completed by Build 0.5 |
 | 0.4 Assistant catalog integration | 100% fixture-only | HTTP path reaches catalog tool; typed attributes/evidence; ambiguity and tenant isolation; 36/36 tests passed |
+| 0.5 Mapping proposal export | 100% fixture-only | Canonical v1 JSON envelope, deterministic proposal ID/SHA-256, strict verified import, three synthetic examples; 50/50 tests passed; Manifest 46/46 independently verified |
 
 The overall operational product remains substantially incomplete: no real LLM provider, authentication/authorization, Hub adapter, real store data, production deployment or operational validation.
 
@@ -40,17 +41,17 @@ The overall operational product remains substantially incomplete: no real LLM pr
 
 ### CI evidence
 
-Latest verified documentation/package commit: 26e1fd844273f4286cfc6e61a622cd69db605f18
+Latest verified Build 0.5 commit: 50567aa08205b528e6fc338ed389a990b97184ae
 
-- CI Run: 43213451103 — Success
-- Tests: 36/36 passed, 0 failed
-- Source Artifact ID: 13941738453; digest sha256:231789efb3c827c87a14dfe0df77ea7527dec778ab8df0de462f621f90c8e631
-- Test Artifact ID: 13942990643; digest sha256:001c1222586c7002fec85fe39aa02f78a1a673b8a98f0a0f15e882d256d46ed7
-- Source archive internal tar.gz SHA-256: 0c5d3193225fdbebb8c5586dbaff43296e2d2f38946ad46882c83b000d6c9db0
-- Manifest: 39/39 entries independently verified
-- CI URL: https://github.com/majid-ghanbari-dost/kando-internal-ai-v01/actions/runs/43213451103
+- CI Run: 43216967966 — Success
+- Tests: 50/50 passed, 0 failed
+- Source Artifact ID: 13943373828; digest sha256:70eb62fd75be5a7a9f8a892f61d890479967905632776ba68b0f8993d7e1847f
+- Test Artifact ID: 13943159118; digest sha256:ce9d2edb29c7b10dbe36626cad22482a670cee9e79067f0bafeccb31551ec667
+- Source archive internal tar.gz SHA-256: 27b71e2670d0fcbbe0acf853ef890677d72f16c412d3c6d3f2dd3cf59583dc09
+- Manifest: 46/46 entries independently verified
+- CI URL: https://github.com/majid-ghanbari-dost/kando-internal-ai-v01/actions/runs/43216967966
 
-This CI-tested commit includes the updated Project Manager review and Build 0.5 draft. Subsequent handoff-only commits are recorded in the handoff file; they do not change executable code, tests or this review document. The PR page is the source for the live branch head and merge state.
+This CI-tested commit includes the Build 0.5 implementation, tests, examples, README, challenge, and Handoff v1.35. The Project Manager review document is being refreshed as a separate governance artifact; the PR page remains the source for live branch head and merge state.
 
 ## 4. PR and branch state
 
@@ -59,7 +60,8 @@ This CI-tested commit includes the updated Project Manager review and Build 0.5 
 | #1 | Build 0.2.1 | main → build/0.2.1-query-evaluation | Open, unmerged |
 | #2 | Build 0.2.2 | build/0.2.1-query-evaluation → build/0.2.2-clarification | Open, unmerged |
 | #3 | Build 0.3 | build/0.2.2-clarification → build/0.3-dynamic-catalog | Open, unmerged |
-| #4 | Build 0.4 | build/0.3-dynamic-catalog → build/0.4-assistant-catalog-integration | Open, unmerged; current head a5f63fef8ee453da81b26f77a6ef50554fc0f0e9 |
+| #4 | Build 0.4 | build/0.3-dynamic-catalog → build/0.4-assistant-catalog-integration | Open, unmerged |
+| #5 | Build 0.5 | build/0.4-assistant-catalog-integration → build/0.5-mapping-proposal-export | Open, unmerged; mergeable true |
 
 No review submissions or inline review threads were present for PR #3 or PR #4 at the time of this check. No PR was merged or closed.
 
@@ -81,7 +83,7 @@ No review submissions or inline review threads were present for PR #3 or PR #4 a
 3. **No real LLM:** FakeModelProvider is a deterministic rule-based test double.
 4. **Tool dispatch split:** legacy lookup uses IAssistantToolRegistry; catalog uses a separate interface and explicit branch. This is bounded for Build 0.4 but needs a deliberate unified policy/dispatch design before external model planning.
 5. **Basic retrieval:** catalog matching uses normalized substring matching. Semantic ranking, typo tolerance, relevance thresholds and multi-turn clarification state are absent.
-6. **No mapping export:** CatalogMappingProposal exists only in memory. There is no versioned deterministic export package or human review artifact yet.
+6. **No authenticated review/activation workflow:** Build 0.5 now exports and verifies a portable proposal, but it deliberately does not authenticate a reviewer, persist an approval, or activate a mapping.
 7. **PII screening is not sufficient for production:** field-name heuristics are defense-in-depth only. A production mapping process requires explicit reviewed source classification and allowlist approval.
 8. **No persistence or restore semantics:** fixtures are static. No durable Store Intelligence store, snapshot, change feed, checkpoint or rebuild mechanism exists.
 9. **No live operational reads:** current price, stock and invoice state are not wired to a live Gateway.
@@ -106,13 +108,13 @@ This AI repository review does not waive any parent-repository blocker.
 
 1. **Accept Build 0.4 as a successful fixture-only implementation slice**, subject to normal code review; do not describe it as a production-ready assistant.
 2. **Do not approve Hub integration yet.** Mission 4.1 and the snapshot/change-feed/identity/privacy blockers remain.
-3. Close Build 0.3 by implementing Build 0.5 mapping-proposal export and human-review package, after Product Owner approves its Technical Challenge.
+3. Accept Build 0.5 as complete in the fixture-only scope after ordinary PR review; keep all mapping approvals and activation out of this build.
 4. Before connecting an external LLM, require a separate security/tool-planning challenge covering untrusted model output, tool argument validation, tenant binding, prompt injection, timeouts, budgets, audit and deny-by-default behavior.
 5. Keep all PRs unmerged until the Product Owner explicitly decides the merge sequence.
 
 ## 8. Proposed next step
 
-Build 0.5 is proposed as a fixture-only, deterministic export of mapping proposals. It will serialize only the mapping proposal metadata (field names, target keys/types, quarantine/exclusion reasons, schema version and validation issues), with a versioned envelope, stable ordering, integrity digest and round-trip tests. It will not approve or apply mappings and will not access real schemas or databases.
+Build 0.5 is complete in the fixture-only scope. The next useful boundary is a **review-decision record**, not automatic mapping activation. A future Build 0.6 challenge should define a decision artifact bound to the exact proposal ID and content digest, with explicit Approved / Rejected / ChangesRequested outcomes, reviewer reference, timestamp and reason. Verification must reject stale or cross-store decisions. The implementation should remain fixture-only and must not persist or activate mappings until authentication, authorization and the Project Manager's separate Hub integration gate are satisfied.
 
-Technical Challenge: docs/BUILD-0.5-MAPPING-PROPOSAL-EXPORT-CHALLENGE.md  
-Status: Draft; implementation has not started and awaits explicit Product Owner approval.
+Technical Challenge: to be drafted as `docs/BUILD-0.6-HUMAN-MAPPING-REVIEW-CHALLENGE.md`.  
+Status: Not approved; no Build 0.6 implementation has started.
