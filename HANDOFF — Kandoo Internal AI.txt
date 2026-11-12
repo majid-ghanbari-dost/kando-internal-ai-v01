@@ -1,5 +1,5 @@
 # HANDOFF — Kandoo Internal AI
-**نسخه:** 1.39
+**نسخه:** 1.40
 **تاریخ:** ۱۲ نوامبر ۲۰۲۶
 **وضعیت:** Build 0.4 و Build 0.5 در محدوده Fixture-only تکمیل و CI آن‌ها تأیید شده است. Build 0.6 در محدوده Fixture-only تکمیل و CI آن با 66/66 تست و Manifest 51/51 تأیید شده است؛ PR #6 باز و ادغام‌نشده است. PR #5 باز و ادغام‌نشده است؛ PR #6 هنوز ایجاد نشده. هیچ اتصال Hub واقعی انجام نشده است.
 
@@ -1186,3 +1186,21 @@ Build 0.1 اکنون Solution قابل Build، API محلی، Fake Store Gateway
 - **محدودیت مهم و صریح:** چون registry پایدار وجود ندارد، جلوگیری سراسری از duplicate یا revoke کردن تصمیم قبلی در Build 0.6 پیاده‌سازی نشده است. ورودی‌های یکسان، byte-identical و دارای Decision ID یکسان تولید می‌کنند تا registry آینده بتواند duplicate را تشخیص دهد. reviewer_ref احراز هویت نیست.
 - نتیجه: Build 0.6 فقط ثبت و اعتبارسنجی یک تصمیم انسانی در قالب artifact قابل حمل را فراهم می‌کند؛ نه مجوز Production، نه activation و نه persistence.
 - هیچ کد یا PR ادغام نشده و Hub/ریپوی مادر تغییر نکرده است.
+
+
+## ۶۳. Build 0.6 — تکرار نهایی CI روی بسته مستندات کامل و هندآف v1.39
+
+- CI Run `43263066293`، Run number 222، روی Commit `5044e47dbb32054ee3604b4bbed104c17d6fb79f` موفق شد.
+- این اجرا Build 0.6 را همراه با Challenge نهایی، Project Manager Review، README و Handoff v1.39 آزمود.
+- تمام مراحل Restore، Build، Test، Manifest، Source Archive و Upload موفق شدند.
+- TRX مستقل: `66/66` passed، `0` failed.
+- Source Artifact ID: `13965355344`؛ digest: `sha256:5155a7b253df181323ed615c6d57ffce2486093da9dabb1a2975614d048eca95`.
+- Test Artifact ID: `13965405347`؛ digest: `sha256:73a28f5cb2f6aafea16bc1a65f1b04034ab2f1474ed9c34afad6f7c925bddb44`.
+- آرشیو داخلی Source: SHA-256 برابر `43bac89e43d157f82e13938f0d235f13913bfdf4711c02c3195eab8caecfb6cc`.
+- Manifest شامل 51 ورودی است؛ تمام 51 فایل مستقل بررسی شدند: `51 OK, 0 failed`.
+- CI URL: https://github.com/majid-ghanbari-dost/kando-internal-ai-v01/actions/runs/43263066293.
+- این CI تکراری، نتیجه 66/66 و Manifest 51/51 را روی بسته مستندات نهایی Build 0.6 تأیید می‌کند.
+- فایل‌های خروجی قابل دریافت:
+  - Source ZIP: `build-0.6-final-source.zip` — SHA-256 بیرونی مطابق Artifact digest بالا.
+  - Test Results ZIP: `build-0.6-final-tests.zip` — SHA-256 بیرونی مطابق Artifact digest بالا.
+- PR #6 همچنان باز و Unmerged است. هیچ اتصال Hub یا تغییر ریپوی مادر انجام نشده است.
