@@ -1,13 +1,13 @@
 using Kandoo.InternalAI.Application;
 using Kandoo.InternalAI.Core;
 using Kandoo.InternalAI.Infrastructure;
+using Xunit;
 
 namespace Kandoo.InternalAI.Tests;
 
 public sealed class AssistantServiceTests
 {
     private static readonly Guid StoreA = Guid.Parse("aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa");
-    private static readonly Guid StoreB = Guid.Parse("bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb");
     private static AssistantService CreateService() => new(new FakeModelProvider(),
         new AssistantToolRegistry([new ProductLookupTool(new FakeStoreReadGateway())]));
 
