@@ -30,6 +30,7 @@ public static class SyntheticCatalogFixtures
             true, "party-schema-v1", new Dictionary<string, CatalogAttributeValue>
             {
                 ["material"] = new("material", CatalogValueType.String, "فویل", null, null, null, null, "Material", ObservedAt),
+                ["diameter_cm"] = new("diameter_cm", CatalogValueType.Decimal, null, 45m, null, null, null, "DiameterCm", ObservedAt),
                 ["shape"] = new("shape", CatalogValueType.String, "ستاره", null, null, null, null, "Shape", ObservedAt)
             }),
         new(GroceryStoreId, "G-100", "برنج ایرانی هاشمی", "برنج ایرانی هاشمی", "خواربار/برنج", "کیلوگرم",

@@ -58,6 +58,9 @@ public sealed class HostApiTests : IClassFixture<WebApplicationFactory<Program>>
         Assert.Empty(body.Products);
         Assert.NotNull(body.CatalogProduct);
         Assert.Equal("P-101", body.CatalogProduct.ProductId);
+        var diameter = Assert.Single(body.CatalogProduct.Attributes, item => item.Key == "diameter_cm");
+        Assert.Equal(CatalogValueType.Decimal, diameter.ValueType);
+        Assert.Equal(45m, diameter.DecimalValue);
         var shape = Assert.Single(body.CatalogProduct.Attributes, item => item.Key == "shape");
         Assert.Equal(CatalogValueType.String, shape.ValueType);
         Assert.Equal("ستاره", shape.StringValue);
