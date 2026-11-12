@@ -1,7 +1,7 @@
 # HANDOFF — Kandoo Internal AI
-**نسخه:** 0.8
+**نسخه:** 1.6
 **تاریخ:** ۱۲ نوامبر ۲۰۲۶
-**وضعیت:** معماری مفهومی و ممیزی کد مادر انجام شده؛ پیش‌نیازهای اتصال به Hub مشخص؛ هنوز هیچ کدی در ریپوی AI یا Kandoo برای این پروژه نوشته نشده است.
+**وضعیت:** Build 0.2.1 و Build 0.2.2 هر دو در CI موفق بوده‌اند. PR شماره 1 و PR شماره 2 باز و ادغام‌نشده‌اند؛ PR شماره 2 اکنون به شاخه Build 0.2.1 retarget شده و Diff آن فقط افزوده‌های Build 0.2.2 را نشان می‌دهد. اتصال به Hub واقعی صریحاً تحت اختیار مدیر پروژه و ممنوع تا تأیید اوست.
 
 ## ۰. قاعده دائمی مدیریت و به‌روزرسانی هندآف
 
@@ -69,7 +69,7 @@ SQLite مستقل برای Store Intelligence هنوز **پیشنهاد** است
 `https://github.com/majid-ghanbari-dost/kando-internal-ai-v01`
 
 فایل هندآف:
-`HANDOFF — Kandoo Internal AI.txt` در شاخه `main`.
+`HANDOFF — Kandoo Internal AI.txt` در شاخه اصلی پروژه و در شاخه‌های کاری فعال؛ هر تغییر مهم ابتدا در شاخه کاری ثبت و پس از ادغام به main منتقل می‌شود.
 
 ریپوی مادر:
 `https://github.com/majid-ghanbari-dost/Kandoo`
@@ -189,6 +189,8 @@ Snapshot در نوشتن هم‌زمان؛ sequence بدون شکاف؛ replay �
 - افزودن تست اثباتی برای پوشش کامل Write Path، پیش از ساخت Snapshot/Change Feed.
 
 ## ۱۱. Technical Challenge و Blockers پیش از اتصال AI به داده عملیاتی
+
+**حاکمیت اتصال:** مطابق دستور صریح Product Owner در ۱۲ نوامبر ۲۰۲۶، اتصال به Kandoo Hub تحت نظارت و اختیار مدیر پروژه Kandoo است. تیم AI فقط هسته مستقل، Fake Gateway، قراردادهای قابل تست، مستندات و آداپترهای تستی را می‌سازد. هیچ اتصال زنده، دسترسی به دیتابیس Hub، استفاده از credential واقعی، migration، تغییر کد/Schema ریپوی مادر یا عملیات خواندن/نوشتن روی فروشگاه انجام نمی‌شود، مگر پس از تحویل ریپو، بررسی مدیر پروژه و تأیید صریح او. عبور از blockerهای فنی به‌تنهایی مجوز اتصال نیست.
 
 - **B1 — Write-path closure:** هیچ تغییر عملیاتی Product/Inventory/Invoice نباید بیرون از قرارداد ثبت/replay بماند. `CompleteTimeout` و wrapperهای مستقیم هنوز مانع‌اند.
 - **B2 — Snapshot consistency:** تراکنش خواندن سازگار و high-water mark باید با تست هم‌زمانی واقعی اثبات شود.
@@ -449,3 +451,166 @@ Build 0.1 اکنون Solution قابل Build، API محلی، Fake Store Gateway
 6. CI و آرشیو SHA-256 مانند قبل.
 
 **گیت:** تا وقتی دقت Parser روی corpus اندازه‌گیری نشده، آن را قابلیت فهم زبان طبیعی کامل معرفی نکنیم و به Store واقعی وصل نکنیم.
+
+
+## ۱۹. Build 0.2.1 — Query Evaluation & Boundary-Phrase Parsing (CI موفق؛ PR باز و ادغام‌نشده)
+
+### تغییرات واقعی ثبت‌شده در شاخه کاری
+- Branch: `build/0.2.1-query-evaluation`
+- نقطه شروع: Commit `8432bba35c2a898aff8634e420c9012badcb4774`
+- آخرین Commit پیش از به‌روزرسانی این هندآف: `40a4c00be22fa14830e0369475f5663c536edba3`
+- Parser از حذف سراسری واژه‌های filler به حذف عبارت‌های دستوری فقط در ابتدا/انتهای پرسش تغییر کرد؛ واژه‌های داخل عبارت احتمالی نام محصول حفظ می‌شوند.
+- شکل‌های رایج مرزی برای درخواست قیمت، موجودی و مشخصات پوشش داده شدند؛ از جمله «بهای»، «چند تا ... داریم»، «رو بگو» و «را نشان بده».
+- یک Corpus نسخه‌دار و کاملاً synthetic اضافه شد:
+  `tests/Kandoo.InternalAI.Tests/Fixtures/persian-query-corpus.v1.json`
+  - شناسه: `kandoo-fa-product-query-v1`
+  - نسخه: 1
+  - زبان: fa-IR
+  - تعداد نمونه: 18
+  - بدون داده مشتری یا PII.
+- تست Parser اکنون Corpus را بارگذاری می‌کند و تطبیق دقیق Intent و Query استخراج‌شده را برای همه نمونه‌ها می‌سنجد؛ هدف پذیرش 18/18 برای هر دو معیار است.
+- تست‌های جداگانه برای حفظ واژه‌های filler-like در میانه نام محصول، حفظ واژه «چندتایی» و خالی ماندن Query وقتی فقط intent داده شده، اضافه شدند.
+- فایل پروژه تست برای کپی Corpus به خروجی تست تنظیم شد.
+- README وضعیت و محدودیت‌های Corpus را مستند می‌کند.
+
+### وابستگی‌ها و ابزارها
+- در این برش Package یا ابزار خارجی جدیدی نصب نشد؛ نیاز ارزیابی فعلی با .NET 8 و xUnit موجود برطرف شد.
+- مجوز Product Owner برای افزودن ابزارهای لازم ثبت است؛ هر ابزار بعدی باید توجیه فنی و اثر آن بر CI/امنیت/هزینه روشن داشته باشد.
+
+### وضعیت اعتبارسنجی
+- **CI نهایی: Success** — Run `43193984214`، شماره اجرا `24`.
+- Commit تحت آزمون: `dcf6dc132ab7f19513125d457c9f47fc1d5f8c6e`.
+- Restore: Success؛ Build Release: Success؛ Test: Success؛ ساخت Manifest و آرشیو: Success؛ Upload هر دو Artifact: Success.
+- فایل TRX از Artifact تست استخراج و خوانده شد: `total=12, executed=12, passed=12, failed=0`.
+- تست Corpus با موفقیت گذشت؛ بنابراین روی همین Corpus مصنوعی، Intent دقیقاً `18/18` و Query دقیقاً `18/18` بوده است. این عدد معیار synthetic است، نه دقت زبان واقعی فروشگاه.
+- Artifact Source: ID `13931014594`؛ Artifact Test Results: ID `13931288951`.
+- آرشیو Source از Artifact دریافت و استخراج شد؛ Manifest شامل 26 فایل منبع/پروژه بود و `sha256sum -c` برای هر 26 مورد `OK` داد.
+- SHA-256 آرشیو `kandoo-internal-ai-source.tar.gz`: `a86b668267c2d15f4dd762e0b8cd85555e4b6837db13ef231c0a1c3004f34ce4`.
+- Digest اعلام‌شده GitHub برای ZIP Artifact منبع: `sha256:878316b3ec94d64f2943a707ce69fdc1675cb3e74ce5647673475a432194c74c`.
+- پس از ثبت این نتیجه، همین هندآف به نسخه 1.0 ارتقا یافت؛ Commit جدید هندآف نیز باید CI جداگانه خود را بگذراند.
+- PR شماره 1 آماده Review است: `https://github.com/majid-ghanbari-dost/kando-internal-ai-v01/pull/1`؛ ادغام انجام نشده است.
+
+### محدودیت باقی‌مانده
+- Corpus صرفاً synthetic است و سنجه عملکرد روی زبان واقعی اپراتورهای فروشگاه نیست.
+- Parser هنوز rule-based است؛ synonym، typo correction، alias، relevance ranking و clarification چندنتیجه‌ای در این برش پیاده نشده‌اند.
+- هیچ اتصال Hub، Store واقعی، LLM واقعی یا write tool اضافه نشده است.
+
+### ادامه مأموریت
+1. بررسی نهایی PR و تأیید Product Owner پیش از ادغام.
+2. Build 0.2.2: طراحی و تست clarification صریح برای نتایج مبهم/چندمحصولی؛ ابتدا باید قرارداد پاسخ و مدل نتایج بررسی شود.
+3. طراحی ارزیابی دوم با نمونه‌های واقعی و بی‌نام‌سازی‌شده فقط پس از تأیید و تأمین داده معتبر.
+4. ادامه Mission 4.1 در ریپوی مادر مستقل از این برش؛ اتصال Hub همچنان Blocked است.
+
+
+## ۲۰. Build 0.2.2 — Ambiguity & Clarification (پیاده‌سازی؛ CI در انتظار)
+
+### هدف و Technical Challenge
+مشکل Build 0.2.1 این بود که Gateway می‌توانست چند محصول مشابه برگرداند، اما AssistantService هنوز قرارداد روشن و machine-readable برای «عدم انتخاب» و درخواست توضیح نداشت. در درخواست قیمت/موجودی، انتخاب خودکار یکی از چند محصول می‌تواند پاسخ مالی/موجودی نادرست تولید کند؛ بنابراین انتخاب دلخواه ممنوع است.
+
+### تصمیم‌های فنی این برش
+1. وضعیت حل درخواست به پاسخ افزوده شد: `ResolutionStatus`.
+2. برای ابهام چندنتیجه‌ای، وضعیت `clarification_required` و فیلد `ClarificationQuestion` بازگردانده می‌شود.
+3. فهرست `Candidates` فقط شامل شناسه و هویت محصول است؛ در وضعیت ابهام، `Products` خالی می‌ماند تا قیمت/موجودی نهایی به‌عنوان جواب قطعی نمایش داده نشود.
+4. شواهد منبع برای Candidateها حفظ می‌شود؛ ترتیب Candidateها deterministic بر اساس نام و شناسه است.
+5. وضعیت‌های `resolved`, `not_found`, `query_required`, `unsupported` از هم تفکیک شدند.
+6. در نمونه stateless فعلی، اپراتور باید درخواست را با نام کامل یا کد محصول تکرار کند؛ state مکالمه یا انتخاب پنهان روی سرور ذخیره نمی‌شود.
+7. فیلدهای پاسخ جدید به‌صورت additive و با default در قرارداد اضافه شدند تا سازگاری سازنده‌های قبلی حفظ شود.
+
+### پیاده‌سازی ثبت‌شده
+- Branch: `build/0.2.2-clarification`
+- نقطه شروع: آخرین Commit شاخه Build 0.2.1 یعنی `2b31ce660c0436e1860a08afb6307ffe9d756272`.
+- فایل Core: `src/Kandoo.InternalAI.Core/AssistantContracts.cs`
+- Orchestration: `src/Kandoo.InternalAI.Application/AssistantService.cs`
+- تست سرویس: `tests/Kandoo.InternalAI.Tests/AssistantServiceTests.cs`
+- تست API: `tests/Kandoo.InternalAI.Tests/HostApiTests.cs`
+- README رفتار ابهام و گیت Hub را مستند می‌کند.
+- Commit پیاده‌سازی/README: `a1c7d900576fc4f011c8ebd414f055e1cc14d2e0`؛ تغییر Workflow برای اجرای CI روی push و PR شاخه‌های `build/**`: `352a55776db17ed14b0d340e07f4ffbb13984688` و `9b5e5e036cbf21ad870313ba338e685c20f9630b`.
+- تست‌های جدید: ابهام قیمت با دو Candidate، عدم نمایش قیمت قطعی در ابهام، حفظ intent با تکرار درخواست همراه Product ID، عدم تطبیق، عدم ابهام برای محصول دقیق، و قرارداد JSON از HTTP API.
+- هیچ Package، ابزار خارجی، LLM یا وابستگی جدید نصب نشد.
+
+### محدوده و امنیت
+- این برش فقط FakeStoreReadGateway/Fixture را استفاده می‌کند.
+- هیچ تغییری در ریپوی مادر Kandoo انجام نشده است.
+- هیچ اتصال Hub، دسترسی به دیتابیس واقعی، credential، migration، write tool یا داده واقعی فروشگاه اضافه نشده است.
+- مدیر پروژه Kandoo مرجع نهایی مجوز اتصال است؛ تأیید Product Owner برای توسعه مستقل، جایگزین تأیید مدیر پروژه برای اتصال Hub نیست.
+
+### اعتبارسنجی
+- Workflow اکنون push و pull request روی شاخه‌های `build/**` را نیز پوشش می‌دهد؛ PR شماره 2 با base شاخه Build 0.2.1 باز است تا CI روی PR stacked اجرا شود.
+- PR شماره 2: `https://github.com/majid-ghanbari-dost/kando-internal-ai-v01/pull/2`.
+- **CI: Success** — Run `43202687360`، شماره اجرا `30`، Commit تحت آزمون `ac6e4c4f545361d4d2585d0be69491b48ad1663c`.
+- Restore: Success؛ Build Release: Success؛ Test: Success؛ Manifest، آرشیو و Upload Artifactها: Success.
+- TRX بررسی شد: `total=17, executed=17, passed=17, failed=0`؛ یعنی 5 تست نسبت به Build 0.2.1 اضافه شده است.
+- Artifact Source ID: `13935239081`، Digest: `sha256:31433859c1cd667902f2c74acaa81e0f3abfb3912afad33b73e77bdc6f37d8a8`.
+- Artifact Test Results ID: `13936825004`، Digest: `sha256:97b06c336015cd1a61f59bfbafffd74901606772bbdd13b9adc78aa6c3a0de6d`.
+- آرشیو Source دانلود و استخراج شد؛ Manifest شامل 26 فایل است و تمام 26 مورد با `sha256sum -c` برابر `OK` شدند.
+- SHA-256 آرشیو `kandoo-internal-ai-source.tar.gz`: `13d2739a837c49a182814d7e5f35a1027d8f03e1160d8eba76a80a9795640704`.
+- اجرای CI اولیه Build 0.2.2: `https://github.com/majid-ghanbari-dost/kando-internal-ai-v01/actions/runs/43202687360`.
+- پس از ثبت هندآف نسخه 1.2، CI نهایی برای Commit `a3cf9a0dccd7f5dfd6b65e79114607a3066b364d` نیز موفق شد: Run `43202855745`.
+- TRX نهایی نیز `17/17` تست موفق، `0` شکست را تأیید کرد.
+- Artifact Source نهایی ID `13935488633`، Digest: `sha256:4048a9c4f4dcceefebf64ee50fe7a4e529a1ec743461013c021e484f79aeb5e6`.
+- Artifact Test Results نهایی ID `13935438745`، Digest: `sha256:2e6821cc9d7d1e0ad80c2a1484a0de00ebf7e74486dc6f6447e0945b5f8ca45b`.
+- آرشیو نهایی Build 0.2.2: SHA-256 `b428128b91444e411df5f440f9fb3aade4fce9489f374b722d6c6f13e86444f1`؛ Manifest شامل 26 فایل و تمام موارد `OK`.
+- اجرای CI نهایی: `https://github.com/majid-ghanbari-dost/kando-internal-ai-v01/actions/runs/43202855745`.
+- نسخه 1.3 این بند شواهد CI را به هندآف اضافه کرد؛ Commit قبلی آن (نسخه 1.2) عیناً در آرشیو آن اجرا موجود و Manifest آن بررسی شد.
+- PR شماره 2 ابتدا موقتاً به `main` هدف‌گیری شد تا Workflow موجود در base بتواند CI را اجرا کند؛ پس از CI موفق و ثبت شواهد، base آن به `build/0.2.1-query-evaluation` بازگردانده شد. اکنون PR2 stacked است و Diff آن اکنون 8 فایل افزوده/تغییریافته در Build 0.2.2 و سند Technical Challenge را نشان می‌دهد.
+
+### PR و ترتیب ادغام
+- PR شماره 1 مربوط به Build 0.2.1 است و همچنان مستقل و ادغام‌نشده باقی می‌ماند.
+- PR شماره 2 برای Build 0.2.2 به‌صورت stacked روی شاخه Build 0.2.1 ساخته می‌شود تا Diff آن فقط تغییرات این برش باشد.
+- هیچ PRی بدون تأیید Product Owner ادغام نمی‌شود.
+
+### مأموریت بعدی پس از CI
+1. اگر CI موفق شد، PR و Artifact را راستی‌آزمایی و هندآف را دوباره به‌روز کن.
+2. Build 0.2.3: طراحی قرارداد stateless selection یا conversation-turn correlation فقط در صورت نیاز محصول؛ ابتدا Technical Challenge.
+3. Build 0.3: ارزیابی retrieval با catalogهای مصنوعی متنوع، alias و نام‌های مشابه؛ هنوز بدون Hub.
+4. ادامه ممیزی Mission 4.1 در ریپوی مادر فقط در قالب مستندسازی و آماده‌سازی تحویل؛ هر تغییر اجرایی در Hub نیازمند مدیر پروژه است.
+
+
+### وضعیت PR پس از اعتبارسنجی
+- PR #1: `build/0.2.1-query-evaluation → main`، باز و ادغام‌نشده.
+- PR #2: `build/0.2.2-clarification → build/0.2.1-query-evaluation`، باز و ادغام‌نشده؛ 8 فایل در Diff.
+- PR2 هیچ mergeای انجام نداده است. ترتیب پیشنهادی مدیر پروژه: بررسی و تصمیم درباره PR1، سپس بازبینی PR2.
+- Review رسمی یا Thread بازبینی برای PR2 در آخرین بررسی مشاهده نشد.
+- هندآف جاری در شاخه کاری نسخه 1.6 است؛ مسیر canonical همان فایل `HANDOFF — Kandoo Internal AI.txt` است.
+
+
+## ۲۱. Build 0.3 — Store Catalog Contract & Dynamic Store Attributes (Technical Challenge فقط)
+- سند فنی ثبت شد: `docs/BUILD-0.3-TECHNICAL-CHALLENGE.md`.
+- هدف: پشتیبانی از کاتالوگ‌های متفاوت فروشگاهی با هسته canonical مشترک و ویژگی‌های توصیفی extensible؛ بدون آموزش مدل جدا برای هر فروشگاه.
+- مرز داده: شناسه و مشخصات canonical، ویژگی‌های توصیفی تایپ‌شده و دارای provenance، و داده‌های عملیاتی لحظه‌ای به‌عنوان سه لایه جدا.
+- پیشنهاد می‌شود نگاشت Schema از منبع فروشگاه به‌صورت Mapping Proposal نسخه‌دار تولید شود؛ نه auto-approval و نه ارسال schema/raw rows به مدل.
+- PII و فیلدهای ناشناخته به‌صورت پیش‌فرض quarantine/exclude می‌شوند؛ alias باید منبع و وضعیت تأیید داشته باشد.
+- سناریوهای آزمایش مصنوعی پیشنهادی: فروشگاه لوازم جشن، خواربار، پوشاک؛ با ویژگی‌های متفاوت روی قرارداد canonical یکسان.
+- قیمت و موجودی لحظه‌ای از Projection توصیفی پاسخ داده نمی‌شوند.
+- **وضعیت: NOT APPROVED FOR IMPLEMENTATION.** این سند فقط Technical Challenge است؛ تا تأیید Product Owner، Build 0.3 آغاز نمی‌شود.
+- حتی پس از تأیید Product Owner برای ساخت Fixture-only، اتصال Hub، دسترسی واقعی به دیتابیس، تغییر ریپوی مادر یا Migration همچنان نیازمند تأیید جداگانه مدیر پروژه Kandoo است.
+
+
+### CI نهایی شامل Technical Challenge نسخه 0.3
+- Commit تحت آزمون: 30fa9f6e0740c4f9afe6406fc18ee0d9f53c5d3a.
+- Run: 43203118882 — Success؛ Restore، Build، Test، Manifest، Archive و Upload موفق.
+- TRX: 17/17 Passed، 0 Failed.
+- Artifact Source ID: 13936256499؛ Digest: sha256:f37f06039ae2a55ef1dcb104b0d54f1f67617993083e0d8cc9b1cbc28ebf08e9.
+- Artifact Test Results ID: 13936013184؛ Digest: sha256:e1d2975ddb0f285fb0407304f2fbcaff91982f71b4dfaa78bc65b9bcbf230af7.
+- آرشیو نهایی این اجرا شامل هندآف v1.5 و سند Build 0.3 Technical Challenge بود؛ Manifest شامل 27 فایل بود و تمام 27 مورد OK شدند.
+- SHA-256 آرشیو: a6f260c31781035d65d84baa63b71220db5fbd805110b9fa5221ba6e8ff819c8.
+- اجرای CI: https://github.com/majid-ghanbari-dost/kando-internal-ai-v01/actions/runs/43203118882.
+- نسخه 1.6 هندآف، نتیجه CI و وضعیت نهایی PRها را به دفتر پروژه اضافه می‌کند؛ کد اجرایی و سند Technical Challenge نسبت به Commit تحت آزمون تغییر نکرده‌اند.
+
+
+## ۲۲. Build 0.3 — تأیید Product Owner و آغاز اجرای Fixture-only
+
+- **تصویب Product Owner:** در تاریخ ۱۲ نوامبر ۲۰۲۶، آغاز Build 0.3 با محدوده Technical Challenge و صرفاً Fixture/داده مصنوعی صریحاً تأیید شد.
+- **وضعیت:** APPROVED — IMPLEMENTATION IN PROGRESS؛ این ثبت به معنی تکمیل یا موفقیت هیچ کد/تستی نیست.
+- محدوده مجاز: قرارداد canonical محصول، ویژگی‌های توصیفی extensible و typed، سه کاتالوگ مصنوعی (لوازم جشن، خواربار، پوشاک)، Mapping Proposal نسخه‌دار، quarantine فیلدهای ناشناخته، حذف PII پیش‌فرض، alias با provenance/approval state، retrieval قطعی و تست‌های جداسازی فروشگاه و schema drift.
+- قیمت جاری، موجودی و وضعیت فاکتور از Store Intelligence توصیفی خوانده نمی‌شوند؛ هرگز از Fixture کاتالوگ به‌عنوان داده عملیاتی زنده پاسخ داده نمی‌شود.
+- خارج از محدوده: هرگونه اتصال Hub، دیتابیس واقعی، credential، تغییر ریپوی مادر Kandoo، migration، SQL آزاد، write tool و auto-approval نگاشت.
+- **گیت مستقل:** حتی با این تصویب، اتصال Hub فقط پس از تحویل ریپوی AI و بررسی/تأیید صریح مدیر پروژه Kandoo مجاز است.
+- گام اجرایی نخست: بازبینی ساختار فعلی ریپو و تعریف مدل‌های canonical/extensible به‌همراه fixtureهای سه‌گانه؛ سپس mapping/validation، retrieval و آزمون‌های پذیرش. در هر دستاورد معتبر، همین هندآف باید به‌روزرسانی شود.
+
+## ۲۳. سیاست مرجع هندآف در شاخه اصلی
+
+- شاخه main باید همیشه یک نسخه آینه‌شده و قابل دسترسی از آخرین هندآف معتبر داشته باشد؛ این فایل دفتر ثبت پروژه است و نباید صرفاً در شاخه feature باقی بماند.
+- در طول کار، نسخه جاری ابتدا در شاخه کاری Build ثبت و پس از کنترل، همان متن در main نیز commit می‌شود. این به‌روزرسانی مستندات به‌تنهایی به معنی ادغام کد Build یا PR نیست.
+- PRهای #1 و #2 همچنان باز و ادغام‌نشده باقی می‌مانند؛ هیچ ادغام کدی انجام نشده است.
+- نسخه قبلی هندآف در main هنگام بررسی، v0.8 بود؛ نسخه شاخه کاری v1.6 بود. این اختلاف علت timestamp قدیمی صفحه اصلی بود. نسخه v1.7 در هر دو شاخه ثبت می‌شود.
