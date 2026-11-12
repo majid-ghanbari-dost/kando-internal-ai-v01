@@ -1,3 +1,4 @@
+using System.Text.Json;
 using Kandoo.InternalAI.Application;
 using Kandoo.InternalAI.Core;
 using Xunit;
@@ -14,26 +15,60 @@ public sealed class PersianProductQueryParserTests
     }
 
     [Fact]
-    public void Parser_ExtractsPriceIntentAndProductName()
+    public void Parser_EvaluatesVersionedSyntheticCorpusWithExactIntentAndQuery()
     {
-        var parsed = PersianProductQueryParser.Parse("قیمت بادكنک لاتكس قرمز چنده؟");
+        var path = Path.Combine(AppContext.BaseDirectory, "Fixtures", "persian-query-corpus.v1.json");
+        using var document = JsonDocument.Parse(File.ReadAllText(path));
+        var root = document.RootElement;
+        Assert.Equal("kandoo-fa-product-query-v1", root.GetProperty("corpusId").GetString());
+        Assert.Equal(1, root.GetProperty("version").GetInt32());
+        Assert.Equal("synthetic", root.GetProperty("source").GetString());
+
+        var total = 0;
+        var exactIntent = 0;
+        var exactQuery = 0;
+        var failures = new List<string>();
+
+        foreach (var item in root.GetProperty("cases").EnumerateArray())
+        {
+            total++;
+            var id = item.GetProperty("id").GetString()!;
+            var parsed = PersianProductQueryParser.Parse(item.GetProperty("question").GetString()!);
+            var expectedIntent = Enum.Parse<AssistantIntent>(item.GetProperty("expectedIntent").GetString()!);
+            var expectedQuery = item.GetProperty("expectedQuery").GetString()!;
+
+            if (parsed.Intent == expectedIntent) exactIntent++;
+            else failures.Add($"{id}: intent expected {expectedIntent}, actual {parsed.Intent}");
+
+            if (parsed.Query == expectedQuery) exactQuery++;
+            else failures.Add($"{id}: query expected '{expectedQuery}', actual '{parsed.Query}'");
+        }
+
+        Assert.True(total >= 15, $"Corpus unexpectedly small: {total}");
+        Assert.True(exactIntent == total, $"Intent exact-match: {exactIntent}/{total}. {string.Join("; ", failures)}");
+        Assert.True(exactQuery == total, $"Query exact-match: {exactQuery}/{total}. {string.Join("; ", failures)}");
+    }
+
+    [Fact]
+    public void Parser_PreservesFillerLikeWordsInsideProductPhrase()
+    {
+        var parsed = PersianProductQueryParser.Parse("بادکنک لطفا قرمز");
+        Assert.Equal("بادکنک لطفا قرمز", parsed.Query);
+    }
+
+    [Fact]
+    public void Parser_PreservesProductTokenThatContainsTheWordSeveral()
+    {
+        var parsed = PersianProductQueryParser.Parse("قیمت چندتایی بادکنک لاتکس");
+        Assert.Equal("چندتایی بادکنک لاتکس", parsed.Query);
         Assert.Equal(AssistantIntent.CurrentPrice, parsed.Intent);
-        Assert.Equal("بادکنک لاتکس قرمز", parsed.Query);
     }
 
     [Fact]
-    public void Parser_ExtractsStockIntentAndProductName()
+    public void Parser_DoesNotInventAProductQueryWhenOnlyIntentWasProvided()
     {
-        var parsed = PersianProductQueryParser.Parse("موجودی بادکنک لاتکس قرمز رو بگو");
-        Assert.Equal(AssistantIntent.CurrentStock, parsed.Intent);
-        Assert.Equal("بادکنک لاتکس قرمز", parsed.Query);
-    }
-
-    [Fact]
-    public void Parser_PreservesProductNameForDetailsQuestion()
-    {
-        var parsed = PersianProductQueryParser.Parse("مشخصات محصول بادکنک لاتکس آبی را نشان بده");
-        Assert.Equal(AssistantIntent.ProductDetails, parsed.Intent);
-        Assert.Equal("بادکنک لاتکس آبی", parsed.Query);
+        var parsed = PersianProductQueryParser.Parse("قیمت");
+        Assert.Equal(string.Empty, parsed.Query);
+        Assert.Equal(AssistantIntent.CurrentPrice, parsed.Intent);
     }
 }
