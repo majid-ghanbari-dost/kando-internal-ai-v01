@@ -1,7 +1,7 @@
 # HANDOFF — Kandoo Internal AI
-**نسخه:** 1.18
+**نسخه:** 1.30
 **تاریخ:** ۱۲ نوامبر ۲۰۲۶
-**وضعیت:** Build 0.2.1 و Build 0.2.2 هر دو در CI موفق بوده‌اند. PR شماره 1 و PR شماره 2 باز و ادغام‌نشده‌اند؛ PR شماره 2 اکنون به شاخه Build 0.2.1 retarget شده و Diff آن فقط افزوده‌های Build 0.2.2 را نشان می‌دهد. اتصال به Hub واقعی صریحاً تحت اختیار مدیر پروژه و ممنوع تا تأیید اوست.
+**وضعیت:** Build 0.4 در محدوده Fixture-only تکمیل و CI آن تأیید شده است؛ PR #4 باز و ادغام‌نشده است. Build 0.3 از نظر قابلیت‌های اصلی پیاده‌سازی شده اما خروجی قابل‌تحویل Mapping Proposal هنوز باقی است. بسته بازبینی فنی مدیر پروژه و Technical Challenge مرحله بعد در شاخه کاری ثبت شده‌اند. هیچ PR ادغام نشده و اتصال Hub واقعی همچنان نیازمند تأیید مستقل مدیر پروژه Kandoo است.
 
 ## ۰. قاعده دائمی مدیریت و به‌روزرسانی هندآف
 
@@ -69,7 +69,7 @@ SQLite مستقل برای Store Intelligence هنوز **پیشنهاد** است
 `https://github.com/majid-ghanbari-dost/kando-internal-ai-v01`
 
 فایل هندآف:
-`HANDOFF — Kandoo Internal AI.txt` در شاخه اصلی پروژه و در شاخه‌های کاری فعال؛ هر تغییر مهم ابتدا در شاخه کاری ثبت و پس از ادغام به main منتقل می‌شود.
+`HANDOFF — Kandoo Internal AI.txt` در شاخه اصلی پروژه و شاخه‌های کاری فعال نگهداری می‌شود. نسخه مدیریتی هندآف می‌تواند جداگانه به main آینه شود؛ این همگام‌سازی به‌هیچ‌وجه به معنی ادغام کد یا PR نیست. کد فقط با تصمیم مستقل Product Owner ادغام می‌شود.
 
 ریپوی مادر:
 `https://github.com/majid-ghanbari-dost/Kandoo`
@@ -805,15 +805,17 @@ Build 0.1 اکنون Solution قابل Build، API محلی، Fake Store Gateway
 
 ## ۳۵. ارزیابی پیشرفت و فاصله تا تحویل به مدیر پروژه (برآورد فنی، نه معیار CI)
 
-- Build 0.3 در محدوده مصوب Fixture-only حدود **۹۰٪** تکمیل ارزیابی می‌شود: ده Acceptance Gate سند 0.3 دارای پوشش تست/CI هستند؛ بسته‌سازی و Manifest هم تأیید شده‌اند. باقی‌مانده شامل export/review-friendly mapping proposal، بازبینی نهایی کیفیت و ثبت نتیجه Review است.
-- آمادگی بسته مستقل AI برای **اولین تحویل فنی به مدیر پروژه: حدود ۷۰٪**. برای تحویل تمیز، اتصال کاتالوگ به مسیر عادی Assistant، تست HTTP end-to-end، بررسی قرارداد خروجی ابزار و تکمیل گزارش معماری لازم است.
+- Build 0.3 در محدوده Fixture-only حدود **۹۰٪** تکمیل ارزیابی می‌شود. قراردادها، سه Fixture، mapping proposal in-memory، quarantine، PII exclusion، schema drift، alias و retrieval تست شده‌اند؛ اما خروجی قابل حمل/بازبینی Mapping Proposal هنوز وجود ندارد.
+- Build 0.4 در محدوده Fixture-only **۱۰۰٪** تکمیل است: مسیر HTTP تا Catalog Tool برقرار، 36/36 تست Pass، Manifest 37/37 تأیید و آرشیو تولید شده است.
+- آمادگی بسته مستقل AI برای بازبینی اولیه مدیر پروژه اکنون حدود **۸۵٪** است. این تحویل فقط بازبینی معماری ریپوی مستقل است؛ نه مجوز اتصال Hub و نه تأیید آمادگی عملیاتی.
 - پیشرفت کل محصول نهایی (شامل مدل واقعی، احراز هویت/مجوز، اتصال مجاز به Hub، داده واقعی و آزمون عملیاتی) حدود **۳۰ تا ۳۵٪** برآورد می‌شود. این درصد عمداً از درصد Build 0.3 جداست؛ هیچ اتصال واقعی یا مدل خارجی هنوز تحویل نشده است.
 - این درصدها تخمین مدیریتی بر اساس محدوده‌ها و شواهد موجودند، نه ادعای اندازه‌گیری خودکار.
 
 ## ۳۶. مرز تحویل و حاکمیت
 
 - تحویل مورد نظر در مرحله بعد، تحویل یک Repository مستقل، Fixture-only و قابل ممیزی برای **بازبینی فنی مدیر پروژه** است؛ نه مجوز اتصال به Hub.
-- Build 0.4 فقط در حد Technical Challenge نوشته شده است. تا تأیید صریح Product Owner، پیاده‌سازی آن آغاز نمی‌شود.
+- Build 0.4 پس از تأیید صریح Product Owner در محدوده Fixture-only پیاده‌سازی و با CI موفق تکمیل شده است. PR #4 باز و ادغام‌نشده است.
+- مرحله بعدی پیشنهادی Build 0.5 برای Export قابل بازبینی Mapping Proposal است؛ Technical Challenge آن Draft است و تا تأیید صریح Product Owner هیچ کدنویسی این مرحله آغاز نمی‌شود.
 - حتی پس از تأیید Build 0.4، اتصال Hub، دسترسی به دیتابیس واقعی، تغییر ریپوی مادر، Migration، Credential و عملیات فروشگاهی همچنان نیازمند تأیید مستقل مدیر پروژه Kandoo است.
 
 
@@ -829,3 +831,198 @@ Build 0.1 اکنون Solution قابل Build، API محلی، Fake Store Gateway
 - آرشیو شامل هندآف v1.17 و سند `BUILD-0.4-ASSISTANT-CATALOG-INTEGRATION-CHALLENGE.md` است.
 - CI URL: `https://github.com/majid-ghanbari-dost/kando-internal-ai-v01/actions/runs/43206841878`.
 - نسخه 1.18 هندآف فقط همین شواهد را ثبت می‌کند؛ هیچ کد اجرایی یا سند فنی دیگری پس از Commit آزموده‌شده تغییر نکرده است.
+
+
+## ۳۸. Build 0.4 — مجوز و آغاز اجرا
+
+- در ۱۲ نوامبر ۲۰۲۶، Product Owner صریحاً اعلام کرد که انجام هر کاری در همین ریپو مجاز است، مشروط بر اینکه به سایر پروژه‌های Kandoo صدمه‌ای وارد نشود. این پیام به‌عنوان مجوز اجرای Build 0.4 ثبت می‌شود.
+- مجوز شامل کدنویسی، تست، مستندات و CI همین ریپوی مستقل است؛ شامل تغییر ریپوهای دیگر Kandoo، اتصال به Hub، دسترسی به دیتابیس واقعی/اعتبارنامه تولید یا Merge بدون تصمیم جداگانه نیست.
+- شاخه build/0.4-assistant-catalog-integration از HEAD شاخه build/0.3-dynamic-catalog ساخته شد تا PR #3 و شاخه Build 0.3 دست‌نخورده بمانند.
+- بررسی کد تأیید کرد CatalogProductQueryService در Build 0.3 وجود داشت اما به مسیر HTTP Assistant متصل نشده بود.
+- تصمیم اجرایی: گزینه B سند Technical Challenge انتخاب شد؛ قرارداد IAssistantTool و خروجی قدیمی Product Lookup حفظ می‌شود و مرز محدود IAssistantCatalogTool برای پاسخ‌های توصیفی اضافه می‌شود.
+- برش نخست شامل اتصال ابزار کاتالوگ، route قطعی fixture در FakeModelProvider، ثبت DI در Host، پاسخ ساختاریافته با فیلدهای typed و evidence، و تست HTTP برای سه پروفایل فروشگاهی است.
+- CI Run 43208602845 روی Commit 56007c0557b50fc04767fae84d96a35e517373a8 با نتیجه Success تمام شد: Restore، Build، Test، Manifest، Source Archive و Uploadها همگی موفق.
+- TRX از Artifact دانلود و بررسی شد: 36/36 تست Pass و صفر Failed.
+- Source Artifact ID 13940501391؛ digest: sha256:3aa01c3fe9072bed4d366d5524f02d6566959584cc3cc26508d864b54285e18d.
+- Test Artifact ID 13940182078؛ digest: sha256:438468f606d383ff1b5420703682586eee907ce8f06e8240f7ac52cc3fb2446c.
+- آرشیو داخلی kandoo-internal-ai-source.tar.gz دارای SHA-256 برابر 3e1288f9f2ba88adae955a0de5d335d58ea64c1d83046de6c6f23a846cdf5381 است.
+- Manifest شامل 37 ورودی است؛ تمام 37 مورد پس از استخراج با SHA-256 بررسی شدند و OK هستند.
+- PR #4 ایجاد شد: https://github.com/majid-ghanbari-dost/kando-internal-ai-v01/pull/4؛ Base برابر build/0.3-dynamic-catalog و Head برابر build/0.4-assistant-catalog-integration. PR باز و ادغام‌نشده است.
+- CI URL: https://github.com/majid-ghanbari-dost/kando-internal-ai-v01/actions/runs/43208602845.
+- داده‌ها فقط Synthetic Fixture هستند. قیمت و موجودی در پاسخ کاتالوگ توصیفی ارائه نمی‌شوند.
+
+
+## ۳۹. Build 0.4 — برش اتصال کاتالوگ به Assistant تکمیل شد
+
+- ابزار CatalogQueryTool با نام allowlisted catalog.product.describe به مرز Application اضافه شد؛ قرارداد legacy ابزار product.lookup دست‌نخورده ماند.
+- FakeModelProvider برای واژگان مشخص ویژگی‌های توصیفی، route قطعی fixture ایجاد می‌کند. این route یک rule-based test double است و نباید به‌عنوان درک معنایی مدل واقعی معرفی شود.
+- AssistantService به‌صورت صریح ابزار توصیفی کاتالوگ را dispatch می‌کند و سه وضعیت Resolved، ClarificationRequired و NotFound را مدیریت می‌کند.
+- پاسخ resolved دارای هویت محصول، Category، Unit، ویژگی‌های typed با slotهای نوع‌دار، SourceField، ProfileId و SourceVersion است. قیمت و موجودی در قرارداد این پاسخ وجود ندارند.
+- پاسخ ambiguous فقط Candidate identity و سؤال روشن‌کننده دارد؛ Product و Evidence قطعی برنمی‌گرداند.
+- Host، FixtureCatalogRepository، CatalogProductQueryService و CatalogQueryTool را از DI ثبت می‌کند.
+- تست‌های HTTP جدید، مسیر محصول جشن، خواربار و پوشاک، مقدار typed، evidence، ambiguity و cross-store isolation را پوشش می‌دهند.
+- نتیجه CI 36/36 شامل تست‌های قبلی نیز هست؛ legacy product lookup و Build 0.3 regressionها سبز ماندند.
+- PR #4 با عنوان Build 0.4 — Connect dynamic catalog to Assistant HTTP flow باز و Unmerged است؛ PR #3 نیز جداگانه باز و Unmerged باقی مانده است.
+- نتیجه فعلی فقط تکمیل برش اجرای Fixture-only در ریپوی AI است؛ به معنی انتخاب مدل واقعی، احراز هویت، Hub Integration یا آمادگی عملیاتی فروشگاه نیست.
+
+
+## ۴۰. Build 0.4 — CI نهایی روی آخرین HEAD دارای کد و اسناد
+
+- آخرین HEAD آزموده‌شده: 1ce4e5a3e379396219b034a32f8325d343b9c674؛ شامل کد Build 0.4، README، Challenge به‌روزشده و Handoff v1.20.
+- CI Run 43209242893 موفق؛ Restore، Release Build، Test، Manifest، Source Archive و هر دو Upload موفق شدند.
+- TRX دانلود و بررسی شد: total=36, executed=36, passed=36, failed=0.
+- Source Artifact ID: 13938739539؛ digest: sha256:28dbfce2d600b716970d24630190467d559c88c46b806ec95cce164cc6910e07.
+- Test Artifact ID: 13938759488؛ digest: sha256:a9da74684fa9f043c2f82b1fb3a0a069e43ea46e8a54b02e610cfd6033483f87.
+- آرشیو داخلی kandoo-internal-ai-source.tar.gz دارای SHA-256 برابر aced3a8f86a565548db8e05ead0655099f1ebf12303114af2ef7a3488eb5aece است.
+- Manifest شامل 37 فایل است؛ هر 37 فایل استخراج‌شده با SHA-256 تطبیق داده شدند؛ 37 OK و صفر Failed.
+- PR #4 به‌روزرسانی شد و نتیجه همین CI را در بدنه خود ثبت می‌کند.
+- CI URL: https://github.com/majid-ghanbari-dost/kando-internal-ai-v01/actions/runs/43209242893.
+- نسخه 1.21 هندآف پس از CI صرفاً ثبت شواهد و وضعیت مدیریتی است؛ هیچ کد اجرایی، تست، README یا Technical Challenge پس از Commit آزموده‌شده تغییر نکرده است. بنابراین نتیجه CI به آخرین کد و اسناد فنی اشاره دارد و Handoff v1.21 یک تغییر مستنداتی پس از آن است.
+
+
+## ۴۱. Build 0.4 — اصلاح کیفیت تست معنایی ویژگی
+
+- بازبینی فنی پس از CI موفق، یک ناهماهنگی در تست HTTP را آشکار کرد: متن پرسش قطر محصول P-101 را درخواست می‌کرد، اما assertion فقط وجود ویژگی shape را می‌سنجید.
+- برای اینکه تست دقیقاً ادعای پرسش را اثبات کند، مقدار synthetic قطر 45 سانتی‌متر برای P-101 در Fixture ثبت شد؛ این مقدار با تعریف typed از قبل موجود diameter_cm سازگار است.
+- تست HTTP اکنون علاوه بر shape، نوع Decimal و مقدار دقیق 45m را برای diameter_cm بررسی می‌کند.
+- این اصلاح صرفاً Fixture و تست در ریپوی مستقل AI است؛ هیچ داده واقعی یا پروژه دیگری تغییر نمی‌کند.
+- CI Run 43210201902 روی Commit cac340976fb27e05bed0ac5f745cf4ee23bd4af7 موفق شد: Restore، Build، Test، Manifest، Source Archive و Uploadها همگی موفق.
+- TRX: 36/36 تست Pass، صفر Failed؛ تست جدید مقدار Decimal دقیق 45m را برای diameter_cm می‌خواند.
+- Source Artifact ID 13941215567؛ digest sha256:aa3b13e34d48a3ddfaab4bea7a7830dbc71fc8a5dcf01093d942e134e5de9644.
+- Test Artifact ID 13941260566؛ digest sha256:2d6b57aeff604899df6f05fcf8bd4b35a4897c935e0021fac43f1e579baf51de.
+- SHA-256 آرشیو داخلی: 4b5bcab954526b51a9f5b418ce13c100741448dc0aa55c80499abedb2fc26bd0.
+- Manifest شامل 37 فایل است؛ 37/37 مورد پس از استخراج OK و صفر Failed.
+- CI URL: https://github.com/majid-ghanbari-dost/kando-internal-ai-v01/actions/runs/43210201902.
+
+
+## ۴۲. Build 0.4 — تأیید نهایی اصلاح Fixture و تست دقیق ویژگی
+
+- تست HTTP اکنون به‌طور مستقیم اثبات می‌کند که پرسش درباره قطر محصول P-101، مقدار typed با کلید diameter_cm و نوع Decimal را برمی‌گرداند؛ مقدار fixture برابر 45 سانتی‌متر است.
+- نتیجه CI برای Commit cac340976fb27e05bed0ac5f745cf4ee23bd4af7: 36/36 تست موفق، صفر شکست.
+- Manifest و Source Archive مجدداً تولید شدند؛ 37/37 فایل Manifest بررسی و تأیید شدند.
+- این اصلاح کیفیتی در همان محدوده Build 0.4 است و دامنه مجوز را گسترش نمی‌دهد.
+- PR #4 اکنون به CI جدید و مقدار دقیق تست‌شده به‌روزرسانی شده است؛ همچنان Open و Unmerged است.
+- Handoff v1.23 پس از CI فقط نتیجه و شواهد را ثبت می‌کند؛ هیچ کد اجرایی، تست یا سند فنی پس از Commit آزموده‌شده تغییر نکرده است.
+
+
+## ۴۳. بازبینی وضعیت ریپو و اصلاح تناقض‌های تاریخی — ۱۲ نوامبر ۲۰۲۶
+
+- هندآف در نسخه 1.23 دو عبارت تاریخی داشت که با وضعیت بعدی تناقض ظاهری ایجاد می‌کردند: بخش 33 می‌گفت Build 0.4 هنوز تأیید نشده و بخش 36 می‌گفت پیاده‌سازی آغاز نشده است. این گزاره‌ها در زمان ثبت اولیه درست بودند، اما پس از بخش‌های 38 تا 42 دیگر وضعیت جاری محسوب نمی‌شوند. وضعیت جاری در این نسخه اصلاح شد؛ تاریخچه دست‌نخورده و با برچسب «در زمان خود» تفسیر می‌شود.
+- سیاست هندآف اصلاح شد: mirror کردن فایل هندآف به main یک تغییر مستنداتی مستقل است و به معنی merge کردن PR یا کد نیست.
+- وضعیت PRها از GitHub بازخوانی شد: PR #1، #2، #3 و #4 همگی Open و Unmerged هستند. زنجیره به‌ترتیب stacked است؛ #4 روی #3، #3 روی #2، #2 روی #1 و #1 روی main.
+- برای PR #3 و #4 هیچ Review submission یا inline review thread ثبت نشده است. بنابراین «تأیید Review انسانی» ادعا نمی‌شود.
+- آخرین CI معتبر Build 0.4: Run 43210201902 روی Commit cac340976fb27e05bed0ac5f745cf4ee23bd4af7؛ 36/36 تست موفق، Manifest 37/37 و آرشیو SHA-256 برابر 4b5bcab954526b51a9f5b418ce13c100741448dc0aa55c80499abedb2fc26bd0.
+- آخرین HEAD شاخه کاری در زمان این بازبینی: 7679aff634ea296d2c868eaa10b276508e19bced؛ تغییرات بعد از Commit آزموده‌شده صرفاً مستنداتی/هندآف بوده‌اند. CI روی آخرین HEAD مستنداتی هنوز باید اجرا و تأیید شود.
+- ممیزی کد نشان داد Mapping Proposal در Build 0.3 فقط به شکل object در حافظه تولید می‌شود؛ serializer/export envelope نسخه‌دار یا بستهٔ قابل‌بررسی برای مدیر فروشگاه وجود ندارد. این شکاف علت اصلی باقی‌ماندن Build 0.3 روی 90٪ است.
+- Host فاقد Authentication/Authorization است و StoreId از بدنه درخواست دریافت می‌شود؛ این نمونه فقط Fixture-only و local-use است و نباید روی شبکه یا محیط واقعی منتشر شود.
+- FakeModelProvider مدل زبانی نیست؛ فقط rule-based deterministic router با markerهای ثابت فارسی است.
+- جست‌وجوی کاتالوگ از تطبیق substring استفاده می‌کند؛ ranking معنایی، تحمل غلط املایی، و مدیریت چندمرحله‌ای clarification هنوز پیاده‌سازی نشده‌اند.
+- Catalog tool با قرارداد اختصاصی IAssistantCatalogTool و dispatch صریح در AssistantService اجرا می‌شود؛ ProductLookup tool از registry قدیمی عبور می‌کند. این تصمیم برای Build 0.4 محدود و قابل کنترل است، اما پیش از اتصال LLM واقعی باید مرز واحد Tool Planning/Dispatch، validation ورودی مدل و policy enforcement به‌صورت مستقل طراحی شود.
+- CancellationToken به اجرای sync کاتالوگ منتقل نمی‌شود؛ در Fixture محلی فعلی خطر اجرایی مهمی نیست، اما هر adapter async آینده باید cancellation و timeout داشته باشد.
+- هیچ کدام از این موارد به معنی وجود اتصال به Hub، دیتابیس واقعی یا دسترسی به اطلاعات واقعی فروشگاه نیست.
+
+## ۴۴. بسته بازبینی مدیر پروژه — ایجاد شد
+
+- سند docs/PROJECT-MANAGER-HANDOFF-REVIEW.md برای بازبینی مستقل AI repository ایجاد شد.
+- سند وضعیت Builds، زنجیره PRها، CI، مرزهای امنیتی، موارد تکمیل‌شده و blockers را از هم تفکیک می‌کند.
+- توصیه رسمی: مدیر پروژه می‌تواند اکنون معماری و کیفیت ریپوی مستقل را بازبینی کند؛ اما مجوز Hub Integration صادر نشود.
+- Mission 4.1 در ریپوی مادر همچنان Blocker مستقل است: CompleteTimeout و direct write paths باید قبل از طراحی Change Feed عملیاتی تعیین تکلیف شوند.
+
+## ۴۵. Build 0.5 — Technical Challenge پیش‌نویس
+
+- سند docs/BUILD-0.5-MAPPING-PROPOSAL-EXPORT-CHALLENGE.md ایجاد شد.
+- هدف محدود: تبدیل CatalogMappingProposal درون‌حافظه‌ای به خروجی JSON نسخه‌دار، deterministic و قابل بررسی انسانی، با digest و آزمون round-trip.
+- این مرحله هیچ mapping را approve یا apply نمی‌کند؛ هیچ اتصال واقعی، داده واقعی، endpoint عمومی، مدل خارجی یا تغییر ریپوی مادر ندارد.
+- وضعیت: Draft / منتظر تأیید صریح Product Owner؛ هیچ کدنویسی Build 0.5 آغاز نشده است.
+
+
+## ۴۶. CI بسته بازبینی مدیر پروژه و Build 0.5 Challenge
+
+- Commit آزموده‌شده: 572f61d8f772e56f3bf6bf486406c175c62ee4ae؛ شامل بسته بازبینی مدیر پروژه، Technical Challenge پیش‌نویس Build 0.5، README به‌روزشده و هندآف با محتوای v1.23.
+- CI Run 43211946365 موفق شد: Restore، Build، Test، Manifest، Source Archive و Uploadها همگی Success.
+- TRX از Artifact دانلود و شمارنده‌ها بررسی شد: total=36, executed=36, passed=36, failed=0.
+- Source Artifact ID 13942231012؛ digest sha256:5112796d84e116336cdde0d513c80efeb817c5ee33925441c3fcbd987ec89d1d.
+- Test Artifact ID 13942026049؛ digest sha256:fc84b8d334ada2f129983bd74d1204c4a3677e04404525e5b74dd132d7b1f9c9.
+- ZIP منبع پس از دانلود بررسی شد؛ آرشیو داخلی kandoo-internal-ai-source.tar.gz دارای SHA-256 برابر fcb44524a5a5901bab0575b3c2e8faa732f1db479d4a0d65a2b4f58513aa6ca4 است.
+- Manifest دارای 39 ورودی بود؛ هر 39 مسیر با SHA-256 تطبیق داده شد و 39/39 مورد OK بودند.
+- CI URL: https://github.com/majid-ghanbari-dost/kando-internal-ai-v01/actions/runs/43211946365.
+- نسخه 1.24 هندآف پس از Commit آزموده‌شده فقط نسخه و ثبت شواهد را به‌روز می‌کند؛ هیچ کد اجرایی، تست، README یا سند Technical Challenge بعد از Commit آزموده‌شده تغییر نکرده است.
+
+
+## ۴۷. نسخه 1.24 و وضعیت دقیق آخرین HEAD
+
+- نسخه 1.24 هندآف روی شاخه Build 0.4 ثبت شد. Commit پیش از ثبت بخش 47 برابر a0012498089c30fd2dfdb36463ebf31b8d738a0d بود؛ Commit ثبت نسخه 1.24 برابر 196dda4f420de6c417b754a0c5772938d60bdc73 است.
+- این Commit فقط تغییر مستنداتی هندآف از v1.23 به v1.24 است؛ کد، تست‌ها، README و دو سند فنی که در Commit 572f61d ثبت شدند تغییر نکرده‌اند.
+- CI Run 43211946365 روی Commit 572f61d موفق و Artifact/Manifest آن مستقل بررسی شده است. این CI آخرین بسته فنی مستندات را پوشش می‌دهد؛ نسخه v1.24 هندآف یک تغییر نسخه/ثبت وضعیت پس از آن است.
+- PR #4 به Commit a001249 متصل است، Open و Unmerged باقی مانده و بدنه آن شواهد CI و اسناد بازبینی مدیر پروژه را ثبت می‌کند.
+- هندآف v1.24 در main همگام و با fetch مجدد تأیید شد؛ محتوای main و شاخه کاری یکسان است. این کار هیچ کد یا PR را merge نمی‌کند.
+
+
+## ۴۸. CI نهایی روی HEAD مستنداتی فعلی Build 0.4
+
+- Commit آزموده‌شده: f77fd1c583222400fcd65976b8e2d0beb5fc7218؛ شامل بسته بازبینی مدیر پروژه، Build 0.5 Challenge، README و هندآف v1.24.
+- CI Run 43212603522 موفق شد؛ Restore، Build، Test، Manifest، Source Archive و Uploadها همگی Success.
+- TRX از Artifact دانلود و بررسی شد: total=36, executed=36, passed=36, failed=0.
+- Source Artifact ID 13942915006؛ digest sha256:ab5e4e9e5812409711ab4d0fa64d8ebfa748ec2ed946d6e4e068fdaa647eaef5.
+- Test Artifact ID 13941248719؛ digest sha256:99f05b7fe75bf3608422986b58f613818fd38a4d601be6567e78b75eff7b63dc.
+- آرشیو داخلی kandoo-internal-ai-source.tar.gz پس از دانلود استخراج و بررسی شد؛ SHA-256 برابر 505e2dcbfdd8f7880147f9c6ee23ee2a1fd491bc4f49f589430a18ff41ce5e96.
+- Manifest دارای 39 ورودی بود؛ هر 39 فایل با SHA-256 تطبیق داده شد و 39/39 OK بودند.
+- CI URL: https://github.com/majid-ghanbari-dost/kando-internal-ai-v01/actions/runs/43212603522.
+- نسخه 1.25 پس از Commit آزموده‌شده صرفاً نتیجه CI و شماره نسخه هندآف را ثبت می‌کند؛ کد، تست، README، بسته بازبینی و Technical Challenge پس از Commit آزموده‌شده تغییر نکرده‌اند.
+
+
+## ۴۹. راستی‌آزمایی نهایی هندآف v1.25 و بسته مدیر پروژه
+
+- Commit آزموده‌شده: 3c3b21454864da4f070d5395d7c6dacfca40fdf8؛ شامل هندآف v1.25، گزارش مدیر پروژه، Build 0.5 Challenge و README است.
+- CI Run 43212918938 موفق شد؛ TRX برابر 36/36 passed و 0 failed است.
+- Source Artifact ID 13941099235؛ digest sha256:87eecfb5cdcb5000c33f23ee7fe0b5aa12e0a2ec0791f1a8183cf2bb7282e969.
+- Test Artifact ID 13941438692؛ digest sha256:133c5657071baf436c8d9baf7229b869999388f89a09c01282a814ac380ebccf.
+- SHA-256 آرشیو داخلی kandoo-internal-ai-source.tar.gz: 059b4ac482626fa75a3dea92f02f48d1c2c95967649bdf8a3e5dcf838bf30a6d.
+- Manifest دارای 39 ورودی است؛ 39/39 فایل با SHA-256 بررسی و تأیید شدند.
+- CI URL: https://github.com/majid-ghanbari-dost/kando-internal-ai-v01/actions/runs/43212918938.
+- نسخه 1.26 صرفاً همین شواهد را ثبت می‌کند. Commit بعد از آزمون فقط متن هندآف/شماره نسخه را به‌روز می‌کند؛ کد و اسناد بسته بازبینی و Technical Challenge تغییری نکرده‌اند.
+
+
+## ۵۰. به‌روزرسانی گزارش مدیر پروژه با آخرین CI
+
+- سند PROJECT-MANAGER-HANDOFF-REVIEW.md با آخرین CI قابل راستی‌آزمایی به‌روزرسانی شد: Commit آزموده‌شده 3c3b21454864da4f070d5395d7c6dacfca40fdf8، Run 43212918938، 36/36 تست، Manifest 39/39.
+- HEAD جاری پیش از این Commit مستنداتی برابر a5f63fef8ee453da81b26f77a6ef50554fc0f0e9 بود؛ این تغییر گزارش و هندآف است و کد اجرایی را تغییر نمی‌دهد.
+- PR #4 همچنان Open و Unmerged است؛ هیچ Review انسانی ثبت نشده است.
+- پس از ثبت این نسخه، CI جدید باید روی Commit اسناد به‌روزشده اجرا شود؛ نتیجه قبلی به سند جدید تعمیم داده نمی‌شود.
+
+
+## ۵۱. گزارش مدیر پروژه و CI نهایی Build 0.4
+
+- سند PROJECT-MANAGER-HANDOFF-REVIEW.md اکنون با CI معتبر روی Commit 26e1fd844273f4286cfc6e61a622cd69db605f18 همگام است.
+- CI Run 43213451103 موفق: 36/36 تست، صفر شکست؛ Manifest 39/39.
+- Source Artifact ID 13941738453؛ digest sha256:231789efb3c827c87a14dfe0df77ea7527dec778ab8df0de462f621f90c8e631.
+- Test Artifact ID 13942990643؛ digest sha256:001c1222586c7002fec85fe39aa02f78a1a673b8a98f0a0f15e882d256d46ed7.
+- SHA-256 آرشیو داخلی: 0c5d3193225fdbebb8c5586dbaff43296e2d2f38946ad46882c83b000d6c9db0.
+- CI URL: https://github.com/majid-ghanbari-dost/kando-internal-ai-v01/actions/runs/43213451103.
+- Handoff v1.28 و گزارش بازبینی به‌روزشده در همین commit ثبت شدند؛ پس از این commit CI جدید اجرا می‌شود تا هر دو سند در بسته نهایی آرشیو شوند.
+
+
+## ۵۲. CI نهایی بسته بازبینی مدیر پروژه — Commit 89e9cb7
+
+- Commit آزموده‌شده: 89e9cb7c9730aa63f38f99d54fae43f887a80e19؛ شامل گزارش مدیر پروژه به‌روزشده، هندآف v1.28 و Technical Challenge Build 0.5 است.
+- CI Run 43213792596 موفق؛ Restore، Build، Test، Manifest، Source Archive و Uploadها همگی موفق شدند.
+- TRX: 36/36 تست Pass، صفر Failed.
+- Source Artifact ID 13941594413؛ digest sha256:34b169c334d5a8e88d37172ba0a3202e3d8f10b96350f69164db31825ef28f5a.
+- Test Artifact ID 13941559641؛ digest sha256:225b391fe14004b2dcb96503bf8e58b2398705d2a5989da3a2256a76b0d3b0e9.
+- SHA-256 آرشیو داخلی: d0acae7f87f6dc1eeb9f5e484e0ebd343a7ecc9c5c0dff4d06da0fc98d4c8ddf.
+- Manifest دارای 39 ورودی بود؛ 39/39 فایل با SHA-256 تطبیق داده شدند و همگی OK هستند.
+- CI URL: https://github.com/majid-ghanbari-dost/kando-internal-ai-v01/actions/runs/43213792596.
+- نسخه 1.29 فقط نتیجه CI و شماره نسخه را ثبت می‌کند؛ کد اجرایی، تست‌ها، README و گزارش مدیر پروژه پس از Commit آزموده‌شده تغییر نکرده‌اند.
+
+
+## ۵۳. CI و راستی‌آزمایی نهایی روی HEAD هندآف v1.29
+
+- Commit آزموده‌شده: 24947443d9e5d1b2439e2b926fd21ea2eac86123؛ شامل هندآف v1.29 و آخرین گزارش مدیر پروژه/Technical Challenge است.
+- CI Run 43214052251 موفق شد؛ Restore، Build، Test، Manifest، Source Archive و Uploadها همگی Success.
+- TRX: 36/36 تست موفق، صفر Failed.
+- Source Artifact ID 13942458114؛ digest sha256:1da0e30127a094f027265e7c5c1e6b574c997d040f2f19f7f2993e898349d23f.
+- Test Artifact ID 13942148534؛ digest sha256:6bb76060f576de8dd12ef890ca14db31518901e4c19559386940c80a1a093665.
+- SHA-256 آرشیو داخلی kandoo-internal-ai-source.tar.gz: 15971a09d0085fe70367c605ef9b6438952d6009f8d08b9f9e3e95bf8a7e0e0b.
+- Manifest شامل 39 ورودی بود؛ 39/39 فایل پس از استخراج با SHA-256 تأیید شدند.
+- CI URL: https://github.com/majid-ghanbari-dost/kando-internal-ai-v01/actions/runs/43214052251.
+- نسخه 1.30 صرفاً همین نتیجه و شماره نسخه هندآف را ثبت می‌کند؛ کد، تست و اسناد فنی پس از Commit آزموده‌شده تغییر نکرده‌اند.

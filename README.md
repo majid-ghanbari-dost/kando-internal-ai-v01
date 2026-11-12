@@ -3,7 +3,7 @@
 A model-independent assistant core for Kandoo store workflows.
 
 ## Current build
-Build 0.3 is in progress on branch `build/0.3-dynamic-catalog`. Its first implementation slice introduces a shared canonical product contract, typed extensible attributes, three synthetic store catalogs (party supplies, grocery, clothing), versioned mapping proposals, default quarantine/exclusion rules, and deterministic store-scoped retrieval. Build 0.2.2 retains explicit ambiguity handling; Build 0.2.1 provides the synthetic Persian query corpus. The parser remains a deterministic rule-based baseline. No live Hub or real store data is connected.
+Build 0.3 is preserved on branch build/0.3-dynamic-catalog. Build 0.4 fixture-only implementation is complete on branch build/0.4-assistant-catalog-integration; PR #4 is open and unmerged pending review. Its first implementation slice introduces a shared canonical product contract, typed extensible attributes, three synthetic store catalogs (party supplies, grocery, clothing), versioned mapping proposals, default quarantine/exclusion rules, and deterministic store-scoped retrieval. Build 0.2.2 retains explicit ambiguity handling; Build 0.2.1 provides the synthetic Persian query corpus. The parser remains a deterministic rule-based baseline. No live Hub or real store data is connected.
 
 ## Architecture
 - **Core:** request, intent, plan, product and evidence contracts.
@@ -82,3 +82,20 @@ This is not semantic language understanding. The parser now removes request phra
 - The Kandoo Project Manager owns the integration gate.
 - The AI team may continue independent development, synthetic testing, and adapter-contract preparation.
 - No live Hub connection, real Hub data access, credentials, schema/code changes in the parent Kandoo repository, migrations, or operational actions may occur without explicit Project Manager approval after repository handoff and review.
+
+
+## Assistant Catalog Integration (Build 0.4 — fixture-only)
+- Descriptive attribute questions are routed deterministically to the allowlisted catalog.product.describe tool; the fake provider remains a rule-based test double, not an LLM.
+- The existing product.lookup contract and its price/stock fixture behavior remain unchanged.
+- Catalog responses expose canonical product identity, typed attribute slots, source-field provenance, profile/version evidence, and fixture mode.
+- Ambiguous catalog queries return candidate identities and clarification only. Cross-store queries return not found.
+- Catalog responses do not contain current price or stock. No real Hub, store database, external model, credentials, or production data is connected.
+- Build 0.4 is implemented only in the independent AI repository; PRs remain unmerged pending Product Owner review.
+
+
+## Project Manager review package (2026-11-12)
+- Current technical review: docs/PROJECT-MANAGER-HANDOFF-REVIEW.md.
+- Build 0.4 is fixture-only complete; PR #4 remains open and unmerged.
+- Build 0.3 remains at approximately 90% because mapping proposals are generated in memory but do not yet have a versioned, deterministic export package.
+- Proposed next step: Build 0.5 mapping-proposal export. Its technical challenge is draft-only and awaits explicit Product Owner approval.
+- The Host has no authentication/authorization and must remain local fixture-only; do not expose it to a network or real store.
