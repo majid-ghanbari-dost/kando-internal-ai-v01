@@ -1,5 +1,5 @@
 # HANDOFF — Kandoo Internal AI
-**نسخه:** 1.20
+**نسخه:** 1.21
 **تاریخ:** ۱۲ نوامبر ۲۰۲۶
 **وضعیت:** Build 0.3 روی شاخه مستقل خود باقی است. Build 0.4 با مجوز صریح Product Owner در ۱۲ نوامبر ۲۰۲۶ برای اجرای Fixture-only آغاز شده است. شاخه کاری جداگانه build/0.4-assistant-catalog-integration ایجاد شده؛ PR #3 و شاخه Build 0.3 دست‌نخورده می‌مانند. اتصال Hub واقعی همچنان نیازمند تأیید مستقل مدیر پروژه Kandoo است.
 
@@ -862,3 +862,17 @@ Build 0.1 اکنون Solution قابل Build، API محلی، Fake Store Gateway
 - نتیجه CI 36/36 شامل تست‌های قبلی نیز هست؛ legacy product lookup و Build 0.3 regressionها سبز ماندند.
 - PR #4 با عنوان Build 0.4 — Connect dynamic catalog to Assistant HTTP flow باز و Unmerged است؛ PR #3 نیز جداگانه باز و Unmerged باقی مانده است.
 - نتیجه فعلی فقط تکمیل برش اجرای Fixture-only در ریپوی AI است؛ به معنی انتخاب مدل واقعی، احراز هویت، Hub Integration یا آمادگی عملیاتی فروشگاه نیست.
+
+
+## ۴۰. Build 0.4 — CI نهایی روی آخرین HEAD دارای کد و اسناد
+
+- آخرین HEAD آزموده‌شده: 1ce4e5a3e379396219b034a32f8325d343b9c674؛ شامل کد Build 0.4، README، Challenge به‌روزشده و Handoff v1.20.
+- CI Run 43209242893 موفق؛ Restore، Release Build، Test، Manifest، Source Archive و هر دو Upload موفق شدند.
+- TRX دانلود و بررسی شد: total=36, executed=36, passed=36, failed=0.
+- Source Artifact ID: 13938739539؛ digest: sha256:28dbfce2d600b716970d24630190467d559c88c46b806ec95cce164cc6910e07.
+- Test Artifact ID: 13938759488؛ digest: sha256:a9da74684fa9f043c2f82b1fb3a0a069e43ea46e8a54b02e610cfd6033483f87.
+- آرشیو داخلی kandoo-internal-ai-source.tar.gz دارای SHA-256 برابر aced3a8f86a565548db8e05ead0655099f1ebf12303114af2ef7a3488eb5aece است.
+- Manifest شامل 37 فایل است؛ هر 37 فایل استخراج‌شده با SHA-256 تطبیق داده شدند؛ 37 OK و صفر Failed.
+- PR #4 به‌روزرسانی شد و نتیجه همین CI را در بدنه خود ثبت می‌کند.
+- CI URL: https://github.com/majid-ghanbari-dost/kando-internal-ai-v01/actions/runs/43209242893.
+- نسخه 1.21 هندآف پس از CI صرفاً ثبت شواهد و وضعیت مدیریتی است؛ هیچ کد اجرایی، تست، README یا Technical Challenge پس از Commit آزموده‌شده تغییر نکرده است. بنابراین نتیجه CI به آخرین کد و اسناد فنی اشاره دارد و Handoff v1.21 یک تغییر مستنداتی پس از آن است.
