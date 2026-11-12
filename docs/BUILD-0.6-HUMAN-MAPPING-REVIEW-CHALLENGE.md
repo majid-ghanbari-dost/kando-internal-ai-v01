@@ -1,6 +1,6 @@
 # Build 0.6 — Human Mapping Review Decision Record (Technical Challenge)
 
-**Status:** APPROVED BY DELEGATED TECHNICAL DECISION — fixture-only implementation in progress  
+**Status:** IMPLEMENTED — fixture-only CI verified  
 **Date:** 2026-11-12  
 **Scope proposal:** Independent Kandoo Internal AI repository; synthetic fixtures only
 
@@ -51,7 +51,7 @@ The decision must bind to both proposal_id and proposal_content_sha256. A change
 - Add Core contracts for a review-decision artifact.
 - Add deterministic serializer/import verifier using built-in .NET libraries.
 - Add fixture-only examples for the three synthetic store profiles.
-- Add tests for decision binding, digest tampering, stale proposal, cross-store mismatch, missing/unknown fields, duplicate decisions, and no-default-approval.
+- Add tests for decision binding, digest tampering, stale proposal, cross-store mismatch, missing/unknown fields, deterministic duplicate identity, and no-default-approval.
 - Document the difference between a review record and production authorization.
 
 ## 6. Explicit non-goals / prohibitions
@@ -74,6 +74,10 @@ The decision must bind to both proposal_id and proposal_content_sha256. A change
 8. All examples and tests use synthetic data only.
 9. No decision persists or activates a mapping.
 10. CI, source archive, manifest and SHA-256 verification pass.
+
+### Duplicate and revocation limitation
+
+This build intentionally has no durable decision registry. It therefore cannot globally reject a duplicate already stored elsewhere or revoke a previous decision. Exact duplicate inputs generate byte-identical artifacts and the same deterministic `decision_id`, enabling a future authenticated registry to detect duplicates. This limitation is explicit and must not be represented as duplicate prevention.
 
 ## 8. Approval and implementation boundary
 
