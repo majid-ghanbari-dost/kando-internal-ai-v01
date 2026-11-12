@@ -1,6 +1,6 @@
 # Build 0.5 — Versioned Mapping Proposal Export & Human Review Package
 
-**Status:** DRAFT — awaiting explicit Product Owner approval  
+**Status:** APPROVED — fixture-only implementation in progress  
 **Date:** 2026-11-12  
 **Scope:** Independent Kandoo Internal AI repository; synthetic fixtures only
 
@@ -83,6 +83,8 @@ No approval controls or state transitions are introduced in this build.
 9. Three synthetic store profiles produce reviewable export examples.
 10. CI, source archive, manifest and SHA-256 verification pass.
 
-## 8. Gate
+## 8. Approval and implementation boundary
 
-This document is a Technical Challenge only. Build 0.5 implementation must not begin until the Product Owner explicitly approves this exact scope. Approval does not authorize Hub integration, real data access, parent-repository changes or PR merge.
+On 12 November 2026, the Product Owner delegated the technical decision and instructed the Technical Manager to choose the best technical course. The Technical Manager approved this exact fixture-only scope and began implementation on branch `build/0.5-mapping-proposal-export`.
+
+This approval does not authorize Hub integration, real data access, parent-repository changes, mapping activation, production persistence, or PR merge. Those remain separately gated.
