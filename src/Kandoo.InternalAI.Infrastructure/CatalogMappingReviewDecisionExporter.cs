@@ -157,7 +157,7 @@ public sealed class CatalogMappingReviewDecisionExporter
         DateTimeOffset reviewedAtUtc,
         string reason)
     {
-        if (!Enum.IsDefined(decision))
+        if (!Enum.IsDefined(decision) || decision == CatalogMappingReviewDecision.Unspecified)
             throw new InvalidDataException("An explicit supported review decision is required.");
         if (string.IsNullOrWhiteSpace(reviewerRef) || reviewerRef.Length > 128)
             throw new InvalidDataException("Reviewer reference must contain 1–128 characters.");
