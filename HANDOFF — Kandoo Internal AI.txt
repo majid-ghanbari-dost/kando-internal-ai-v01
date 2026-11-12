@@ -1,5 +1,5 @@
 # HANDOFF — Kandoo Internal AI
-**نسخه:** 1.21
+**نسخه:** 1.23
 **تاریخ:** ۱۲ نوامبر ۲۰۲۶
 **وضعیت:** Build 0.3 روی شاخه مستقل خود باقی است. Build 0.4 با مجوز صریح Product Owner در ۱۲ نوامبر ۲۰۲۶ برای اجرای Fixture-only آغاز شده است. شاخه کاری جداگانه build/0.4-assistant-catalog-integration ایجاد شده؛ PR #3 و شاخه Build 0.3 دست‌نخورده می‌مانند. اتصال Hub واقعی همچنان نیازمند تأیید مستقل مدیر پروژه Kandoo است.
 
@@ -876,3 +876,28 @@ Build 0.1 اکنون Solution قابل Build، API محلی، Fake Store Gateway
 - PR #4 به‌روزرسانی شد و نتیجه همین CI را در بدنه خود ثبت می‌کند.
 - CI URL: https://github.com/majid-ghanbari-dost/kando-internal-ai-v01/actions/runs/43209242893.
 - نسخه 1.21 هندآف پس از CI صرفاً ثبت شواهد و وضعیت مدیریتی است؛ هیچ کد اجرایی، تست، README یا Technical Challenge پس از Commit آزموده‌شده تغییر نکرده است. بنابراین نتیجه CI به آخرین کد و اسناد فنی اشاره دارد و Handoff v1.21 یک تغییر مستنداتی پس از آن است.
+
+
+## ۴۱. Build 0.4 — اصلاح کیفیت تست معنایی ویژگی
+
+- بازبینی فنی پس از CI موفق، یک ناهماهنگی در تست HTTP را آشکار کرد: متن پرسش قطر محصول P-101 را درخواست می‌کرد، اما assertion فقط وجود ویژگی shape را می‌سنجید.
+- برای اینکه تست دقیقاً ادعای پرسش را اثبات کند، مقدار synthetic قطر 45 سانتی‌متر برای P-101 در Fixture ثبت شد؛ این مقدار با تعریف typed از قبل موجود diameter_cm سازگار است.
+- تست HTTP اکنون علاوه بر shape، نوع Decimal و مقدار دقیق 45m را برای diameter_cm بررسی می‌کند.
+- این اصلاح صرفاً Fixture و تست در ریپوی مستقل AI است؛ هیچ داده واقعی یا پروژه دیگری تغییر نمی‌کند.
+- CI Run 43210201902 روی Commit cac340976fb27e05bed0ac5f745cf4ee23bd4af7 موفق شد: Restore، Build، Test، Manifest، Source Archive و Uploadها همگی موفق.
+- TRX: 36/36 تست Pass، صفر Failed؛ تست جدید مقدار Decimal دقیق 45m را برای diameter_cm می‌خواند.
+- Source Artifact ID 13941215567؛ digest sha256:aa3b13e34d48a3ddfaab4bea7a7830dbc71fc8a5dcf01093d942e134e5de9644.
+- Test Artifact ID 13941260566؛ digest sha256:2d6b57aeff604899df6f05fcf8bd4b35a4897c935e0021fac43f1e579baf51de.
+- SHA-256 آرشیو داخلی: 4b5bcab954526b51a9f5b418ce13c100741448dc0aa55c80499abedb2fc26bd0.
+- Manifest شامل 37 فایل است؛ 37/37 مورد پس از استخراج OK و صفر Failed.
+- CI URL: https://github.com/majid-ghanbari-dost/kando-internal-ai-v01/actions/runs/43210201902.
+
+
+## ۴۲. Build 0.4 — تأیید نهایی اصلاح Fixture و تست دقیق ویژگی
+
+- تست HTTP اکنون به‌طور مستقیم اثبات می‌کند که پرسش درباره قطر محصول P-101، مقدار typed با کلید diameter_cm و نوع Decimal را برمی‌گرداند؛ مقدار fixture برابر 45 سانتی‌متر است.
+- نتیجه CI برای Commit cac340976fb27e05bed0ac5f745cf4ee23bd4af7: 36/36 تست موفق، صفر شکست.
+- Manifest و Source Archive مجدداً تولید شدند؛ 37/37 فایل Manifest بررسی و تأیید شدند.
+- این اصلاح کیفیتی در همان محدوده Build 0.4 است و دامنه مجوز را گسترش نمی‌دهد.
+- PR #4 اکنون به CI جدید و مقدار دقیق تست‌شده به‌روزرسانی شده است؛ همچنان Open و Unmerged است.
+- Handoff v1.23 پس از CI فقط نتیجه و شواهد را ثبت می‌کند؛ هیچ کد اجرایی، تست یا سند فنی پس از Commit آزموده‌شده تغییر نکرده است.
