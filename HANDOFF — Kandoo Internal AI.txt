@@ -524,7 +524,7 @@ Build 0.1 اکنون Solution قابل Build، API محلی، Fake Store Gateway
 - تست سرویس: `tests/Kandoo.InternalAI.Tests/AssistantServiceTests.cs`
 - تست API: `tests/Kandoo.InternalAI.Tests/HostApiTests.cs`
 - README رفتار ابهام و گیت Hub را مستند می‌کند.
-- آخرین Commit پیاده‌سازی/README قبل از ثبت این هندآف: `a1c7d900576fc4f011c8ebd414f055e1cc14d2e0`.
+- Commit پیاده‌سازی/README: `a1c7d900576fc4f011c8ebd414f055e1cc14d2e0`؛ تغییر Workflow برای اجرای CI روی push و PR شاخه‌های `build/**`: `352a55776db17ed14b0d340e07f4ffbb13984688` و `9b5e5e036cbf21ad870313ba338e685c20f9630b`.
 - تست‌های جدید: ابهام قیمت با دو Candidate، عدم نمایش قیمت قطعی در ابهام، حفظ intent با تکرار درخواست همراه Product ID، عدم تطبیق، عدم ابهام برای محصول دقیق، و قرارداد JSON از HTTP API.
 - هیچ Package، ابزار خارجی، LLM یا وابستگی جدید نصب نشد.
 
@@ -535,6 +535,8 @@ Build 0.1 اکنون Solution قابل Build، API محلی، Fake Store Gateway
 - مدیر پروژه Kandoo مرجع نهایی مجوز اتصال است؛ تأیید Product Owner برای توسعه مستقل، جایگزین تأیید مدیر پروژه برای اتصال Hub نیست.
 
 ### اعتبارسنجی
+- Workflow اکنون push و pull request روی شاخه‌های `build/**` را نیز پوشش می‌دهد؛ PR شماره 2 با base شاخه Build 0.2.1 باز است تا CI روی PR stacked اجرا شود.
+- PR شماره 2: `https://github.com/majid-ghanbari-dost/kando-internal-ai-v01/pull/2`.
 - CI این شاخه هنوز اجرا/تأیید نشده است.
 - هیچ ادعایی درباره سبز بودن Build 0.2.2 تا ثبت نتیجه Workflow مجاز نیست.
 - معیار پذیرش: تمام تست‌های قبلی + تست‌های جدید سبز، Build Release موفق، Manifest و آرشیو ساخته و دریافت شوند، SHA-256 Manifest بررسی شود.
