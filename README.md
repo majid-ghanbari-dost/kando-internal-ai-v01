@@ -1,16 +1,16 @@
-# Kandoo Internal AI — Build 0.1
+# Kandoo Internal AI
 
-A small, model-independent assistant core for Kandoo store workflows.
+A model-independent assistant core for Kandoo store workflows.
 
-## Status
-This build uses fixture data and a deterministic fake model provider only. It is not connected to a live Kandoo Hub, does not read a real store database, and must never be represented as production/live data.
+## Current build
+Build 0.2 adds a deterministic Persian query-normalization and intent-parsing baseline. It is still a development prototype using fixture data and a fake provider. It is not connected to a live Kandoo Hub and is not an autonomous AI model.
 
 ## Architecture
-- **Core:** request, plan, product and evidence contracts.
-- **Application:** assistant orchestration, tool boundary and product lookup use case.
-- **Infrastructure:** fixture-backed store gateway, fake provider and explicit tool registry.
+- **Core:** request, intent, plan, product and evidence contracts.
+- **Application:** assistant orchestration, Persian text normalization, product query parsing and tool boundary.
+- **Infrastructure:** fixture-backed store gateway, deterministic fake provider and explicit tool registry.
 - **Host:** minimal HTTP API.
-- **Tests:** isolation, evidence, abstention and tool allowlist tests.
+- **Tests:** unit, parser and HTTP integration tests.
 
 Only registered tools can execute. Model-generated SQL or code is never executed.
 
@@ -28,15 +28,25 @@ dotnet run --project .\src\Kandoo.InternalAI.Host
 
 Example:
 ```json
-{ "storeId": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa", "question": "بادکنک لاتکس قرمز" }
+{ "storeId": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa", "question": "قیمت بادکنک لاتکس قرمز چنده؟" }
 ```
 
-The response labels its source as `fixture` and includes evidence identifiers. Fixture timestamps are fixed test data, not current inventory timestamps.
+Responses include structured product data and evidence identifiers. The response labels its source as `fixture`; fixture timestamps and prices are not live store values.
+
+## Persian query handling
+The current deterministic baseline:
+- normalizes Arabic/Persian Yeh and Kaf;
+- normalizes Persian and Arabic-Indic digits to ASCII;
+- normalizes ZWNJ/ZWJ and whitespace;
+- identifies basic price, stock and product-details intents;
+- removes common request filler words before fixture lookup.
+
+This is not semantic language understanding. Ambiguous queries, spelling correction, synonym/alias expansion and robust multi-product intent resolution remain future work.
 
 ## Security and scope
-- Product queries are scoped by StoreId in the gateway.
+- Product queries are scoped by StoreId in the gateway, but the Host does not yet authenticate or authorize StoreId. Keep it local and do not expose it to a network.
 - No customer data or phone numbers exist in product fixtures.
 - Unknown tool names are rejected.
 - No arbitrary SQL, shell, filesystem, network or write tool is exposed.
 - Price and inventory are illustrative fixture values.
-- Live Hub integration is blocked until parent Kandoo write-path, snapshot, change-feed and privacy contracts pass technical challenge.
+- Live Hub integration is blocked until parent Kandoo write-path, snapshot, change-feed, identity and privacy contracts pass technical challenge.
