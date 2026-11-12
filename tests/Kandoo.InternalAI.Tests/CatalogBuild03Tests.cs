@@ -20,19 +20,19 @@ public sealed class CatalogBuild03Tests
     [Fact]
     public void TypedAttributesRoundTripWithoutStoreSpecificProductTypes()
     {
-        var grocery = Assert.Single(SyntheticCatalogFixtures.Products.Where(x => x.ProductId == "G-100"));
+        var grocery = Assert.Single(SyntheticCatalogFixtures.Products, x => x.ProductId == "G-100");
         var weight = grocery.Attributes["weight_kg"];
         Assert.Equal(CatalogValueType.Decimal, weight.ValueType);
         Assert.Equal(10m, weight.DecimalValue);
 
-        var clothing = Assert.Single(SyntheticCatalogFixtures.Products.Where(x => x.ProductId == "C-101"));
+        var clothing = Assert.Single(SyntheticCatalogFixtures.Products, x => x.ProductId == "C-101");
         Assert.Equal(32L, clothing.Attributes["waist_size"].IntegerValue);
     }
 
     [Fact]
     public void MappingProposalQuarantinesUnknownFieldsAndExcludesPii()
     {
-        var profile = Assert.Single(SyntheticCatalogFixtures.Profiles.Where(x => x.StoreId == SyntheticCatalogFixtures.PartyStoreId));
+        var profile = Assert.Single(SyntheticCatalogFixtures.Profiles, x => x.StoreId == SyntheticCatalogFixtures.PartyStoreId);
         var definitions = new Dictionary<string, ProductAttributeDefinition>
         {
             ["Color"] = new("color", "رنگ", CatalogValueType.String, CatalogSensitivity.Public, [], true),
@@ -59,7 +59,7 @@ public sealed class CatalogBuild03Tests
     [Fact]
     public void SchemaDriftInvalidatesProposalAndRecordsIssue()
     {
-        var profile = Assert.Single(SyntheticCatalogFixtures.Profiles.Where(x => x.StoreId == SyntheticCatalogFixtures.GroceryStoreId));
+        var profile = Assert.Single(SyntheticCatalogFixtures.Profiles, x => x.StoreId == SyntheticCatalogFixtures.GroceryStoreId);
         var proposal = new CatalogMappingValidator().CreateProposal(
             profile, "grocery-schema-v4", [new("BrandName", "string")],
             new Dictionary<string, ProductAttributeDefinition>
