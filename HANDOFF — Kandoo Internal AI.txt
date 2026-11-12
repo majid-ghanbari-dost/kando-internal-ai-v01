@@ -1,5 +1,5 @@
 # HANDOFF — Kandoo Internal AI
-**نسخه:** 1.35
+**نسخه:** 1.36
 **تاریخ:** ۱۲ نوامبر ۲۰۲۶
 **وضعیت:** Build 0.4 در محدوده Fixture-only تکمیل و CI آن تأیید شده است؛ Build 0.5 نیز در محدوده Fixture-only پیاده‌سازی و با CI موفق و راستی‌آزمایی مستقل 50/50 تست و Manifest 46/46 تأیید شده است. PR #5 باز و ادغام‌نشده است. هیچ اتصال Hub واقعی انجام نشده و این اتصال همچنان نیازمند تأیید مستقل مدیر پروژه Kandoo است.
 
@@ -1114,3 +1114,13 @@ Build 0.1 اکنون Solution قابل Build، API محلی، Fake Store Gateway
 - Manifest: `46/46` فایل OK، صفر mismatch.
 - CI URL: https://github.com/majid-ghanbari-dost/kando-internal-ai-v01/actions/runs/43216751082.
 - این اجرا تأیید تکراری روی همان کد و اسناد فنی، همراه با Handoff v1.34 است. Build 0.5 همچنان Fixture-only و PR #5 باز/ادغام‌نشده باقی می‌ماند.
+
+
+## ۵۹. بازبینی مدیر پروژه پس از Build 0.5 و آماده‌سازی Technical Challenge بعدی
+
+- سند `docs/PROJECT-MANAGER-HANDOFF-REVIEW.md` به‌روزرسانی شد: Build 0.3 با بسته Export تکمیل‌شده 100% در محدوده fixture-only ارزیابی می‌شود؛ Build 0.4 و Build 0.5 نیز 100% fixture-only هستند.
+- ریسک «نبود Mapping Proposal Export» بسته شد. ریسک باقی‌مانده به‌طور دقیق‌تر تعریف شد: هنوز احراز هویت reviewer، ثبت تصمیم پایدار، authorization و activation mapping وجود ندارد و نباید از artifact Build 0.5 چنین قابلیتی برداشت شود.
+- سند جدید `docs/BUILD-0.6-HUMAN-MAPPING-REVIEW-CHALLENGE.md` به‌عنوان Draft ایجاد شد.
+- جهت فنی پیشنهادی Build 0.6: ساخت Review Decision Record که به `proposal_id` و `proposal_content_sha256` دقیق متصل باشد؛ تصمیم‌های Approved / Rejected / ChangesRequested را از هم جدا کند؛ mismatch فروشگاه/پروفایل/هش و proposal قدیمی را رد کند؛ و هرگز mapping را فعال یا ذخیره نکند.
+- **Build 0.6 تصویب نشده است و هیچ پیاده‌سازی آن شروع نشده.** شروع آن به تأیید مستقل Product Owner نیاز دارد.
+- Build 0.5 همچنان در PR #5 باز و Unmerged است؛ هیچ PR یا کدی ادغام نشده است.
