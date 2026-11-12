@@ -1,7 +1,7 @@
 # HANDOFF — Kandoo Internal AI
-**نسخه:** 1.38
+**نسخه:** 1.39
 **تاریخ:** ۱۲ نوامبر ۲۰۲۶
-**وضعیت:** Build 0.4 و Build 0.5 در محدوده Fixture-only تکمیل و CI آن‌ها تأیید شده است. Build 0.6 با تصمیم فنی واگذارشده آغاز شده؛ قرارداد Review Decision، Exporter/Verifier، تست‌ها و مستندات اولیه ثبت شده‌اند؛ CI نهایی آن هنوز تأیید نشده است. PR #5 باز و ادغام‌نشده است؛ PR #6 هنوز ایجاد نشده. هیچ اتصال Hub واقعی انجام نشده است.
+**وضعیت:** Build 0.4 و Build 0.5 در محدوده Fixture-only تکمیل و CI آن‌ها تأیید شده است. Build 0.6 در محدوده Fixture-only تکمیل و CI آن با 66/66 تست و Manifest 51/51 تأیید شده است؛ PR #6 باز و ادغام‌نشده است. PR #5 باز و ادغام‌نشده است؛ PR #6 هنوز ایجاد نشده. هیچ اتصال Hub واقعی انجام نشده است.
 
 ## ۰. قاعده دائمی مدیریت و به‌روزرسانی هندآف
 
@@ -1169,3 +1169,20 @@ Build 0.1 اکنون Solution قابل Build، API محلی، Fake Store Gateway
   - 7 فایل تغییر یافته؛ PR باز و ادغام‌نشده است.
 - CI برای PR ایجاد شده، اما در زمان ثبت این هندآف هنوز Run قابل مشاهده/تأیید نشده است؛ منتظر می‌مانیم و نتیجه را حدس نمی‌زنیم.
 - این بازبینی یک اصلاح پیشگیرانه مهم بود: هیچ default value نمی‌تواند بدون تصمیم صریح reviewer به Approved تبدیل شود.
+
+
+## ۶۲. Build 0.6 — تکمیل Fixture-only، CI موفق و راستی‌آزمایی مستقل
+
+- CI Run `43262521925`، Run number 213، روی Commit `6e3c8a2fcb5aadb8b2d6c4247f161eb71337fc76` موفق شد.
+- تمام مراحل Restore، Build، Test، ساخت Manifest، Source Archive و Upload هر دو Artifact موفق بودند.
+- TRX از Artifact دانلود و مستقیماً خوانده شد: `total=66, executed=66, passed=66, failed=0`.
+- Source Artifact ID: `13963189597`؛ digest: `sha256:ed4649c9fb4fdcae6cae06eefb30a8761019182726686750bab15520d3a68b18`.
+- Test Results Artifact ID: `13963499290`؛ digest: `sha256:e4c34b8bf239768b1c61fac16c2f0eeb1ec577de65c997d88a3245e48e955de4`.
+- SHA-256 آرشیو داخلی `kandoo-internal-ai-source.tar.gz`: `0db32d0a8d109c95a320dcf70ba6d03fc372a2388e15fe800af0b256eda2fd21`.
+- Manifest دارای 51 ورودی است؛ بررسی مستقل تک‌تک فایل‌ها: `51 OK, 0 mismatch`.
+- CI URL: https://github.com/majid-ghanbari-dost/kando-internal-ai-v01/actions/runs/43262521925.
+- پس از CI، سند Challenge به وضعیت IMPLEMENTED — fixture-only CI verified تغییر کرد؛ Project Manager Review و README نیز با نتیجه نهایی و محدودیت‌ها به‌روزرسانی شدند.
+- PR #6: https://github.com/majid-ghanbari-dost/kando-internal-ai-v01/pull/6 — Open, Unmerged؛ Base `build/0.5-mapping-proposal-export` و Head `build/0.6-human-mapping-review`.
+- **محدودیت مهم و صریح:** چون registry پایدار وجود ندارد، جلوگیری سراسری از duplicate یا revoke کردن تصمیم قبلی در Build 0.6 پیاده‌سازی نشده است. ورودی‌های یکسان، byte-identical و دارای Decision ID یکسان تولید می‌کنند تا registry آینده بتواند duplicate را تشخیص دهد. reviewer_ref احراز هویت نیست.
+- نتیجه: Build 0.6 فقط ثبت و اعتبارسنجی یک تصمیم انسانی در قالب artifact قابل حمل را فراهم می‌کند؛ نه مجوز Production، نه activation و نه persistence.
+- هیچ کد یا PR ادغام نشده و Hub/ریپوی مادر تغییر نکرده است.
