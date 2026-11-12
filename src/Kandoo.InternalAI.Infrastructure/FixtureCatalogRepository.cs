@@ -61,8 +61,7 @@ public sealed class FixtureCatalogRepository
             hits.Add(new CatalogSearchHit(product, evidence));
         }
 
-        return hits.OrderBy(x => x.Product.Name, StringComparer.Ordinal)
-            .ThenBy(x => x.Product.ProductId, StringComparer.Ordinal)
+        return hits.OrderBy(x => x.Product.ProductId, StringComparer.Ordinal)
             .ToArray();
     }
 }
