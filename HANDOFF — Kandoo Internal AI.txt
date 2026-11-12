@@ -1,7 +1,7 @@
 # HANDOFF — Kandoo Internal AI
-**نسخه:** 0.9
+**نسخه:** 1.0
 **تاریخ:** ۱۲ نوامبر ۲۰۲۶
-**وضعیت:** هسته مستقل AI تا Build 0.2 ساخته شده و Build 0.2.1 در شاخه کاری در حال تکمیل/اعتبارسنجی است؛ هنوز اتصال به Hub واقعی وجود ندارد.
+**وضعیت:** Build 0.2.1 پیاده‌سازی و در CI با موفقیت اعتبارسنجی شده؛ PR برای بازبینی آماده است و هنوز ادغام نشده؛ اتصال به Hub واقعی وجود ندارد.
 
 ## ۰. قاعده دائمی مدیریت و به‌روزرسانی هندآف
 
@@ -451,7 +451,7 @@ Build 0.1 اکنون Solution قابل Build، API محلی، Fake Store Gateway
 **گیت:** تا وقتی دقت Parser روی corpus اندازه‌گیری نشده، آن را قابلیت فهم زبان طبیعی کامل معرفی نکنیم و به Store واقعی وصل نکنیم.
 
 
-## ۱۹. Build 0.2.1 — Query Evaluation & Boundary-Phrase Parsing (در انتظار CI نهایی)
+## ۱۹. Build 0.2.1 — Query Evaluation & Boundary-Phrase Parsing (CI موفق؛ PR باز و ادغام‌نشده)
 
 ### تغییرات واقعی ثبت‌شده در شاخه کاری
 - Branch: `build/0.2.1-query-evaluation`
@@ -476,10 +476,17 @@ Build 0.1 اکنون Solution قابل Build، API محلی، Fake Store Gateway
 - مجوز Product Owner برای افزودن ابزارهای لازم ثبت است؛ هر ابزار بعدی باید توجیه فنی و اثر آن بر CI/امنیت/هزینه روشن داشته باشد.
 
 ### وضعیت اعتبارسنجی
-- **CI نهایی: در انتظار اجرای Pull Request است.**
-- تا دریافت خروجی CI، هیچ ادعایی درباره سبز بودن تست‌های Build 0.2.1 مجاز نیست.
-- معیار پذیرش: Restore/Build موفق، تمام تست‌ها سبز، Corpus دقیقاً 18/18 در Intent و 18/18 در Query، و تولید آرشیو + Manifest توسط Workflow.
-- بعد از CI، Artifact باید دانلود/استخراج و Manifest با SHA-256 بررسی شود؛ hash آرشیو در همین بخش ثبت خواهد شد.
+- **CI نهایی: Success** — Run `43193984214`، شماره اجرا `24`.
+- Commit تحت آزمون: `dcf6dc132ab7f19513125d457c9f47fc1d5f8c6e`.
+- Restore: Success؛ Build Release: Success؛ Test: Success؛ ساخت Manifest و آرشیو: Success؛ Upload هر دو Artifact: Success.
+- فایل TRX از Artifact تست استخراج و خوانده شد: `total=12, executed=12, passed=12, failed=0`.
+- تست Corpus با موفقیت گذشت؛ بنابراین روی همین Corpus مصنوعی، Intent دقیقاً `18/18` و Query دقیقاً `18/18` بوده است. این عدد معیار synthetic است، نه دقت زبان واقعی فروشگاه.
+- Artifact Source: ID `13931014594`؛ Artifact Test Results: ID `13931288951`.
+- آرشیو Source از Artifact دریافت و استخراج شد؛ Manifest شامل 26 فایل منبع/پروژه بود و `sha256sum -c` برای هر 26 مورد `OK` داد.
+- SHA-256 آرشیو `kandoo-internal-ai-source.tar.gz`: `a86b668267c2d15f4dd762e0b8cd85555e4b6837db13ef231c0a1c3004f34ce4`.
+- Digest اعلام‌شده GitHub برای ZIP Artifact منبع: `sha256:878316b3ec94d64f2943a707ce69fdc1675cb3e74ce5647673475a432194c74c`.
+- پس از ثبت این نتیجه، همین هندآف به نسخه 1.0 ارتقا یافت؛ Commit جدید هندآف نیز باید CI جداگانه خود را بگذراند.
+- PR شماره 1 آماده Review است: `https://github.com/majid-ghanbari-dost/kando-internal-ai-v01/pull/1`؛ ادغام انجام نشده است.
 
 ### محدودیت باقی‌مانده
 - Corpus صرفاً synthetic است و سنجه عملکرد روی زبان واقعی اپراتورهای فروشگاه نیست.
@@ -487,7 +494,7 @@ Build 0.1 اکنون Solution قابل Build، API محلی، Fake Store Gateway
 - هیچ اتصال Hub، Store واقعی، LLM واقعی یا write tool اضافه نشده است.
 
 ### ادامه مأموریت
-1. اجرای CI و اصلاح خطاهای واقعی تا سبز شدن کامل.
-2. افزودن clarification صریح برای نتایج مبهم/چندمحصولی پس از بررسی قرارداد پاسخ و تست‌های فعلی.
+1. بررسی نهایی PR و تأیید Product Owner پیش از ادغام.
+2. Build 0.2.2: طراحی و تست clarification صریح برای نتایج مبهم/چندمحصولی؛ ابتدا باید قرارداد پاسخ و مدل نتایج بررسی شود.
 3. طراحی ارزیابی دوم با نمونه‌های واقعی و بی‌نام‌سازی‌شده فقط پس از تأیید و تأمین داده معتبر.
 4. ادامه Mission 4.1 در ریپوی مادر مستقل از این برش؛ اتصال Hub همچنان Blocked است.
