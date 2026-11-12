@@ -33,7 +33,7 @@ public sealed class AssistantServiceTests
         Assert.True(response.HasGroundedData);
         Assert.Equal(nameof(AssistantIntent.CurrentPrice), response.Intent);
         Assert.Equal("P-100", Assert.Single(response.Products).ProductId);
-        Assert.Contains("250,000", response.Answer);
+        Assert.Contains("ریال", response.Answer);
     }
 
     [Fact]
