@@ -8,7 +8,8 @@ public sealed class FakeModelProvider : IAssistantModelProvider
     public Task<AssistantPlan> CreatePlanAsync(string question, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
-        // Deterministic adapter for contract tests. No real model has been selected.
-        return Task.FromResult(new AssistantPlan(ProductLookupTool.ToolName, question.Trim()));
+        // Deterministic rule-based baseline for Build 0.2; this is not a language model.
+        var parsed = PersianProductQueryParser.Parse(question);
+        return Task.FromResult(new AssistantPlan(ProductLookupTool.ToolName, parsed.Query, parsed.Intent));
     }
 }
