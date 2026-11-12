@@ -1,5 +1,5 @@
 # HANDOFF — Kandoo Internal AI
-**نسخه:** 1.43
+**نسخه:** 1.44
 **تاریخ:** ۱۲ نوامبر ۲۰۲۶
 **وضعیت:** Build 0.4 و Build 0.5 در محدوده Fixture-only تکمیل و CI آن‌ها تأیید شده است. Build 0.6 در محدوده Fixture-only تکمیل و CI آن با 66/66 تست و Manifest 51/51 تأیید شده است؛ PR #6 باز و ادغام‌نشده است. PR #5 باز و ادغام‌نشده است؛ PR #6 هنوز ایجاد نشده. هیچ اتصال Hub واقعی انجام نشده است.
 
@@ -1247,3 +1247,20 @@ Build 0.1 اکنون Solution قابل Build، API محلی، Fake Store Gateway
 - CI URL: https://github.com/majid-ghanbari-dost/kando-internal-ai-v01/actions/runs/43263970614.
 - Handoff v1.43 فقط نتیجه همین CI را ثبت می‌کند؛ کد، تست و اسناد فنی تغییر نکرده‌اند.
 - PR #6 باز، Unmerged و آخرین snapshot آن mergeable=true است. هیچ ادغامی انجام نشده است.
+
+
+## ۶۷. Build 0.7 — Technical Challenge معماری اعتماد و مجوزها (Draft)
+
+- پس از تکمیل Fixture-only Build 0.6، تصمیم فنی بعدی این است که قبل از هر Hub integration یا mapping activation، مسئله Identity/Authorization/Registry/Activation به‌صورت یک مرز معماری واحد طراحی شود.
+- شاخه مستقل مستندات: `build/0.7-trust-authorization-challenge`، بر پایه شاخه Build 0.6.
+- سند جدید: `docs/BUILD-0.7-TRUST-AUTHORIZATION-CHALLENGE.md`.
+- محدوده سند:
+  - ممیزی قابلیت‌های واقعی Identity/Auth در Hub پیش از انتخاب هر راهکار؛ هیچ IdP یا token provider فرض نشده است.
+  - تعریف مجوزهای جداگانه برای View/Review/Approve/Activate/Revoke/Audit با store scope و separation of duties.
+  - طراحی Durable Decision Registry با proposal ID/digest، نسخه profile/schema، actor، policy version، idempotency و audit.
+  - state machine تفکیک‌شده برای Review، Approval، Activation، Revocation، Supersession و Rollback.
+  - activation اتمیک با generation switch و fail-closed روی proposal قدیمی یا schema drift.
+  - threat model برای spoofing، replay، cross-tenant، privilege escalation، self-approval، prompt injection، audit tampering و restore/crash.
+- وابستگی مهم: Mission 4.1 Write-Path Audit در ریپوی مادر باید پیش از هر ادعای کامل بودن Operation Log تکمیل و بازبینی شود.
+- **Build 0.7 فقط Draft است؛ هیچ پیاده‌سازی، migration، Hub connection، credential یا تغییر ریپوی مادر مجاز/انجام نشده است.** شروع اجرا نیازمند تأیید مستقل Product Owner است.
+- PR #6 Build 0.6 همچنان Open و Unmerged است. Build 0.7 سندی جدا و stacked خواهد بود؛ PR draft آن در صورت ایجاد فقط برای بازبینی Challenge است، نه تصویب اجرا.
