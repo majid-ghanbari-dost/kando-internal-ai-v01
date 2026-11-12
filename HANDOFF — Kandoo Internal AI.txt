@@ -1,5 +1,5 @@
 # HANDOFF — Kandoo Internal AI
-**نسخه:** 1.40
+**نسخه:** 1.41
 **تاریخ:** ۱۲ نوامبر ۲۰۲۶
 **وضعیت:** Build 0.4 و Build 0.5 در محدوده Fixture-only تکمیل و CI آن‌ها تأیید شده است. Build 0.6 در محدوده Fixture-only تکمیل و CI آن با 66/66 تست و Manifest 51/51 تأیید شده است؛ PR #6 باز و ادغام‌نشده است. PR #5 باز و ادغام‌نشده است؛ PR #6 هنوز ایجاد نشده. هیچ اتصال Hub واقعی انجام نشده است.
 
@@ -1204,3 +1204,18 @@ Build 0.1 اکنون Solution قابل Build، API محلی، Fake Store Gateway
   - Source ZIP: `build-0.6-final-source.zip` — SHA-256 بیرونی مطابق Artifact digest بالا.
   - Test Results ZIP: `build-0.6-final-tests.zip` — SHA-256 بیرونی مطابق Artifact digest بالا.
 - PR #6 همچنان باز و Unmerged است. هیچ اتصال Hub یا تغییر ریپوی مادر انجام نشده است.
+
+
+## ۶۴. Build 0.6 — آخرین تأیید CI روی هندآف v1.40 و Artifactهای نهایی
+
+- CI Run `43263369193`، Run number 225، روی Commit `632dfbaa03e68185657fd4b993fd4a82a0ccfdf4` موفق شد.
+- این اجرا، Handoff v1.40، README، Challenge و Project Manager Review نهایی را همراه کد و تست Build 0.6 پوشش داد.
+- Restore، Build، Test، Manifest، Source Archive و هر دو Upload موفق شدند.
+- TRX مستقل: `66/66` passed، `0` failed.
+- Source Artifact ID: `13965555385`؛ digest: `sha256:c7ef02b356fa5020a1ded206922fc5b92fa39f19562695cda5ed08a50ac4f9c9`.
+- Test Results Artifact ID: `13965880217`؛ digest: `sha256:d1efd543a9661216c0dcafe99f8e47a89e1217f68d25c4ed25b3b0ea1dd61f3a`.
+- SHA-256 آرشیو داخلی Source: `e48a626fe7f3ee8001aa228caf5ed6528f1e04c6a063644200d7e1b49f9ed0a3`.
+- Manifest شامل 51 فایل است؛ راستی‌آزمایی مستقل: `51 OK, 0 FAILED`.
+- CI URL: https://github.com/majid-ghanbari-dost/kando-internal-ai-v01/actions/runs/43263369193.
+- این Artifactها آخرین بسته Build 0.6 با README/Challenge/PM Review نهایی هستند. Handoff v1.41 صرفاً همین نتیجه را ثبت می‌کند و کد اجرایی تغییر نکرده است.
+- PR #6 همچنان Open و Unmerged؛ mergeable true در آخرین وضعیت خوانده‌شده. هیچ merge انجام نشده است.
