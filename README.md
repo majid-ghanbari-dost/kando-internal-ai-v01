@@ -101,7 +101,7 @@ This is not semantic language understanding. The parser now removes request phra
 - The Host has no authentication/authorization and must remain local fixture-only; do not expose it to a network or real store.
 
 
-## Mapping Proposal Export (Build 0.5 — fixture-only)
+## Mapping Proposal Export (Build 0.5 — fixture-only, CI verified)
 
 - `CatalogMappingProposalExporter` emits the versioned `kandoo.catalog-mapping-proposal` v1 JSON contract.
 - The proposal ID is deterministic; the content SHA-256 covers the canonical envelope excluding the digest field itself.
@@ -110,3 +110,5 @@ This is not semantic language understanding. The parser now removes request phra
 - Checked-in synthetic review examples cover party supplies, grocery, and clothing under `tests/Kandoo.InternalAI.Tests/Fixtures/`.
 - Contract and review procedure: `docs/MAPPING-PROPOSAL-EXPORT-V1.md`.
 - Verification does not approve, persist, activate, or apply mappings. No Hub, real store data, external model, or parent-repository change is involved.
+
+- Latest verification: CI Run 43215850991, 50/50 tests passed; Manifest 46/46 verified; source archive SHA-256 `e82840707f259129f173cae83d9ee2c95eb5315928b7309b64840596e6c8a05e`. PR #5 remains open and unmerged.
