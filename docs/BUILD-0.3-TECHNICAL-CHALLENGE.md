@@ -1,5 +1,5 @@
 # Build 0.3 — Store Catalog Contract & Dynamic Store Attributes
-Status: Technical Challenge proposal — NOT approved for implementation
+Status: Product Owner approved for fixture-only implementation on 2026-11-12; Hub integration remains separately blocked
 Date: 2026-11-12
 Owner: Product Owner / Kandoo Project Manager (for Hub boundary)
 
@@ -70,10 +70,14 @@ It may NOT implement:
 10. CI, source archive, manifest, and SHA-256 verification pass.
 
 ## 8. Governance and approval
-- This document is a Technical Challenge only; it does not authorize implementation or Hub integration.
-- Product Owner approval is required to start Build 0.3.
+- This document remains the technical scope and acceptance basis; Product Owner approval authorizes only synthetic fixture implementation.
+- Product Owner approval was granted on 2026-11-12 for fixture-only implementation in the AI repository.
 - Kandoo Project Manager approval is separately required before any live Hub integration or parent-repository change.
 - A successful synthetic implementation does not satisfy or waive the parent Kandoo blockers (write-path closure, consistent snapshot, change feed, identity, privacy, restore/rebuild semantics).
 
 ## 9. Recommendation
 Proceed with a fixture-only Build 0.3 after Product Owner approval. Keep the adapter boundary abstract and do not select a database provider or deploy location until the Project Manager approves the Hub integration design.
+
+
+## 10. Implementation boundary after approval
+The first implementation slice lives on branch `build/0.3-dynamic-catalog`. It adds canonical/extensible contracts, three synthetic catalog fixtures, mapping proposal validation, PII-like field exclusion, unknown-field quarantine, schema-drift invalidation, and store-scoped deterministic retrieval. These are test fixtures, not a production adapter. Build/CI evidence is recorded in the handoff only after the corresponding run is verified.
