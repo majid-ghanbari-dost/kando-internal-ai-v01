@@ -1,6 +1,6 @@
 # Build 0.6 — Human Mapping Review Decision Record (Technical Challenge)
 
-**Status:** DRAFT — not approved; no implementation started  
+**Status:** APPROVED BY DELEGATED TECHNICAL DECISION — fixture-only implementation in progress  
 **Date:** 2026-11-12  
 **Scope proposal:** Independent Kandoo Internal AI repository; synthetic fixtures only
 
@@ -75,6 +75,8 @@ The decision must bind to both proposal_id and proposal_content_sha256. A change
 9. No decision persists or activates a mapping.
 10. CI, source archive, manifest and SHA-256 verification pass.
 
-## 8. Gate
+## 8. Approval and implementation boundary
 
-This is a Technical Challenge draft only. **Build 0.6 implementation must not begin until the Product Owner explicitly approves its exact scope.** Build 0.5 approval does not authorize Build 0.6, real reviewer authentication, production approval, Hub integration, or mapping activation.
+On 12 November 2026, the Product Owner again delegated the technical decision with: “بهترین تصمیم فنی را خودت بگیر”. The Technical Manager accepted the exact fixture-only scope in this challenge and started implementation on branch `build/0.6-human-mapping-review`.
+
+This delegated decision authorizes only the isolated fixture-only work described above. It does not authorize real reviewer authentication, production approval, durable storage, Hub integration, mapping activation, parent-repository changes, or PR merge. Those remain separately gated.
