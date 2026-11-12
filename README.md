@@ -3,7 +3,7 @@
 A model-independent assistant core for Kandoo store workflows.
 
 ## Current build
-Build 0.2.2 adds explicit ambiguity handling for multiple matching products. Build 0.2.1 provides a versioned synthetic Persian query corpus. The parser remains a deterministic rule-based baseline. The project still uses fixture data and a fake provider; it is not connected to a live Kandoo Hub and is not an autonomous AI model.
+Build 0.3 is in progress on branch `build/0.3-dynamic-catalog`. Its first implementation slice introduces a shared canonical product contract, typed extensible attributes, three synthetic store catalogs (party supplies, grocery, clothing), versioned mapping proposals, default quarantine/exclusion rules, and deterministic store-scoped retrieval. Build 0.2.2 retains explicit ambiguity handling; Build 0.2.1 provides the synthetic Persian query corpus. The parser remains a deterministic rule-based baseline. No live Hub or real store data is connected.
 
 ## Architecture
 - **Core:** request, intent, plan, product and evidence contracts.
@@ -66,6 +66,17 @@ This is not semantic language understanding. The parser now removes request phra
 - Candidate ordering is deterministic by product name and product ID.
 - To resolve a candidate in this stateless prototype, the operator must restate the request with the full product name or its product code (e.g. `قیمت P-101`). No conversation/session state is persisted.
 - The behavior is validated against the fixture gateway only. It is not evidence of live-store search quality.
+
+## Dynamic Store Catalog (Build 0.3)
+- One canonical `CatalogProduct` contract is shared by party-supply, grocery and clothing fixtures; store-specific properties live in typed, namespaced attributes.
+- `StoreCatalogProfile` is store-scoped and versioned. Mapping discovery emits a proposal and never approves it automatically.
+- Unknown source fields are quarantined. PII-like field names are excluded by default. Only explicitly allowlisted, public and type-compatible fields are proposed for mapping.
+- Schema-version drift marks the proposal invalidated and records a validation issue.
+- Aliases carry store, source, locale, confidence and approval status; retrieval uses approved aliases only.
+- Search and evidence are store-scoped and deterministic. Ambiguous multi-product results return explicit clarification candidates and never select a product automatically.
+- Descriptive catalog contracts contain no current price, stock or invoice fields. Those remain live operational data and are not answered from Store Intelligence.
+- Attribute values are validated against each store's versioned typed definitions; the validator enforces one correctly typed payload, allowlist/sensitivity, and declared allowed values.
+- All current Build 0.3 catalog data is synthetic fixture data; no database adapter or live integration exists.
 
 ## Hub integration governance
 - The Kandoo Project Manager owns the integration gate.
