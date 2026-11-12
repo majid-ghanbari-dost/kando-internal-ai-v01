@@ -1,5 +1,5 @@
 # HANDOFF — Kandoo Internal AI
-**نسخه:** 1.14
+**نسخه:** 1.15
 **تاریخ:** ۱۲ نوامبر ۲۰۲۶
 **وضعیت:** Build 0.2.1 و Build 0.2.2 هر دو در CI موفق بوده‌اند. PR شماره 1 و PR شماره 2 باز و ادغام‌نشده‌اند؛ PR شماره 2 اکنون به شاخه Build 0.2.1 retarget شده و Diff آن فقط افزوده‌های Build 0.2.2 را نشان می‌دهد. اتصال به Hub واقعی صریحاً تحت اختیار مدیر پروژه و ممنوع تا تأیید اوست.
 
@@ -748,3 +748,19 @@ Build 0.1 اکنون Solution قابل Build، API محلی، Fake Store Gateway
   - Technical Challenge: `0329d0296458f4b4edc405263753270c8910b0d3`
 - آخرین CI سبز مربوط به Commit قبلی `9d798df` و ۲۹/۲۹ تست است؛ کد جدید Query Resolution هنوز CI نشده است. نتیجه قبلی به این کد جدید تعمیم داده نمی‌شود.
 - گام بعدی: اجرای CI روی HEAD جدید و بررسی TRX، Manifest، Source Archive و SHA-256. PR #3 همچنان باید باز و Unmerged بماند.
+
+
+## ۳۱. Build 0.3 — CI موفق برش سوم: ابهام‌زدایی کاتالوگ
+
+- **CI: Success** — Run `43205467136`، Run number 106.
+- Commit تحت آزمون: `d992e5a7c54148d7e48b2b5be8db94ffaa29aba8`.
+- Restore، Release Build، Test، Manifest، Source Archive و Upload هر دو Artifact همگی Success شدند.
+- TRX دانلود و بررسی شد: `total=32, executed=32, passed=32, failed=0`؛ سه تست جدید ابهام‌زدایی و store-scoped evidence به مجموعه اضافه شدند.
+- Test Results Artifact ID: `13937192597`؛ Digest: `sha256:d491da56b8fc8da449cb6f909a1732c3e1c9cb820089ee16f12763e58b11c2e0`.
+- Source Artifact ID: `13936677718`؛ Digest: `sha256:f183d0211a6f2bef5f09f961fa1f0a785626e2de8f2d1c201912cf0f642be2b3`.
+- Source ZIP دانلود و استخراج شد؛ SHA-256 آرشیو داخلی `kandoo-internal-ai-source.tar.gz`: `269c756b51e2d1fd8dfad598d1a365bdb4c04954f5a9d7781aa3db9a84152243`.
+- Manifest شامل ۳۵ فایل بود؛ تمام ۳۵ مورد با `sha256sum -c` تأیید شدند.
+- CI URL: `https://github.com/majid-ghanbari-dost/kando-internal-ai-v01/actions/runs/43205467136`.
+- این اجرا دقیقاً Commit `d992e5a` را پوشش می‌دهد. نسخه 1.15 هندآف پس از آن به‌عنوان ثبت مستنداتی نتیجه CI ایجاد شده؛ کد و تست‌ها نسبت به Commit آزموده‌شده تغییر نکرده‌اند.
+- PR #3 باز، آماده Review و ادغام‌نشده باقی مانده است.
+- نتیجه: در Fixture-only، ابهام چندمحصولی بدون انتخاب خودکار مدیریت می‌شود؛ alias تأییدنشده و cross-store query پاسخ مثبت نمی‌گیرند. این هنوز اتصال Query Service به orchestrator مکالمه نیست؛ اتصال آن به لایه Assistant به‌عنوان مأموریت بعدی باید با حفظ allowlist و قرارداد clarification انجام شود.
