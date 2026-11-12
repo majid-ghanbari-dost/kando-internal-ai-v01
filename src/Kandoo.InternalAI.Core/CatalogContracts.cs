@@ -80,3 +80,5 @@ public sealed record CatalogSearchEvidence(
     IReadOnlyList<string> MatchedAliases);
 
 public sealed record CatalogSearchHit(CatalogProduct Product, CatalogSearchEvidence Evidence);
+
+public sealed record CatalogAttributeValidationResult(Guid StoreId, string ProductId, bool IsValid, IReadOnlyList<string> Issues);
