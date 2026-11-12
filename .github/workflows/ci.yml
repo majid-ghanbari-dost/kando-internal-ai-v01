@@ -24,15 +24,22 @@ jobs:
         if: success()
         run: |
           git ls-files -z | sort -z | xargs -0 sha256sum > MANIFEST-SHA256.txt
-          git archive --format=zip --output=kandoo-internal-ai-source.zip HEAD
-          zip -q kandoo-internal-ai-source.zip MANIFEST-SHA256.txt
+          git archive --format=tar HEAD | gzip -n > kandoo-internal-ai-source.tar.gz
+          tar -rf - MANIFEST-SHA256.txt | gzip -n >> /dev/null
+      - name: Add manifest to source archive
+        if: success()
+        run: |
+          mkdir source-bundle
+          git archive HEAD | tar -x -C source-bundle
+          cp MANIFEST-SHA256.txt source-bundle/
+          tar -czf kandoo-internal-ai-source.tar.gz -C source-bundle .
       - name: Upload source archive and manifest
         if: success()
         uses: actions/upload-artifact@v4
         with:
           name: kandoo-internal-ai-source
           path: |
-            kandoo-internal-ai-source.zip
+            kandoo-internal-ai-source.tar.gz
             MANIFEST-SHA256.txt
           if-no-files-found: error
       - name: Upload test results
