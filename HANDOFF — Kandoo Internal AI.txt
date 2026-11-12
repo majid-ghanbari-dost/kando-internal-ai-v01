@@ -1,5 +1,5 @@
 # HANDOFF — Kandoo Internal AI
-**نسخه:** 1.5
+**نسخه:** 1.6
 **تاریخ:** ۱۲ نوامبر ۲۰۲۶
 **وضعیت:** Build 0.2.1 و Build 0.2.2 هر دو در CI موفق بوده‌اند. PR شماره 1 و PR شماره 2 باز و ادغام‌نشده‌اند؛ PR شماره 2 اکنون به شاخه Build 0.2.1 retarget شده و Diff آن فقط افزوده‌های Build 0.2.2 را نشان می‌دهد. اتصال به Hub واقعی صریحاً تحت اختیار مدیر پروژه و ممنوع تا تأیید اوست.
 
@@ -551,8 +551,8 @@ Build 0.1 اکنون Solution قابل Build، API محلی، Fake Store Gateway
 - Artifact Test Results نهایی ID `13935438745`، Digest: `sha256:2e6821cc9d7d1e0ad80c2a1484a0de00ebf7e74486dc6f6447e0945b5f8ca45b`.
 - آرشیو نهایی Build 0.2.2: SHA-256 `b428128b91444e411df5f440f9fb3aade4fce9489f374b722d6c6f13e86444f1`؛ Manifest شامل 26 فایل و تمام موارد `OK`.
 - اجرای CI نهایی: `https://github.com/majid-ghanbari-dost/kando-internal-ai-v01/actions/runs/43202855745`.
-- نسخه 1.3 این بند شواهد CI را به هندآف اضافه می‌کند؛ Commit قبلی آن (نسخه 1.2) عیناً در آرشیو نهایی بالا موجود و Manifest آن بررسی شده است.
-- PR شماره 2 ابتدا موقتاً به `main` هدف‌گیری شد تا Workflow موجود در base بتواند CI را اجرا کند؛ پس از CI موفق و ثبت شواهد، base آن به `build/0.2.1-query-evaluation` بازگردانده شد. اکنون PR2 stacked است و Diff آن دقیقاً 7 فایل افزوده/تغییریافته در Build 0.2.2 را نشان می‌دهد.
+- نسخه 1.3 این بند شواهد CI را به هندآف اضافه کرد؛ Commit قبلی آن (نسخه 1.2) عیناً در آرشیو آن اجرا موجود و Manifest آن بررسی شد.
+- PR شماره 2 ابتدا موقتاً به `main` هدف‌گیری شد تا Workflow موجود در base بتواند CI را اجرا کند؛ پس از CI موفق و ثبت شواهد، base آن به `build/0.2.1-query-evaluation` بازگردانده شد. اکنون PR2 stacked است و Diff آن اکنون 8 فایل افزوده/تغییریافته در Build 0.2.2 و سند Technical Challenge را نشان می‌دهد.
 
 ### PR و ترتیب ادغام
 - PR شماره 1 مربوط به Build 0.2.1 است و همچنان مستقل و ادغام‌نشده باقی می‌ماند.
@@ -568,10 +568,10 @@ Build 0.1 اکنون Solution قابل Build، API محلی، Fake Store Gateway
 
 ### وضعیت PR پس از اعتبارسنجی
 - PR #1: `build/0.2.1-query-evaluation → main`، باز و ادغام‌نشده.
-- PR #2: `build/0.2.2-clarification → build/0.2.1-query-evaluation`، باز و ادغام‌نشده؛ 7 فایل در Diff.
+- PR #2: `build/0.2.2-clarification → build/0.2.1-query-evaluation`، باز و ادغام‌نشده؛ 8 فایل در Diff.
 - PR2 هیچ mergeای انجام نداده است. ترتیب پیشنهادی مدیر پروژه: بررسی و تصمیم درباره PR1، سپس بازبینی PR2.
 - Review رسمی یا Thread بازبینی برای PR2 در آخرین بررسی مشاهده نشد.
-- هندآف جاری در شاخه کاری نسخه 1.4 است؛ مسیر canonical همان فایل `HANDOFF — Kandoo Internal AI.txt` است.
+- هندآف جاری در شاخه کاری نسخه 1.6 است؛ مسیر canonical همان فایل `HANDOFF — Kandoo Internal AI.txt` است.
 
 
 ## ۲۱. Build 0.3 — Store Catalog Contract & Dynamic Store Attributes (Technical Challenge فقط)
@@ -584,3 +584,15 @@ Build 0.1 اکنون Solution قابل Build، API محلی، Fake Store Gateway
 - قیمت و موجودی لحظه‌ای از Projection توصیفی پاسخ داده نمی‌شوند.
 - **وضعیت: NOT APPROVED FOR IMPLEMENTATION.** این سند فقط Technical Challenge است؛ تا تأیید Product Owner، Build 0.3 آغاز نمی‌شود.
 - حتی پس از تأیید Product Owner برای ساخت Fixture-only، اتصال Hub، دسترسی واقعی به دیتابیس، تغییر ریپوی مادر یا Migration همچنان نیازمند تأیید جداگانه مدیر پروژه Kandoo است.
+
+
+### CI نهایی شامل Technical Challenge نسخه 0.3
+- Commit تحت آزمون: 30fa9f6e0740c4f9afe6406fc18ee0d9f53c5d3a.
+- Run: 43203118882 — Success؛ Restore، Build، Test، Manifest، Archive و Upload موفق.
+- TRX: 17/17 Passed، 0 Failed.
+- Artifact Source ID: 13936256499؛ Digest: sha256:f37f06039ae2a55ef1dcb104b0d54f1f67617993083e0d8cc9b1cbc28ebf08e9.
+- Artifact Test Results ID: 13936013184؛ Digest: sha256:e1d2975ddb0f285fb0407304f2fbcaff91982f71b4dfaa78bc65b9bcbf230af7.
+- آرشیو نهایی این اجرا شامل هندآف v1.5 و سند Build 0.3 Technical Challenge بود؛ Manifest شامل 27 فایل بود و تمام 27 مورد OK شدند.
+- SHA-256 آرشیو: a6f260c31781035d65d84baa63b71220db5fbd805110b9fa5221ba6e8ff819c8.
+- اجرای CI: https://github.com/majid-ghanbari-dost/kando-internal-ai-v01/actions/runs/43203118882.
+- نسخه 1.6 هندآف، نتیجه CI و وضعیت نهایی PRها را به دفتر پروژه اضافه می‌کند؛ کد اجرایی و سند Technical Challenge نسبت به Commit تحت آزمون تغییر نکرده‌اند.
