@@ -40,17 +40,17 @@ The overall operational product remains substantially incomplete: no real LLM pr
 
 ### CI evidence
 
-Latest verified executable/test commit: cac340976fb27e05bed0ac5f745cf4ee23bd4af7
+Latest verified documentation/package commit: 3c3b21454864da4f070d5395d7c6dacfca40fdf8
 
-- CI Run: 43210201902 — Success
+- CI Run: 43212918938 — Success
 - Tests: 36/36 passed, 0 failed
-- Source Artifact ID: 13941215567
-- Test Artifact ID: 13941260566
-- Source archive SHA-256: 4b5bcab954526b51a9f5b418ce13c100741448dc0aa55c80499abedb2fc26bd0
-- Manifest: 37/37 entries verified
-- CI URL: https://github.com/majid-ghanbari-dost/kando-internal-ai-v01/actions/runs/43210201902
+- Source Artifact ID: 13941099235; digest sha256:87eecfb5cdcb5000c33f23ee7fe0b5aa12e0a2ec0791f1a8183cf2bb7282e969
+- Test Artifact ID: 13941438692; digest sha256:133c5657071baf436c8d9baf7229b869999388f89a09c01282a814ac380ebccf
+- Source archive internal tar.gz SHA-256: 059b4ac482626fa75a3dea92f02f48d1c2c95967649bdf8a3e5dcf838bf30a6d
+- Manifest: 39/39 entries independently verified
+- CI URL: https://github.com/majid-ghanbari-dost/kando-internal-ai-v01/actions/runs/43212918938
 
-The branch head later advanced to 7679aff634ea296d2c868eaa10b276508e19bced for handoff-only documentation. CI on that later documentation head is pending; do not conflate the tested commit with the current branch head.
+The current branch head is a5f63fef8ee453da81b26f77a6ef50554fc0f0e9, which adds only Handoff v1.26 after the tested commit. No executable code, tests, README, or technical review/challenge document changed after the tested commit. The handoff-only commit is mirrored to main; this does not merge the PR or feature code.
 
 ## 4. PR and branch state
 
@@ -59,7 +59,7 @@ The branch head later advanced to 7679aff634ea296d2c868eaa10b276508e19bced for h
 | #1 | Build 0.2.1 | main → build/0.2.1-query-evaluation | Open, unmerged |
 | #2 | Build 0.2.2 | build/0.2.1-query-evaluation → build/0.2.2-clarification | Open, unmerged |
 | #3 | Build 0.3 | build/0.2.2-clarification → build/0.3-dynamic-catalog | Open, unmerged |
-| #4 | Build 0.4 | build/0.3-dynamic-catalog → build/0.4-assistant-catalog-integration | Open, unmerged |
+| #4 | Build 0.4 | build/0.3-dynamic-catalog → build/0.4-assistant-catalog-integration | Open, unmerged; current head a5f63fef8ee453da81b26f77a6ef50554fc0f0e9 |
 
 No review submissions or inline review threads were present for PR #3 or PR #4 at the time of this check. No PR was merged or closed.
 
