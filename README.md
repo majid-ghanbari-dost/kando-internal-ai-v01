@@ -73,7 +73,7 @@ This is not semantic language understanding. The parser now removes request phra
 - Unknown source fields are quarantined. PII-like field names are excluded by default. Only explicitly allowlisted, public and type-compatible fields are proposed for mapping.
 - Schema-version drift marks the proposal invalidated and records a validation issue.
 - Aliases carry store, source, locale, confidence and approval status; retrieval uses approved aliases only.
-- Search and evidence are store-scoped and deterministic.
+- Search and evidence are store-scoped and deterministic. Ambiguous multi-product results return explicit clarification candidates and never select a product automatically.
 - Descriptive catalog contracts contain no current price, stock or invoice fields. Those remain live operational data and are not answered from Store Intelligence.
 - Attribute values are validated against each store's versioned typed definitions; the validator enforces one correctly typed payload, allowlist/sensitivity, and declared allowed values.
 - All current Build 0.3 catalog data is synthetic fixture data; no database adapter or live integration exists.
