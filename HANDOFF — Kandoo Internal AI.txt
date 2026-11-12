@@ -1,5 +1,5 @@
 # HANDOFF — Kandoo Internal AI
-**نسخه:** 1.2
+**نسخه:** 1.3
 **تاریخ:** ۱۲ نوامبر ۲۰۲۶
 **وضعیت:** Build 0.2.1 و Build 0.2.2 هر دو در CI موفق بوده‌اند. PR شماره 1 و PR شماره 2 باز و ادغام‌نشده‌اند؛ PR شماره 2 پس از اعتبارسنجی نهایی به شاخه Build 0.2.1 retarget می‌شود تا Diff فقط افزوده‌های 0.2.2 را نشان دهد. اتصال به Hub واقعی صریحاً تحت اختیار مدیر پروژه و ممنوع تا تأیید اوست.
 
@@ -544,7 +544,14 @@ Build 0.1 اکنون Solution قابل Build، API محلی، Fake Store Gateway
 - Artifact Test Results ID: `13936825004`، Digest: `sha256:97b06c336015cd1a61f59bfbafffd74901606772bbdd13b9adc78aa6c3a0de6d`.
 - آرشیو Source دانلود و استخراج شد؛ Manifest شامل 26 فایل است و تمام 26 مورد با `sha256sum -c` برابر `OK` شدند.
 - SHA-256 آرشیو `kandoo-internal-ai-source.tar.gz`: `13d2739a837c49a182814d7e5f35a1027d8f03e1160d8eba76a80a9795640704`.
-- اجرای CI: `https://github.com/majid-ghanbari-dost/kando-internal-ai-v01/actions/runs/43202687360`.
+- اجرای CI اولیه Build 0.2.2: `https://github.com/majid-ghanbari-dost/kando-internal-ai-v01/actions/runs/43202687360`.
+- پس از ثبت هندآف نسخه 1.2، CI نهایی برای Commit `a3cf9a0dccd7f5dfd6b65e79114607a3066b364d` نیز موفق شد: Run `43202855745`.
+- TRX نهایی نیز `17/17` تست موفق، `0` شکست را تأیید کرد.
+- Artifact Source نهایی ID `13935488633`، Digest: `sha256:4048a9c4f4dcceefebf64ee50fe7a4e529a1ec743461013c021e484f79aeb5e6`.
+- Artifact Test Results نهایی ID `13935438745`، Digest: `sha256:2e6821cc9d7d1e0ad80c2a1484a0de00ebf7e74486dc6f6447e0945b5f8ca45b`.
+- آرشیو نهایی Build 0.2.2: SHA-256 `b428128b91444e411df5f440f9fb3aade4fce9489f374b722d6c6f13e86444f1`؛ Manifest شامل 26 فایل و تمام موارد `OK`.
+- اجرای CI نهایی: `https://github.com/majid-ghanbari-dost/kando-internal-ai-v01/actions/runs/43202855745`.
+- نسخه 1.3 این بند شواهد CI را به هندآف اضافه می‌کند؛ Commit قبلی آن (نسخه 1.2) عیناً در آرشیو نهایی بالا موجود و Manifest آن بررسی شده است.
 - PR شماره 2 ابتدا موقتاً به `main` هدف‌گیری شد تا Workflow موجود در base بتواند CI را اجرا کند؛ پس از ثبت نتیجه و آخرین به‌روزرسانی هندآف، باید base آن به `build/0.2.1-query-evaluation` بازگردد تا PR به شکل stacked و Diff محدود به Build 0.2.2 باشد.
 
 ### PR و ترتیب ادغام
