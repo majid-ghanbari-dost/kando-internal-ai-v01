@@ -1,5 +1,5 @@
 # HANDOFF — Kandoo Internal AI
-**نسخه:** 1.37
+**نسخه:** 1.38
 **تاریخ:** ۱۲ نوامبر ۲۰۲۶
 **وضعیت:** Build 0.4 و Build 0.5 در محدوده Fixture-only تکمیل و CI آن‌ها تأیید شده است. Build 0.6 با تصمیم فنی واگذارشده آغاز شده؛ قرارداد Review Decision، Exporter/Verifier، تست‌ها و مستندات اولیه ثبت شده‌اند؛ CI نهایی آن هنوز تأیید نشده است. PR #5 باز و ادغام‌نشده است؛ PR #6 هنوز ایجاد نشده. هیچ اتصال Hub واقعی انجام نشده است.
 
@@ -1155,4 +1155,17 @@ Build 0.1 اکنون Solution قابل Build، API محلی، Fake Store Gateway
   - README: `a3f780be51a6270118997b000dbb1433e3cd13d6`
 - در زمان این ثبت، CI روی HEAD شاخه جدید هنوز اجرا/تأیید نشده است؛ هیچ ادعای تست موفق یا Manifest ثبت نمی‌شود.
 - محدودیت آگاهانه: چون هیچ registry/persistence وجود ندارد، جلوگیری سراسری از duplicate/revocation ممکن نیست؛ deterministic Decision ID امکان تشخیص duplicate artifact را در registry آینده فراهم می‌کند. این محدودیت مستند شده است.
-- وضعیت Build 0.6: **پیاده‌سازی اولیه ثبت شده؛ نیازمند Build/Tests، اصلاح احتمالی، CI، Source Archive، Manifest و SHA-256 مستقل است.**
+- وضعیت Build 0.6: **پیاده‌سازی اولیه و PR #6 ثبت شده؛ CI و راستی‌آزمایی Source Archive/Manifest/SHA-256 هنوز در انتظار است.**
+
+
+## ۶۱. Build 0.6 — سخت‌سازی پیش‌فرض تصمیم و ایجاد PR
+
+- بازبینی فنی پیش از CI یک نقص طراحی را مشخص کرد: اگر `Approved` مقدار صفر enum می‌بود، مقدار پیش‌فرض .NET می‌توانست ناخواسته به معنی تأیید تفسیر شود. برای جلوگیری، `Unspecified = 0` به enum افزوده و در ورودی صریحاً رد شد.
+- Guard در `CatalogMappingReviewDecisionExporter.ValidateDecisionInputs` اکنون هم مقادیر خارج از enum و هم `Unspecified` را رد می‌کند.
+- این اصلاح در Commit `1594f877371e7370c6eff0d13c8635c657ae86ef` ثبت شد.
+- PR #6 ایجاد شد: https://github.com/majid-ghanbari-dost/kando-internal-ai-v01/pull/6
+  - Base: `build/0.5-mapping-proposal-export`
+  - Head: `build/0.6-human-mapping-review`
+  - 7 فایل تغییر یافته؛ PR باز و ادغام‌نشده است.
+- CI برای PR ایجاد شده، اما در زمان ثبت این هندآف هنوز Run قابل مشاهده/تأیید نشده است؛ منتظر می‌مانیم و نتیجه را حدس نمی‌زنیم.
+- این بازبینی یک اصلاح پیشگیرانه مهم بود: هیچ default value نمی‌تواند بدون تصمیم صریح reviewer به Approved تبدیل شود.
