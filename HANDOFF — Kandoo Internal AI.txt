@@ -1,7 +1,7 @@
 # HANDOFF — Kandoo Internal AI
-**نسخه:** 1.1
+**نسخه:** 1.2
 **تاریخ:** ۱۲ نوامبر ۲۰۲۶
-**وضعیت:** Build 0.2.1 در CI موفق بوده و PR شماره 1 باز/ادغام‌نشده است. Build 0.2.2 در شاخه مستقل پیاده‌سازی شده و CI آن در انتظار اجرا/تأیید است. اتصال به Hub واقعی صریحاً تحت اختیار مدیر پروژه و ممنوع تا تأیید اوست.
+**وضعیت:** Build 0.2.1 و Build 0.2.2 هر دو در CI موفق بوده‌اند. PR شماره 1 و PR شماره 2 باز و ادغام‌نشده‌اند؛ PR شماره 2 پس از اعتبارسنجی نهایی به شاخه Build 0.2.1 retarget می‌شود تا Diff فقط افزوده‌های 0.2.2 را نشان دهد. اتصال به Hub واقعی صریحاً تحت اختیار مدیر پروژه و ممنوع تا تأیید اوست.
 
 ## ۰. قاعده دائمی مدیریت و به‌روزرسانی هندآف
 
@@ -537,10 +537,15 @@ Build 0.1 اکنون Solution قابل Build، API محلی، Fake Store Gateway
 ### اعتبارسنجی
 - Workflow اکنون push و pull request روی شاخه‌های `build/**` را نیز پوشش می‌دهد؛ PR شماره 2 با base شاخه Build 0.2.1 باز است تا CI روی PR stacked اجرا شود.
 - PR شماره 2: `https://github.com/majid-ghanbari-dost/kando-internal-ai-v01/pull/2`.
-- CI این شاخه هنوز اجرا/تأیید نشده است.
-- هیچ ادعایی درباره سبز بودن Build 0.2.2 تا ثبت نتیجه Workflow مجاز نیست.
-- معیار پذیرش: تمام تست‌های قبلی + تست‌های جدید سبز، Build Release موفق، Manifest و آرشیو ساخته و دریافت شوند، SHA-256 Manifest بررسی شود.
-- پس از CI، تعداد واقعی تست‌ها، Run ID، Artifact IDs و SHA-256 در همین هندآف ثبت می‌شوند.
+- **CI: Success** — Run `43202687360`، شماره اجرا `30`، Commit تحت آزمون `ac6e4c4f545361d4d2585d0be69491b48ad1663c`.
+- Restore: Success؛ Build Release: Success؛ Test: Success؛ Manifest، آرشیو و Upload Artifactها: Success.
+- TRX بررسی شد: `total=17, executed=17, passed=17, failed=0`؛ یعنی 5 تست نسبت به Build 0.2.1 اضافه شده است.
+- Artifact Source ID: `13935239081`، Digest: `sha256:31433859c1cd667902f2c74acaa81e0f3abfb3912afad33b73e77bdc6f37d8a8`.
+- Artifact Test Results ID: `13936825004`، Digest: `sha256:97b06c336015cd1a61f59bfbafffd74901606772bbdd13b9adc78aa6c3a0de6d`.
+- آرشیو Source دانلود و استخراج شد؛ Manifest شامل 26 فایل است و تمام 26 مورد با `sha256sum -c` برابر `OK` شدند.
+- SHA-256 آرشیو `kandoo-internal-ai-source.tar.gz`: `13d2739a837c49a182814d7e5f35a1027d8f03e1160d8eba76a80a9795640704`.
+- اجرای CI: `https://github.com/majid-ghanbari-dost/kando-internal-ai-v01/actions/runs/43202687360`.
+- PR شماره 2 ابتدا موقتاً به `main` هدف‌گیری شد تا Workflow موجود در base بتواند CI را اجرا کند؛ پس از ثبت نتیجه و آخرین به‌روزرسانی هندآف، باید base آن به `build/0.2.1-query-evaluation` بازگردد تا PR به شکل stacked و Diff محدود به Build 0.2.2 باشد.
 
 ### PR و ترتیب ادغام
 - PR شماره 1 مربوط به Build 0.2.1 است و همچنان مستقل و ادغام‌نشده باقی می‌ماند.
