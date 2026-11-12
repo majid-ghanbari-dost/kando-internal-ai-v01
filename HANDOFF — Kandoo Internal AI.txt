@@ -1,7 +1,7 @@
 # HANDOFF — Kandoo Internal AI
-**نسخه:** 1.30
+**نسخه:** 1.31
 **تاریخ:** ۱۲ نوامبر ۲۰۲۶
-**وضعیت:** Build 0.4 در محدوده Fixture-only تکمیل و CI آن تأیید شده است؛ PR #4 باز و ادغام‌نشده است. Build 0.3 از نظر قابلیت‌های اصلی پیاده‌سازی شده اما خروجی قابل‌تحویل Mapping Proposal هنوز باقی است. بسته بازبینی فنی مدیر پروژه و Technical Challenge مرحله بعد در شاخه کاری ثبت شده‌اند. هیچ PR ادغام نشده و اتصال Hub واقعی همچنان نیازمند تأیید مستقل مدیر پروژه Kandoo است.
+**وضعیت:** Build 0.4 در محدوده Fixture-only تکمیل و CI آن تأیید شده است؛ Build 0.5 برای خروجی نسخه‌دار و قطعی Mapping Proposal آغاز شده و هنوز منتظر CI نهایی است. PRها باز و ادغام‌نشده‌اند. هیچ اتصال Hub واقعی انجام نشده و این اتصال همچنان نیازمند تأیید مستقل مدیر پروژه Kandoo است.
 
 ## ۰. قاعده دائمی مدیریت و به‌روزرسانی هندآف
 
@@ -815,7 +815,7 @@ Build 0.1 اکنون Solution قابل Build، API محلی، Fake Store Gateway
 
 - تحویل مورد نظر در مرحله بعد، تحویل یک Repository مستقل، Fixture-only و قابل ممیزی برای **بازبینی فنی مدیر پروژه** است؛ نه مجوز اتصال به Hub.
 - Build 0.4 پس از تأیید صریح Product Owner در محدوده Fixture-only پیاده‌سازی و با CI موفق تکمیل شده است. PR #4 باز و ادغام‌نشده است.
-- مرحله بعدی پیشنهادی Build 0.5 برای Export قابل بازبینی Mapping Proposal است؛ Technical Challenge آن Draft است و تا تأیید صریح Product Owner هیچ کدنویسی این مرحله آغاز نمی‌شود.
+- Build 0.5 برای Export قابل بازبینی Mapping Proposal در ۱۲ نوامبر ۲۰۲۶ با تصمیم فنی واگذارشده از سوی Product Owner آغاز شد؛ جزئیات اجرا و مرزهای آن در بخش ۵۴ ثبت شده است.
 - حتی پس از تأیید Build 0.4، اتصال Hub، دسترسی به دیتابیس واقعی، تغییر ریپوی مادر، Migration، Credential و عملیات فروشگاهی همچنان نیازمند تأیید مستقل مدیر پروژه Kandoo است.
 
 
@@ -1026,3 +1026,35 @@ Build 0.1 اکنون Solution قابل Build، API محلی، Fake Store Gateway
 - Manifest شامل 39 ورودی بود؛ 39/39 فایل پس از استخراج با SHA-256 تأیید شدند.
 - CI URL: https://github.com/majid-ghanbari-dost/kando-internal-ai-v01/actions/runs/43214052251.
 - نسخه 1.30 صرفاً همین نتیجه و شماره نسخه هندآف را ثبت می‌کند؛ کد، تست و اسناد فنی پس از Commit آزموده‌شده تغییر نکرده‌اند.
+
+
+## ۵۴. Build 0.5 — تصمیم فنی واگذارشده و نخستین دستاورد اجرایی
+
+- در ۱۲ نوامبر ۲۰۲۶، Product Owner در پاسخ به درخواست تصویب Build 0.5 گفت: «بهترین تصمیم فنی را خودت بگیر». این پاسخ به‌عنوان واگذاری تصمیم فنی درباره همین Technical Challenge تفسیر شد؛ Technical Manager محدوده Fixture-only سند را انتخاب و اجرای آن را آغاز کرد.
+- محدوده همچنان مستقل و مصنوعی است: هیچ اتصال Hub، دیتابیس واقعی، credential، تغییر ریپوی مادر، auto-approval، persistence/activation یا Merge مجاز/انجام نشده است.
+- شاخه جدید `build/0.5-mapping-proposal-export` از شاخه تکمیل‌شده Build 0.4 ساخته شد؛ PRهای قبلی و کد آن‌ها دست‌نخورده باقی مانده‌اند.
+- پیاده‌سازی `CatalogMappingProposalExporter` اضافه شد:
+  - قرارداد `kandoo.catalog-mapping-proposal` نسخه ۱.
+  - شناسه deterministic از SHA-256 محتوای canonical proposal.
+  - `content_sha256` از canonical envelope بدون فیلد digest محاسبه می‌شود.
+  - import فقط JSON دقیقاً canonical را می‌پذیرد؛ property ناشناخته/تکراری/مفقود، version نامعتبر و دستکاری محتوا رد می‌شوند.
+  - فقط mappingهای Public و typed قابل export هستند؛ داده ردیف، مقدار محصول، مقدار PII و credential در خروجی قرار نمی‌گیرد.
+  - timestamp خروجی عمداً حذف شد تا محتوای یکسان byte-identical بماند.
+- تست‌های جدید برای determinism، ترتیب پایدار، round-trip، digest/tamper، property ناشناخته/تکراری، schema drift، privacy و منع mapping حساس اضافه شدند.
+- سه نمونه JSON مصنوعی و نسخه‌دار برای فروشگاه لوازم جشن، خواربار و پوشاک به مسیر `tests/Kandoo.InternalAI.Tests/Fixtures/` افزوده شد؛ تست‌های مستقل، import و verify هر سه نمونه را اجرا می‌کنند.
+- سند قرارداد و فرآیند بررسی انسانی: `docs/MAPPING-PROPOSAL-EXPORT-V1.md`.
+- سند Technical Challenge از DRAFT به APPROVED — implementation in progress تغییر کرد.
+- README نیز با قرارداد و مرزهای امنیتی Build 0.5 به‌روز شد.
+- Commitهای ثبت‌شده:
+  - Exporter: `c5203e9b76b690a70dfd726e9a039d5d11112cfa`
+  - Export tests: `f0bca54dcff6e5aa9491d5ecd84c382b0e5a5748`
+  - Party fixture: `0ee7a774545c0eafee4f1c2c3caf086284efbf12`
+  - Grocery fixture: `e81eec27c8f5087355f0e68384c3bde20358333e`
+  - Clothing fixture: `b9cb99eceb577baf00ca90feeb41b8552f77f4c1`
+  - Contract documentation: `e23cb1d467048f895ecae4f4f0000911b80a81eb`
+  - Example fixture tests: `e28937089b7f941c8efa02471b4b9d19017c85f0`
+  - Challenge approval record: `3e611f38ec2dbe27ec4c966a04a46a642f3151d5`
+  - README: `96ea2dfe9237fab72cea401a579b7790b06778b4`
+- در زمان ثبت این نسخه، CI نهایی روی HEAD جاری هنوز راستی‌آزمایی نشده است؛ هیچ ادعای قبولی تست یا Manifest برای Build 0.5 ثبت نمی‌شود. گام بعدی: بررسی CI، اصلاح خطاهای احتمالی، سپس دریافت و بررسی مستقل TRX، Source Archive، Manifest و SHA-256.
+- وضعیت Build 0.5: **پیاده‌سازی اولیه ثبت شده؛ تکمیل فنی منوط به CI و بازبینی کد است.**
+- این نسخه هندآف، وضعیت و Commitهای واقعی تا این نقطه را ثبت می‌کند؛ PR جدید هنوز ایجاد/ادغام نشده و PRهای قبلی نیز ادغام‌نشده باقی می‌مانند.
