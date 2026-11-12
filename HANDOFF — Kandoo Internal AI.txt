@@ -1,5 +1,5 @@
 # HANDOFF — Kandoo Internal AI
-**نسخه:** 0.5
+**نسخه:** 0.6
 **تاریخ:** ۱۲ نوامبر ۲۰۲۶
 **وضعیت:** معماری مفهومی و ممیزی کد مادر انجام شده؛ پیش‌نیازهای اتصال به Hub مشخص؛ هنوز هیچ کدی در ریپوی AI یا Kandoo برای این پروژه نوشته نشده است.
 
@@ -297,3 +297,69 @@ Snapshot در نوشتن هم‌زمان؛ sequence بدون شکاف؛ replay �
 
 ### قاعده ادامه پس از Build 0.1
 پس از تحویل این اسکلت و تست‌ها، قبل از اتصال به Hub یا گسترش Scope، یک Technical Challenge مستقل روی قرارداد Gateway و Write-Path closure انجام شود.
+
+## ۱۶. ثبت Build 0.1 — شروع ساخت واقعی (۱۲ نوامبر ۲۰۲۶)
+
+### وضعیت ریپو پس از اولین ساخت
+ریپوی AI از حالت صرفاً هندآف خارج شد و Solution اجرایی اولیه ایجاد شد. Commitهای ساخت و اصلاح به ترتیب در تاریخچه main ثبت شده‌اند؛ آخرین Commit کد/CI پیش از ثبت این بخش:
+`0fca1d98065f4cce5a7d5455fa6acec025a255eb`.
+
+فایل‌ها و اجزای اضافه‌شده:
+- `Kandoo.InternalAI.sln`
+- `Directory.Build.props`, `.gitignore`, `.editorconfig`
+- Core: قراردادهای Request, Plan, ProductReadModel, Evidence, Response.
+- Application: `AssistantService`, `ProductLookupTool` و Abstractions.
+- Infrastructure: `FakeStoreReadGateway`, `FakeModelProvider`, `AssistantToolRegistry`.
+- Host: Minimal API با `GET /health` و `POST /assistant/ask`.
+- Tests: چهار تست واحد.
+- README و GitHub Actions CI.
+
+### رفتار فعلی
+- Fake Gateway دو StoreId آزمایشی مجزا دارد و جست‌وجو را با StoreId محدود می‌کند.
+- ابزار مجاز فعلی فقط `product.lookup` است.
+- نام ابزار ناشناخته مانند `sql.execute` رد می‌شود.
+- خروجی همراه Evidence شامل SourceId، ProductId و زمان ثبت Fixture است.
+- پاسخ صریحاً `fixture` و آزمایشی معرفی می‌شود.
+- هیچ داده مشتری/شماره تلفن در قرارداد محصول یا Fixture وجود ندارد.
+- هیچ SQL، Shell، فایل‌سیستم یا عملیات نوشتنی در اختیار مدل نیست.
+
+### محدودیت‌های شناخته‌شده Build 0.1
+- FakeModelProvider مدل هوش مصنوعی واقعی نیست؛ فقط یک Adapter قطعی برای آزمون مسیر است و متن سؤال را به‌عنوان Query ابزار ارسال می‌کند.
+- احراز هویت و اثبات هویت StoreId در Host هنوز پیاده نشده؛ بنابراین API صرفاً محیط توسعه محلی است و نباید روی شبکه/اینترنت به‌عنوان سرویس چندمستاجری منتشر شود.
+- جست‌وجوی فارسی فعلاً تطبیق ساده متن است؛ نرمال‌سازی حروف عربی/فارسی، نیم‌فاصله، غلط املایی و aliasها هنوز وجود ندارد.
+- Fixture timestamp ثابت است و نشان‌دهنده موجودی یا قیمت لحظه‌ای نیست.
+- هنوز تست HTTP end-to-end برای Host اضافه نشده است.
+- اتصال واقعی به Hub، ذخیره‌سازی دائمی Store Intelligence و مدل واقعی انجام نشده‌اند.
+
+### نتیجه CI
+- Workflow: `.github/workflows/ci.yml`
+- Run نهایی Build/Tests پیش از این به‌روزرسانی هندآف: [43191172571](https://github.com/majid-ghanbari-dost/kando-internal-ai-v01/actions/runs/43191172571)
+- نتیجه: **Success**
+- Restore: موفق
+- Build Release: موفق
+- Test: موفق
+- تولید Source Archive و Manifest: موفق
+- Upload Artifactها: موفق
+- Artifact آرشیو: `kandoo-internal-ai-source`، ID `13930148552`
+- Artifact تست: `test-results`، ID `13930861769`
+- چهار تست واحد در پروژه تعریف شده و اجرای CI موفق بوده است.
+- دو اجرای زودتر CI به علت اصلاح پیکربندی Solution و افزودن using تست شکست خوردند؛ Commit اصلاح‌شده و اجرای نهایی موفق شد. شکست‌های قبلی پنهان یا حذف نشده‌اند.
+
+### آرشیو و Manifest
+Workflow اکنون پس از Build و Test موفق:
+1. فهرست فایل‌های Git-tracked را SHA-256 می‌کند.
+2. ZIP از همان Commit می‌سازد.
+3. `MANIFEST-SHA256.txt` را داخل Artifact جداگانه و داخل ZIP قرار می‌دهد.
+4. هر دو را به‌عنوان Artifact قابل دانلود نگه می‌دارد.
+
+این سازوکار، آرشیو و Manifest هر Commit موفق را به‌صورت تکرارپذیر تولید می‌کند. Artifact مربوط به آخرین Commit هندآف نیز باید از اجرای CI که با Commit همین نسخه آغاز می‌شود دریافت شود.
+
+### وضعیت Build 0.1
+**هسته اولیه ساخته شده و Build/Test در CI موفق است؛ اما Build 0.1 هنوز تحویل نهایی محصول نیست.** مرحله بعد:
+1. افزودن تست HTTP end-to-end برای Host و اثبات رفتار API.
+2. افزودن نرمال‌سازی فارسی و آزمون نام‌های محصول.
+3. اصلاح قرارداد پاسخ برای تفکیک قیمت/موجودی و زمان مشاهده داده.
+4. تعریف مرز هویت و مجوز Store Context پیش از هرگونه دسترسی شبکه‌ای.
+5. بازبینی کیفیت ابزار و abstention.
+
+بعد از این موارد، یک برش نمایشی محلی قابل استفاده خواهیم داشت. اتصال به Hub همچنان Blocked باقی می‌ماند تا Mission 4.1 و قرارداد Snapshot/Change Feed بسته شوند.
