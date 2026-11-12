@@ -40,17 +40,17 @@ The overall operational product remains substantially incomplete: no real LLM pr
 
 ### CI evidence
 
-Latest verified documentation/package commit: 3c3b21454864da4f070d5395d7c6dacfca40fdf8
+Latest verified documentation/package commit: 26e1fd844273f4286cfc6e61a622cd69db605f18
 
-- CI Run: 43212918938 — Success
+- CI Run: 43213451103 — Success
 - Tests: 36/36 passed, 0 failed
-- Source Artifact ID: 13941099235; digest sha256:87eecfb5cdcb5000c33f23ee7fe0b5aa12e0a2ec0791f1a8183cf2bb7282e969
-- Test Artifact ID: 13941438692; digest sha256:133c5657071baf436c8d9baf7229b869999388f89a09c01282a814ac380ebccf
-- Source archive internal tar.gz SHA-256: 059b4ac482626fa75a3dea92f02f48d1c2c95967649bdf8a3e5dcf838bf30a6d
+- Source Artifact ID: 13941738453; digest sha256:231789efb3c827c87a14dfe0df77ea7527dec778ab8df0de462f621f90c8e631
+- Test Artifact ID: 13942990643; digest sha256:001c1222586c7002fec85fe39aa02f78a1a673b8a98f0a0f15e882d256d46ed7
+- Source archive internal tar.gz SHA-256: 0c5d3193225fdbebb8c5586dbaff43296e2d2f38946ad46882c83b000d6c9db0
 - Manifest: 39/39 entries independently verified
-- CI URL: https://github.com/majid-ghanbari-dost/kando-internal-ai-v01/actions/runs/43212918938
+- CI URL: https://github.com/majid-ghanbari-dost/kando-internal-ai-v01/actions/runs/43213451103
 
-The current branch head is a5f63fef8ee453da81b26f77a6ef50554fc0f0e9, which adds only Handoff v1.26 after the tested commit. No executable code, tests, README, or technical review/challenge document changed after the tested commit. The handoff-only commit is mirrored to main; this does not merge the PR or feature code.
+This CI-tested commit includes the updated Project Manager review and Build 0.5 draft. Subsequent handoff-only commits are recorded in the handoff file; they do not change executable code, tests or this review document. The PR page is the source for the live branch head and merge state.
 
 ## 4. PR and branch state
 

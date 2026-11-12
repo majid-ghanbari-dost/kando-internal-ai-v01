@@ -1,5 +1,5 @@
 # HANDOFF — Kandoo Internal AI
-**نسخه:** 1.27
+**نسخه:** 1.28
 **تاریخ:** ۱۲ نوامبر ۲۰۲۶
 **وضعیت:** Build 0.4 در محدوده Fixture-only تکمیل و CI آن تأیید شده است؛ PR #4 باز و ادغام‌نشده است. Build 0.3 از نظر قابلیت‌های اصلی پیاده‌سازی شده اما خروجی قابل‌تحویل Mapping Proposal هنوز باقی است. بسته بازبینی فنی مدیر پروژه و Technical Challenge مرحله بعد در شاخه کاری ثبت شده‌اند. هیچ PR ادغام نشده و اتصال Hub واقعی همچنان نیازمند تأیید مستقل مدیر پروژه Kandoo است.
 
@@ -989,3 +989,14 @@ Build 0.1 اکنون Solution قابل Build، API محلی، Fake Store Gateway
 - HEAD جاری پیش از این Commit مستنداتی برابر a5f63fef8ee453da81b26f77a6ef50554fc0f0e9 بود؛ این تغییر گزارش و هندآف است و کد اجرایی را تغییر نمی‌دهد.
 - PR #4 همچنان Open و Unmerged است؛ هیچ Review انسانی ثبت نشده است.
 - پس از ثبت این نسخه، CI جدید باید روی Commit اسناد به‌روزشده اجرا شود؛ نتیجه قبلی به سند جدید تعمیم داده نمی‌شود.
+
+
+## ۵۱. گزارش مدیر پروژه و CI نهایی Build 0.4
+
+- سند PROJECT-MANAGER-HANDOFF-REVIEW.md اکنون با CI معتبر روی Commit 26e1fd844273f4286cfc6e61a622cd69db605f18 همگام است.
+- CI Run 43213451103 موفق: 36/36 تست، صفر شکست؛ Manifest 39/39.
+- Source Artifact ID 13941738453؛ digest sha256:231789efb3c827c87a14dfe0df77ea7527dec778ab8df0de462f621f90c8e631.
+- Test Artifact ID 13942990643؛ digest sha256:001c1222586c7002fec85fe39aa02f78a1a673b8a98f0a0f15e882d256d46ed7.
+- SHA-256 آرشیو داخلی: 0c5d3193225fdbebb8c5586dbaff43296e2d2f38946ad46882c83b000d6c9db0.
+- CI URL: https://github.com/majid-ghanbari-dost/kando-internal-ai-v01/actions/runs/43213451103.
+- Handoff v1.28 و گزارش بازبینی به‌روزشده در همین commit ثبت شدند؛ پس از این commit CI جدید اجرا می‌شود تا هر دو سند در بسته نهایی آرشیو شوند.
