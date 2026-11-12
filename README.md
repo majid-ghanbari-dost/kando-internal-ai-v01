@@ -3,7 +3,7 @@
 A model-independent assistant core for Kandoo store workflows.
 
 ## Current build
-Build 0.2 adds a deterministic Persian query-normalization and intent-parsing baseline. It is still a development prototype using fixture data and a fake provider. It is not connected to a live Kandoo Hub and is not an autonomous AI model.
+Build 0.2.1 adds a versioned synthetic Persian query corpus and corpus-driven parser regression tests. The parser remains a deterministic rule-based baseline. The project still uses fixture data and a fake provider; it is not connected to a live Kandoo Hub and is not an autonomous AI model.
 
 ## Architecture
 - **Core:** request, intent, plan, product and evidence contracts.
@@ -41,7 +41,13 @@ The current deterministic baseline:
 - identifies basic price, stock and product-details intents;
 - removes common request filler words before fixture lookup.
 
-This is not semantic language understanding. Ambiguous queries, spelling correction, synonym/alias expansion and robust multi-product intent resolution remain future work.
+This is not semantic language understanding. The parser now removes request phrases only at query boundaries so words inside a product phrase are preserved. A synthetic corpus checks exact intent and query extraction. The corpus is not representative of real store language; spelling correction, synonym/alias expansion, ranking and clarification behavior remain future work.
+
+## Query evaluation
+- Corpus: `tests/Kandoo.InternalAI.Tests/Fixtures/persian-query-corpus.v1.json`.
+- Version: `kandoo-fa-product-query-v1` / v1, synthetic `fa-IR`, no customer or personal data.
+- Automated test checks exact intent and exact extracted product phrase for every case; the CI result is the acceptance evidence.
+- Synthetic accuracy must not be presented as real-world language accuracy.
 
 ## Security and scope
 - Product queries are scoped by StoreId in the gateway, but the Host does not yet authenticate or authorize StoreId. Keep it local and do not expose it to a network.
