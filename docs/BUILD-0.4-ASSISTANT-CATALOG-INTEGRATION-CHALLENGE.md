@@ -1,6 +1,6 @@
 # Build 0.4 — Dynamic Catalog Tool Integration into Assistant
 
-Status: Technical Challenge / Draft — NOT APPROVED FOR IMPLEMENTATION
+Status: APPROVED FOR FIXTURE-ONLY IMPLEMENTATION by Product Owner on 2026-11-12
 Date: 2026-11-12
 Owner: AI project team; Hub integration remains under separate Kandoo Project Manager gate
 
@@ -30,7 +30,7 @@ Examples for fixture-only tests:
 
 Responses must identify fixture data and provide product identity, typed descriptive attributes, and provenance/evidence. They must not invent current price or stock from the descriptive catalog.
 
-## 4. Architecture decision required before implementation
+## 4. Architecture decision — selected Option B
 
 The current tool interface is coupled to `ProductLookupResult`. Do not simply register the new service and cast or discard data.
 
@@ -40,7 +40,7 @@ A. Introduce a common discriminated `AssistantToolResult` envelope with explicit
 
 B. Introduce a narrow catalog-specific tool contract and explicit typed dispatch while retaining the existing ProductLookupTool contract. This reduces immediate blast radius but may create multiple tool interfaces.
 
-Recommendation: Option A only if the result envelope remains strongly typed, exhaustive, serializable, and cannot carry arbitrary objects or untrusted model-generated code. Otherwise choose B and document why.
+**Selected: Option B.** Preserve the existing IAssistantTool / ProductLookupResult contract and add a narrow IAssistantCatalogTool contract returning the existing strongly typed CatalogQueryResult. The Assistant explicitly dispatches the catalog tool name to that interface. No arbitrary object payload or reflection-based discovery is introduced. This keeps the legacy lookup path stable and bounds the Build 0.4 change.
 
 The registry must remain an explicit allowlist. No reflection-based discovery of arbitrary tools, dynamic assembly loading, arbitrary SQL, shell, filesystem, or network tools.
 
@@ -81,4 +81,4 @@ The registry must remain an explicit allowlist. No reflection-based discovery of
 
 ## 8. Gate
 
-This document is a technical challenge only. Implementation must not begin until the Product Owner explicitly approves Build 0.4. Hub integration remains separately blocked until the Kandoo Project Manager independently approves it.
+Product Owner approval was explicitly received on 2026-11-12 for implementation within this AI repository, limited to the fixture-only scope above. Implementation may proceed on build/0.4-assistant-catalog-integration. Hub integration remains separately blocked until the Kandoo Project Manager independently approves it.
