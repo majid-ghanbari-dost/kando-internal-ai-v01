@@ -1,5 +1,5 @@
 # HANDOFF — Kandoo Internal AI
-**نسخه:** 1.15
+**نسخه:** 1.16
 **تاریخ:** ۱۲ نوامبر ۲۰۲۶
 **وضعیت:** Build 0.2.1 و Build 0.2.2 هر دو در CI موفق بوده‌اند. PR شماره 1 و PR شماره 2 باز و ادغام‌نشده‌اند؛ PR شماره 2 اکنون به شاخه Build 0.2.1 retarget شده و Diff آن فقط افزوده‌های Build 0.2.2 را نشان می‌دهد. اتصال به Hub واقعی صریحاً تحت اختیار مدیر پروژه و ممنوع تا تأیید اوست.
 
@@ -764,3 +764,27 @@ Build 0.1 اکنون Solution قابل Build، API محلی، Fake Store Gateway
 - این اجرا دقیقاً Commit `d992e5a` را پوشش می‌دهد. نسخه 1.15 هندآف پس از آن به‌عنوان ثبت مستنداتی نتیجه CI ایجاد شده؛ کد و تست‌ها نسبت به Commit آزموده‌شده تغییر نکرده‌اند.
 - PR #3 باز، آماده Review و ادغام‌نشده باقی مانده است.
 - نتیجه: در Fixture-only، ابهام چندمحصولی بدون انتخاب خودکار مدیریت می‌شود؛ alias تأییدنشده و cross-store query پاسخ مثبت نمی‌گیرند. این هنوز اتصال Query Service به orchestrator مکالمه نیست؛ اتصال آن به لایه Assistant به‌عنوان مأموریت بعدی باید با حفظ allowlist و قرارداد clarification انجام شود.
+
+
+## ۳۲. Build 0.3 — تأیید CI روی HEAD فعلی شاخه و راستی‌آزمایی مستقل Artifactها
+
+- HEAD کد Build 0.3: `bfbc4174cc2a5e15945c70b3f6690bf8e48a8c47`.
+- **CI: Success** — Run `43205621944`، Run number 109، روی همین HEAD.
+- Restore، Build، Test، ساخت Manifest، Source Archive و Upload هر دو Artifact موفق شدند.
+- TRX از Artifact دانلود و شمارنده‌ها مستقیماً بررسی شد: `total=32, executed=32, passed=32, failed=0`.
+- Source Artifact ID: `13936953435`; Artifact digest: `sha256:f68cee9b4ebc6f4eaa64dab1271613a0661b7aa54dd00ad3941b678bcafa7964`.
+- Test Results Artifact ID: `13936489613`; Artifact digest: `sha256:565237f6fa5a0e995ad2700713cb94f31d0fbc0fc5ae70ec2a39d5cba5bdbc57`.
+- آرشیو داخلی `kandoo-internal-ai-source.tar.gz` دانلود شد؛ SHA-256: `2b61485d88761124fdf495bb4ac9798e4b76baa4f7e8eb920ed01b3db26e99fe`.
+- Manifest دارای ۳۵ ورودی است؛ هر ۳۵ فایل استخراج‌شده با SHA-256 تطبیق داده شدند و همگی OK بودند.
+- CI URL: `https://github.com/majid-ghanbari-dost/kando-internal-ai-v01/actions/runs/43205621944`.
+- PR #3 از نظر وضعیت Open و Unmerged است؛ Base برابر `build/0.2.2-clarification` و Head برابر `build/0.3-dynamic-catalog` است. شاخه کاری ۳۱ Commit جلوتر از Base و بدون Commit عقب‌مانده است. هیچ Merge انجام نشده است.
+- این نتیجه، آخرین کد Build 0.3 در HEAD فوق را پوشش می‌دهد. پس از آن فقط سند Technical Challenge مرحله بعد اضافه شده و هیچ کد اجرایی تغییر نکرده است؛ CI مجدد پس از ثبت نسخه 1.16 باید انجام شود تا خود هندآف و سند جدید نیز در بسته نهایی ثبت شوند.
+
+## ۳۳. Build 0.4 — Technical Challenge اتصال کاتالوگ پویا به مسیر Assistant
+
+- سند `docs/BUILD-0.4-ASSISTANT-CATALOG-INTEGRATION-CHALLENGE.md` ایجاد شد؛ Commit: `bdb7f168f914e45523850970e337b19c30872fa9`.
+- بررسی کد نشان داد `CatalogProductQueryService` هنوز در مسیر `POST /assistant/ask` فراخوانی نمی‌شود.
+- `IAssistantTool.ExecuteAsync` در حال حاضر به `ProductLookupResult` وابسته است؛ بنابراین اتصال سادهٔ سرویس جدید بدون تصمیم درباره قرارداد نتیجه ابزار، طراحی شکننده ایجاد می‌کند.
+- سند دو گزینه را برای قرارداد ابزار بررسی می‌کند و حفظ allowlist، نوع‌دهی قوی، سازگاری ابزار قدیمی و تست HTTP را الزامی می‌داند.
+- این سند فقط Technical Challenge است؛ **Build 0.4 هنوز تأیید نشده و هیچ کد اجرایی آن آغاز نشده است.**
+- Hub Integration همچنان مستقل و تحت کنترل مدیر پروژه Kandoo است.
