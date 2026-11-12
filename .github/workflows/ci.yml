@@ -20,13 +20,10 @@ jobs:
         run: dotnet build Kandoo.InternalAI.sln --configuration Release --no-restore
       - name: Test
         run: dotnet test Kandoo.InternalAI.sln --configuration Release --no-build --logger "trx;LogFileName=test-results.trx"
-      - name: Create source archive and SHA-256 manifest
+      - name: Create SHA-256 manifest
         if: success()
-        run: |
-          git ls-files -z | sort -z | xargs -0 sha256sum > MANIFEST-SHA256.txt
-          git archive --format=tar HEAD | gzip -n > kandoo-internal-ai-source.tar.gz
-          tar -rf - MANIFEST-SHA256.txt | gzip -n >> /dev/null
-      - name: Add manifest to source archive
+        run: git ls-files -z | sort -z | xargs -0 sha256sum > MANIFEST-SHA256.txt
+      - name: Create source archive
         if: success()
         run: |
           mkdir source-bundle
