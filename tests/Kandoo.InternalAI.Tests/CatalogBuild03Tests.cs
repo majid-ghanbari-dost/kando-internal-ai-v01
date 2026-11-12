@@ -188,7 +188,7 @@ public sealed class CatalogBuild03Tests
 
         Assert.Equal(CatalogQueryResolutionStatus.Resolved, result.Status);
         Assert.Equal("P-100", result.Product!.ProductId);
-        Assert.Equal(SyntheticCatalogFixtures.PartyStoreId, result.Evidence!.SourceId.Contains(SyntheticCatalogFixtures.PartyStoreId.ToString("N"), StringComparison.Ordinal) ? SyntheticCatalogFixtures.PartyStoreId : Guid.Empty);
+        Assert.Contains(SyntheticCatalogFixtures.PartyStoreId.ToString("N"), result.Evidence!.SourceId, StringComparison.Ordinal);
         Assert.Empty(result.Candidates);
         Assert.Null(result.ClarificationQuestion);
     }
