@@ -1,0 +1,1 @@
+<Project Sdk="Microsoft.NET.Sdk"><PropertyGroup><RootNamespace>Kandoo.InternalAI.Infrastructure</RootNamespace></PropertyGroup><ItemGroup><ProjectReference Include="../Kandoo.InternalAI.Core/Kandoo.InternalAI.Core.csproj" /><ProjectReference Include="../Kandoo.InternalAI.Application/Kandoo.InternalAI.Application.csproj" /></ItemGroup></Project>
