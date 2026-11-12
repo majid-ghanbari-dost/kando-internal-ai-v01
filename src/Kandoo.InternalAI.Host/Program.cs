@@ -18,4 +18,4 @@ app.MapPost("/assistant/ask", async (AssistantRequest request, AssistantService 
 });
 app.Run();
 
-public partial class Program;
+public partial class Program { }
