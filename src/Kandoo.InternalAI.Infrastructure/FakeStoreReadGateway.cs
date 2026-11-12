@@ -21,9 +21,12 @@ public sealed class FakeStoreReadGateway : IStoreReadGateway
     public Task<IReadOnlyList<ProductReadModel>> FindProductsAsync(Guid storeId, string query, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
-        var normalized = query.Trim();
-        IReadOnlyList<ProductReadModel> matches = _products.Where(p => p.StoreId == storeId)
-            .Where(p => p.Name.Contains(normalized, StringComparison.OrdinalIgnoreCase) || p.ProductId.Contains(normalized, StringComparison.OrdinalIgnoreCase)).ToArray();
+        var normalizedQuery = PersianTextNormalizer.Normalize(query);
+        IReadOnlyList<ProductReadModel> matches = _products
+            .Where(p => p.StoreId == storeId)
+            .Where(p => PersianTextNormalizer.Normalize(p.Name).Contains(normalizedQuery, StringComparison.Ordinal) ||
+                        PersianTextNormalizer.Normalize(p.ProductId).Contains(normalizedQuery, StringComparison.Ordinal))
+            .ToArray();
         return Task.FromResult(matches);
     }
 }
