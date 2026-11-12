@@ -40,5 +40,24 @@ public sealed class HostApiTests : IClassFixture<WebApplicationFactory<Program>>
         Assert.Contains(body.Evidence, item => item.ProductId == "P-100");
     }
 
+
+    [Fact]
+    public async Task AskEndpoint_ExposesStructuredClarificationForAmbiguousProduct()
+    {
+        var request = new AssistantRequest(
+            Guid.Parse("aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"),
+            "قیمت بادکنک");
+
+        var response = await _client.PostAsJsonAsync("/assistant/ask", request);
+        Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+
+        var body = await response.Content.ReadFromJsonAsync<AssistantResponse>();
+        Assert.NotNull(body);
+        Assert.Equal("clarification_required", body.ResolutionStatus);
+        Assert.Empty(body.Products);
+        Assert.Equal(2, body.Candidates!.Count);
+        Assert.NotNull(body.ClarificationQuestion);
+    }
+
     private sealed record HealthResponse(string Status, string Mode);
 }
