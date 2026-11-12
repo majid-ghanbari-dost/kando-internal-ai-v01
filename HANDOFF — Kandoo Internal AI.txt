@@ -1,5 +1,5 @@
 # HANDOFF — Kandoo Internal AI
-**نسخه:** 1.34
+**نسخه:** 1.35
 **تاریخ:** ۱۲ نوامبر ۲۰۲۶
 **وضعیت:** Build 0.4 در محدوده Fixture-only تکمیل و CI آن تأیید شده است؛ Build 0.5 نیز در محدوده Fixture-only پیاده‌سازی و با CI موفق و راستی‌آزمایی مستقل 50/50 تست و Manifest 46/46 تأیید شده است. PR #5 باز و ادغام‌نشده است. هیچ اتصال Hub واقعی انجام نشده و این اتصال همچنان نیازمند تأیید مستقل مدیر پروژه Kandoo است.
 
@@ -1101,3 +1101,16 @@ Build 0.1 اکنون Solution قابل Build، API محلی، Fake Store Gateway
 - Manifest شامل 46 ورودی است؛ تمام 46 مورد مستقل بررسی شدند: `46 OK, 0 failed`.
 - CI URL: https://github.com/majid-ghanbari-dost/kando-internal-ai-v01/actions/runs/43216509052.
 - این اجرا، نسخه 1.33 هندآف و تمام کد/تست/اسناد فنی Build 0.5 را پوشش می‌دهد. نسخه 1.34 صرفاً نتیجه را ثبت می‌کند؛ کد اجرایی تغییر نکرده است.
+
+
+## ۵۸. Build 0.5 — تکرار CI روی Commit دارای Handoff v1.34
+
+- CI Run `43216751082`، Run number 189، روی Commit `5c673dbf2a955a4676a10671bb6672aaabe4903e` موفق شد.
+- Restore، Build، Test، Manifest، Source Archive و هر دو Upload موفق شدند.
+- TRX مستقل: `50/50` passed، `0` failed.
+- Source Artifact ID: `13942728890`؛ digest: `sha256:a24bb3cc6b728a4e77c053e7ce84c344c9bd94d131b2d34a115cfaff2ca91844`.
+- Test Artifact ID: `13943752577`؛ digest: `sha256:aa4ea79a130500ee81d64c07813e4d9a08f56f80d7c49b2a64ba2fb544119efd`.
+- SHA-256 آرشیو داخلی Source: `35ed3b296ae28ab2a0f160c64410508664cc98bdc9b8390ef4e85fe0763bdeda`.
+- Manifest: `46/46` فایل OK، صفر mismatch.
+- CI URL: https://github.com/majid-ghanbari-dost/kando-internal-ai-v01/actions/runs/43216751082.
+- این اجرا تأیید تکراری روی همان کد و اسناد فنی، همراه با Handoff v1.34 است. Build 0.5 همچنان Fixture-only و PR #5 باز/ادغام‌نشده باقی می‌ماند.
