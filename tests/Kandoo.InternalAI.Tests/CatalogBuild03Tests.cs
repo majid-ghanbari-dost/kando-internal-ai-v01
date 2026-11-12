@@ -166,4 +166,44 @@ public sealed class CatalogBuild03Tests
         Assert.Contains(result.Issues, x => x.Contains("not approved", StringComparison.Ordinal));
     }
 
+
+    [Fact]
+    public void CatalogQueryClarifiesAmbiguousSearchWithoutReturningASelectedProduct()
+    {
+        var service = new CatalogProductQueryService(new FixtureCatalogRepository());
+        var result = service.Query(SyntheticCatalogFixtures.PartyStoreId, "بادکنک");
+
+        Assert.Equal(CatalogQueryResolutionStatus.ClarificationRequired, result.Status);
+        Assert.Null(result.Product);
+        Assert.Null(result.Evidence);
+        Assert.Equal(2, result.Candidates.Count);
+        Assert.NotNull(result.ClarificationQuestion);
+    }
+
+    [Fact]
+    public void CatalogQueryResolvesExactApprovedAliasWithStoreScopedEvidence()
+    {
+        var service = new CatalogProductQueryService(new FixtureCatalogRepository());
+        var result = service.Query(SyntheticCatalogFixtures.PartyStoreId, "بادکنک قرمز");
+
+        Assert.Equal(CatalogQueryResolutionStatus.Resolved, result.Status);
+        Assert.Equal("P-100", result.Product!.ProductId);
+        Assert.Equal(SyntheticCatalogFixtures.PartyStoreId, result.Evidence!.SourceId.Contains(SyntheticCatalogFixtures.PartyStoreId.ToString("N"), StringComparison.Ordinal) ? SyntheticCatalogFixtures.PartyStoreId : Guid.Empty);
+        Assert.Empty(result.Candidates);
+        Assert.Null(result.ClarificationQuestion);
+    }
+
+    [Fact]
+    public void CatalogQueryDoesNotResolveUnapprovedAliasOrCrossStoreProduct()
+    {
+        var service = new CatalogProductQueryService(new FixtureCatalogRepository());
+        var unapprovedAlias = service.Query(SyntheticCatalogFixtures.PartyStoreId, "بادکنک سرخ");
+        var crossStore = service.Query(SyntheticCatalogFixtures.GroceryStoreId, "بادکنک قرمز");
+
+        Assert.Equal(CatalogQueryResolutionStatus.NotFound, unapprovedAlias.Status);
+        Assert.Equal(CatalogQueryResolutionStatus.NotFound, crossStore.Status);
+        Assert.Null(unapprovedAlias.Product);
+        Assert.Null(crossStore.Product);
+    }
+
 }
