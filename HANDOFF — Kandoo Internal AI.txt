@@ -1,5 +1,5 @@
 # HANDOFF — Kandoo Internal AI
-**نسخه:** 1.7
+**نسخه:** 1.8
 **تاریخ:** ۱۲ نوامبر ۲۰۲۶
 **وضعیت:** Build 0.2.1 و Build 0.2.2 هر دو در CI موفق بوده‌اند. PR شماره 1 و PR شماره 2 باز و ادغام‌نشده‌اند؛ PR شماره 2 اکنون به شاخه Build 0.2.1 retarget شده و Diff آن فقط افزوده‌های Build 0.2.2 را نشان می‌دهد. اتصال به Hub واقعی صریحاً تحت اختیار مدیر پروژه و ممنوع تا تأیید اوست.
 
@@ -614,3 +614,33 @@ Build 0.1 اکنون Solution قابل Build، API محلی، Fake Store Gateway
 - در طول کار، نسخه جاری ابتدا در شاخه کاری Build ثبت و پس از کنترل، همان متن در main نیز commit می‌شود. این به‌روزرسانی مستندات به‌تنهایی به معنی ادغام کد Build یا PR نیست.
 - PRهای #1 و #2 همچنان باز و ادغام‌نشده باقی می‌مانند؛ هیچ ادغام کدی انجام نشده است.
 - نسخه قبلی هندآف در main هنگام بررسی، v0.8 بود؛ نسخه شاخه کاری v1.6 بود. این اختلاف علت timestamp قدیمی صفحه اصلی بود. نسخه v1.7 در هر دو شاخه ثبت می‌شود.
+
+
+## ۲۴. Build 0.3 — دستاورد اجرایی اول: قرارداد و کاتالوگ‌های مصنوعی
+
+**وضعیت:** پیاده‌سازی اولیه ثبت شده؛ CI و آزمون نهایی هنوز در انتظار راستی‌آزمایی است.
+
+- شاخه اجرایی مستقل: `build/0.3-dynamic-catalog`، منشعب از `build/0.2.2-clarification`. این شاخه PRهای قبلی را ادغام نمی‌کند.
+- قراردادهای Core در `src/Kandoo.InternalAI.Core/CatalogContracts.cs` اضافه شدند:
+  - `StoreCatalogProfile` نسخه‌دار و store-scoped.
+  - `CatalogProduct` با هویت canonical و dictionary ویژگی‌های typed.
+  - تعریف و مقدار ویژگی با نوع داده، حساسیت، منبع و زمان مشاهده.
+  - `ProductAlias` با locale، provenance، confidence و وضعیت تأیید.
+  - قرارداد Mapping Proposal، فیلدهای منبع، quarantine و evidence.
+- سه مجموعه Fixture مصنوعی در `SyntheticCatalogFixtures.cs` اضافه شدند: لوازم جشن، خواربار و پوشاک؛ هر سه از یک قرارداد محصول استفاده می‌کنند اما ویژگی‌های اختصاصی متفاوت دارند.
+- `CatalogMappingValidator` فقط Mapping Proposal می‌سازد؛ mapping را auto-approve نمی‌کند. فیلدهای ناشناخته quarantine می‌شوند؛ فیلدهای PII-like با پیش‌فرض deny از پیشنهاد خارج می‌شوند؛ فقط فیلد public، allowlisted و type-compatible پیشنهاد می‌شود.
+- اختلاف نسخه Schema باعث `Invalidated` شدن Proposal و ثبت Validation Issue می‌شود.
+- `FixtureCatalogRepository` جست‌وجوی deterministic و store-scoped دارد؛ aliasهای Proposed در retrieval استفاده نمی‌شوند و فقط aliasهای Approved قابل match هستند.
+- قرارداد توصیفی `CatalogProduct` عمداً فاقد فیلد قیمت جاری، موجودی جاری و فاکتور است؛ این داده‌ها خارج از Store Intelligence باقی می‌مانند.
+- تست‌های افزوده‌شده در `CatalogBuild03Tests.cs` سناریوهای سه نوع فروشگاه، round-trip ویژگی typed، quarantine، PII exclusion، schema drift، alias approval، tenant isolation، ترتیب deterministic و نبود فیلدهای عملیاتی را پوشش می‌دهند. **این تست‌ها هنوز نتیجه اجرا/قبولی ندارند تا CI بررسی شود.**
+- README و سند Technical Challenge برای وضعیت تصویب و محدوده پیاده‌سازی fixture-only به‌روز شدند.
+- Commitهای اصلی:
+  - Core contracts: `489589d2a8c96ee91210f53ff79b2966320e1d43`
+  - Mapping validator: `7feb9a13385eceae1b66791d6cffc101e961fe18`
+  - Synthetic catalogs: `f5c09f49cb0afa794c844a7ad8b15d899d5d6392`
+  - Fixture repository: `ccd8897522103ac9f7f8c164999b61e7362a1ebc`
+  - Tests: `5b6f702515585fe7c5dff7e1d5a715f5cc144dca`
+  - README: `8c8ea061716a4c7851bd8edfd4ed4d2c6608f54b`
+  - Technical Challenge status: `b6e15599beb4be759b789c6bc39ae36c52c76a53`
+- هنوز هیچ CI موفق، Artifact، Manifest یا SHA-256 آرشیو برای Build 0.3 اعلام نمی‌شود؛ این موارد بعد از اجرای موفق workflow و بررسی Artifact ثبت خواهند شد.
+- هیچ Hub، دیتابیس واقعی، credential، parent repo، migration، live data یا write tool استفاده نشده است.
