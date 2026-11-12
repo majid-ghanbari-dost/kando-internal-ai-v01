@@ -1,5 +1,5 @@
 # HANDOFF — Kandoo Internal AI
-**نسخه:** 1.4
+**نسخه:** 1.5
 **تاریخ:** ۱۲ نوامبر ۲۰۲۶
 **وضعیت:** Build 0.2.1 و Build 0.2.2 هر دو در CI موفق بوده‌اند. PR شماره 1 و PR شماره 2 باز و ادغام‌نشده‌اند؛ PR شماره 2 اکنون به شاخه Build 0.2.1 retarget شده و Diff آن فقط افزوده‌های Build 0.2.2 را نشان می‌دهد. اتصال به Hub واقعی صریحاً تحت اختیار مدیر پروژه و ممنوع تا تأیید اوست.
 
@@ -572,3 +572,15 @@ Build 0.1 اکنون Solution قابل Build، API محلی، Fake Store Gateway
 - PR2 هیچ mergeای انجام نداده است. ترتیب پیشنهادی مدیر پروژه: بررسی و تصمیم درباره PR1، سپس بازبینی PR2.
 - Review رسمی یا Thread بازبینی برای PR2 در آخرین بررسی مشاهده نشد.
 - هندآف جاری در شاخه کاری نسخه 1.4 است؛ مسیر canonical همان فایل `HANDOFF — Kandoo Internal AI.txt` است.
+
+
+## ۲۱. Build 0.3 — Store Catalog Contract & Dynamic Store Attributes (Technical Challenge فقط)
+- سند فنی ثبت شد: `docs/BUILD-0.3-TECHNICAL-CHALLENGE.md`.
+- هدف: پشتیبانی از کاتالوگ‌های متفاوت فروشگاهی با هسته canonical مشترک و ویژگی‌های توصیفی extensible؛ بدون آموزش مدل جدا برای هر فروشگاه.
+- مرز داده: شناسه و مشخصات canonical، ویژگی‌های توصیفی تایپ‌شده و دارای provenance، و داده‌های عملیاتی لحظه‌ای به‌عنوان سه لایه جدا.
+- پیشنهاد می‌شود نگاشت Schema از منبع فروشگاه به‌صورت Mapping Proposal نسخه‌دار تولید شود؛ نه auto-approval و نه ارسال schema/raw rows به مدل.
+- PII و فیلدهای ناشناخته به‌صورت پیش‌فرض quarantine/exclude می‌شوند؛ alias باید منبع و وضعیت تأیید داشته باشد.
+- سناریوهای آزمایش مصنوعی پیشنهادی: فروشگاه لوازم جشن، خواربار، پوشاک؛ با ویژگی‌های متفاوت روی قرارداد canonical یکسان.
+- قیمت و موجودی لحظه‌ای از Projection توصیفی پاسخ داده نمی‌شوند.
+- **وضعیت: NOT APPROVED FOR IMPLEMENTATION.** این سند فقط Technical Challenge است؛ تا تأیید Product Owner، Build 0.3 آغاز نمی‌شود.
+- حتی پس از تأیید Product Owner برای ساخت Fixture-only، اتصال Hub، دسترسی واقعی به دیتابیس، تغییر ریپوی مادر یا Migration همچنان نیازمند تأیید جداگانه مدیر پروژه Kandoo است.
