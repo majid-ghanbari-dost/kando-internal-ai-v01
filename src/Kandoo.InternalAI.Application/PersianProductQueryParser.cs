@@ -8,7 +8,7 @@ public static class PersianProductQueryParser
 {
     private static readonly string[][] PriceMarkers =
     [
-        ["قیمت"], ["بها"], ["چنده"], ["چند", "است"], ["چقدر"]
+        ["قیمت"], ["بها"], ["بهای"], ["چنده"], ["چند", "است"], ["چقدر"]
     ];
 
     private static readonly string[][] StockMarkers =
@@ -20,7 +20,7 @@ public static class PersianProductQueryParser
     private static readonly string[][] PrefixPhrases =
     [
         ["مشخصات", "محصول"], ["اطلاعات", "محصول"], ["لطفا"],
-        ["قیمت"], ["بها"], ["موجودی"], ["موجود"], ["انبار"], ["تعداد"],
+        ["قیمت"], ["بها"], ["بهای"], ["موجودی"], ["موجود"], ["انبار"], ["تعداد"],
         ["چندتا"], ["چند", "تا"], ["مشخصات"], ["اطلاعات"],
         ["محصول"], ["کالا"], ["برای"], ["از"]
     ];
