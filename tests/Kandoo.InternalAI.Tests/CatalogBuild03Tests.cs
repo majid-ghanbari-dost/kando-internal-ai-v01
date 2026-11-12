@@ -109,4 +109,61 @@ public sealed class CatalogBuild03Tests
             [profile], SyntheticCatalogFixtures.Products, SyntheticCatalogFixtures.Aliases);
         Assert.Empty(repository.Search(profile.StoreId, "بادکنک قرمز"));
     }
+
+    [Fact]
+    public void EverySyntheticProductPassesItsOwnStoreAttributeSchema()
+    {
+        var validator = new CatalogAttributeSchemaValidator();
+        foreach (var product in SyntheticCatalogFixtures.Products)
+        {
+            var result = validator.Validate(product, SyntheticCatalogFixtures.AttributeDefinitions[product.StoreId]);
+            Assert.True(result.IsValid, string.Join("; ", result.Issues));
+        }
+    }
+
+    [Fact]
+    public void AttributeValidatorRejectsWrongTypeAndMultipleTypedPayloads()
+    {
+        var product = Assert.Single(SyntheticCatalogFixtures.Products, x => x.ProductId == "P-100");
+        var invalidAttributes = product.Attributes.ToDictionary(x => x.Key, x => x.Value);
+        invalidAttributes["diameter_cm"] = new CatalogAttributeValue(
+            "diameter_cm", CatalogValueType.String, "30", 30m, null, null, null, "DiameterCm", DateTimeOffset.UtcNow);
+        var invalidProduct = product with { Attributes = invalidAttributes };
+
+        var result = new CatalogAttributeSchemaValidator().Validate(
+            invalidProduct, SyntheticCatalogFixtures.AttributeDefinitions[product.StoreId]);
+
+        Assert.False(result.IsValid);
+        Assert.Contains(result.Issues, x => x.Contains("type does not match", StringComparison.Ordinal));
+        Assert.Contains(result.Issues, x => x.Contains("exactly one value", StringComparison.Ordinal));
+    }
+
+    [Fact]
+    public void AttributeValidatorRejectsValuesOutsideStoreDefinedAllowedValues()
+    {
+        var product = Assert.Single(SyntheticCatalogFixtures.Products, x => x.ProductId == "P-100");
+        var invalidAttributes = product.Attributes.ToDictionary(x => x.Key, x => x.Value);
+        invalidAttributes["color"] = invalidAttributes["color"] with { StringValue = "بنفش" };
+        var invalidProduct = product with { Attributes = invalidAttributes };
+
+        var result = new CatalogAttributeSchemaValidator().Validate(
+            invalidProduct, SyntheticCatalogFixtures.AttributeDefinitions[product.StoreId]);
+
+        Assert.False(result.IsValid);
+        Assert.Contains(result.Issues, x => x.Contains("outside its allowed values", StringComparison.Ordinal));
+    }
+
+    [Fact]
+    public void AttributeValidatorRejectsSensitiveOrNonAllowlistedDefinitions()
+    {
+        var product = Assert.Single(SyntheticCatalogFixtures.Products, x => x.ProductId == "P-100");
+        var definitions = SyntheticCatalogFixtures.AttributeDefinitions[product.StoreId].ToDictionary(x => x.Key, x => x.Value);
+        definitions["color"] = definitions["color"] with { Sensitivity = CatalogSensitivity.Personal, IsAllowlisted = false };
+
+        var result = new CatalogAttributeSchemaValidator().Validate(product, definitions);
+
+        Assert.False(result.IsValid);
+        Assert.Contains(result.Issues, x => x.Contains("not approved", StringComparison.Ordinal));
+    }
+
 }
