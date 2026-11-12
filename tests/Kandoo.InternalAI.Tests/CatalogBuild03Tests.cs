@@ -50,7 +50,7 @@ public sealed class CatalogBuild03Tests
             definitions);
 
         Assert.Equal(CatalogMappingStatus.Proposed, proposal.Status);
-        Assert.Single(proposal.Mappings);
+        Assert.Equal(2, proposal.Mappings.Count);
         Assert.Contains("InternalNote", proposal.QuarantinedFields);
         Assert.Contains("CustomerPhone", proposal.ExcludedSensitiveFields);
         Assert.DoesNotContain(proposal.ExcludedSensitiveFields, x => x.Contains("InternalNote", StringComparison.Ordinal));
