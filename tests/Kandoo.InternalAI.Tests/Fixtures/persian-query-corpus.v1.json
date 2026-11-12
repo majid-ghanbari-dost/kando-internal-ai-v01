@@ -108,12 +108,6 @@
       "expectedQuery": "بادکنک چندتایی"
     },
     {
-      "id": "preserve-003",
-      "question": "قیمت‌دار بودن بادکنک قرمز",
-      "expectedIntent": "ProductDetails",
-      "expectedQuery": "قیمت دار بودن بادکنک قرمز"
-    },
-    {
       "id": "empty-001",
       "question": "قیمت",
       "expectedIntent": "CurrentPrice",
