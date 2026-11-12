@@ -59,6 +59,33 @@ public static class SyntheticCatalogFixtures
             })
     ];
 
+
+    public static IReadOnlyDictionary<Guid, IReadOnlyDictionary<string, ProductAttributeDefinition>> AttributeDefinitions =>
+        new Dictionary<Guid, IReadOnlyDictionary<string, ProductAttributeDefinition>>
+        {
+            [PartyStoreId] = new Dictionary<string, ProductAttributeDefinition>
+            {
+                ["material"] = new("material", "جنس", CatalogValueType.String, CatalogSensitivity.Public, ["لاتکس", "فویل"], true),
+                ["diameter_cm"] = new("diameter_cm", "قطر (سانتی‌متر)", CatalogValueType.Decimal, CatalogSensitivity.Public, [], true),
+                ["color"] = new("color", "رنگ", CatalogValueType.String, CatalogSensitivity.Public, ["قرمز", "آبی"], true),
+                ["shape"] = new("shape", "شکل", CatalogValueType.String, CatalogSensitivity.Public, ["ستاره"], true)
+            },
+            [GroceryStoreId] = new Dictionary<string, ProductAttributeDefinition>
+            {
+                ["brand"] = new("brand", "برند", CatalogValueType.String, CatalogSensitivity.Public, ["محلی"], true),
+                ["weight_kg"] = new("weight_kg", "وزن (کیلوگرم)", CatalogValueType.Decimal, CatalogSensitivity.Public, [], true),
+                ["organic"] = new("organic", "ارگانیک", CatalogValueType.Boolean, CatalogSensitivity.Public, [], true),
+                ["volume_ml"] = new("volume_ml", "حجم (میلی‌لیتر)", CatalogValueType.Integer, CatalogSensitivity.Public, [], true)
+            },
+            [ClothingStoreId] = new Dictionary<string, ProductAttributeDefinition>
+            {
+                ["size"] = new("size", "سایز", CatalogValueType.String, CatalogSensitivity.Public, ["M", "L", "XL"], true),
+                ["fabric"] = new("fabric", "جنس پارچه", CatalogValueType.String, CatalogSensitivity.Public, ["نخ پنبه", "دنیم"], true),
+                ["fit"] = new("fit", "قالب", CatalogValueType.String, CatalogSensitivity.Public, ["regular", "slim"], true),
+                ["waist_size"] = new("waist_size", "سایز کمر", CatalogValueType.Integer, CatalogSensitivity.Public, [], true)
+            }
+        };
+
     public static IReadOnlyList<ProductAlias> Aliases =>
     [
         new(PartyStoreId, "P-100", "بادکنک قرمز", "fa-IR", "fixture:operator-approved", 0.99m, CatalogAliasStatus.Approved),
