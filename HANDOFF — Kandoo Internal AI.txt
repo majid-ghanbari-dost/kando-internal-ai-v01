@@ -1,5 +1,5 @@
 # HANDOFF — Kandoo Internal AI
-**نسخه:** 1.13
+**نسخه:** 1.14
 **تاریخ:** ۱۲ نوامبر ۲۰۲۶
 **وضعیت:** Build 0.2.1 و Build 0.2.2 هر دو در CI موفق بوده‌اند. PR شماره 1 و PR شماره 2 باز و ادغام‌نشده‌اند؛ PR شماره 2 اکنون به شاخه Build 0.2.1 retarget شده و Diff آن فقط افزوده‌های Build 0.2.2 را نشان می‌دهد. اتصال به Hub واقعی صریحاً تحت اختیار مدیر پروژه و ممنوع تا تأیید اوست.
 
@@ -729,3 +729,22 @@ Build 0.1 اکنون Solution قابل Build، API محلی، Fake Store Gateway
 - این CI دقیقاً Commit `9d798df` را اعتبارسنجی کرده است. نسخه 1.13 هندآف پس از آن به‌عنوان تغییر مستنداتی/ثبت نتیجه ایجاد شده؛ کد، تست‌ها و سند طراحی نسبت به Commit آزموده‌شده تغییری نکرده‌اند.
 - PR #3 همچنان Open و Unmerged است. هیچ Merge یا اتصال Hub انجام نشده است.
 - Build 0.3 همچنان در حال توسعه است؛ این موفقیت فقط معیارهای برش‌های قرارداد/Fixture/Mapping/Retrieval/Attribute Validation را پوشش می‌دهد و به معنی تکمیل کل Build 0.3 نیست.
+
+
+## ۳۰. Build 0.3 — دستاورد اجرایی سوم: ابهام‌زدایی کاتالوگ
+
+- قراردادهای Core برای نتیجه Query اضافه شدند: `CatalogQueryResolutionStatus`، `CatalogProductCandidate` و `CatalogQueryResult`.
+- سرویس `CatalogProductQueryService` روی FixtureCatalogRepository اضافه شد:
+  - صفر نتیجه: `NotFound`.
+  - یک نتیجه: `Resolved` همراه Product و Evidence محدود به همان Store.
+  - چند نتیجه: `ClarificationRequired` همراه Candidate identityها و پرسش روشن‌کننده؛ بدون Product انتخاب‌شده و بدون Evidence قطعی.
+- تست‌های جدید: پرسش مبهم «بادکنک» باید clarification بدهد؛ alias تأییدشده محصول یکتا را resolve کند؛ alias تأییدنشده و جست‌وجوی بین‌فروشگاهی نباید نتیجه بدهند.
+- فایل‌های جدید/تغییریافته: `CatalogContracts.cs`، `CatalogProductQueryService.cs`، `CatalogBuild03Tests.cs`، README و Technical Challenge.
+- Commitهای این برش:
+  - Query contracts: `91de5c59307548c58d04c5f3b6baad56ba9db202`
+  - Query service: `bc8c707e635caa18411ebb0edabb3e1b37ef97c7`
+  - Query tests: `4ecd28ccb6cdb0082ab2b8558db551372c01226d`
+  - README: `42afa001afcbe5732c14fe84b9a57098bf966a43`
+  - Technical Challenge: `0329d0296458f4b4edc405263753270c8910b0d3`
+- آخرین CI سبز مربوط به Commit قبلی `9d798df` و ۲۹/۲۹ تست است؛ کد جدید Query Resolution هنوز CI نشده است. نتیجه قبلی به این کد جدید تعمیم داده نمی‌شود.
+- گام بعدی: اجرای CI روی HEAD جدید و بررسی TRX، Manifest، Source Archive و SHA-256. PR #3 همچنان باید باز و Unmerged بماند.
