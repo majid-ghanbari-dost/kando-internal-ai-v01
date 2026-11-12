@@ -85,3 +85,7 @@ The first implementation slice lives on branch `build/0.3-dynamic-catalog`. It a
 
 ## 11. Typed attribute validation implementation
 The fixture implementation now includes store-specific attribute definitions and a schema validator. It checks definition existence, allowlist and sensitivity, type agreement, exactly one correctly typed payload, and allowed-value constraints. Synthetic tests cover valid catalogs, wrong type/multiple payloads, disallowed values, and sensitive/non-allowlisted definitions.
+
+
+## 12. Ambiguity-safe catalog query resolution
+The catalog query service returns one of Resolved, ClarificationRequired, or NotFound. When multiple products match, it returns candidate identities and a clarification question but no selected product or evidence object. A single match returns the product and store-scoped evidence. Synthetic tests cover broad ambiguous queries, approved alias resolution, unapproved aliases, and cross-store isolation.
