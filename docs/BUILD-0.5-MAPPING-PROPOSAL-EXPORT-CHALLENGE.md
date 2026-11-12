@@ -1,6 +1,6 @@
 # Build 0.5 — Versioned Mapping Proposal Export & Human Review Package
 
-**Status:** DRAFT — awaiting explicit Product Owner approval  
+**Status:** IMPLEMENTED — fixture-only CI verified  
 **Date:** 2026-11-12  
 **Scope:** Independent Kandoo Internal AI repository; synthetic fixtures only
 
@@ -83,6 +83,17 @@ No approval controls or state transitions are introduced in this build.
 9. Three synthetic store profiles produce reviewable export examples.
 10. CI, source archive, manifest and SHA-256 verification pass.
 
-## 8. Gate
+## 8. Approval and implementation boundary
 
-This document is a Technical Challenge only. Build 0.5 implementation must not begin until the Product Owner explicitly approves this exact scope. Approval does not authorize Hub integration, real data access, parent-repository changes or PR merge.
+On 12 November 2026, the Product Owner delegated the technical decision and instructed the Technical Manager to choose the best technical course. The Technical Manager approved this exact fixture-only scope and began implementation on branch `build/0.5-mapping-proposal-export`.
+
+This approval does not authorize Hub integration, real data access, parent-repository changes, mapping activation, production persistence, or PR merge. Those remain separately gated.
+
+
+## 9. Implementation evidence
+
+- Export/import implementation: `CatalogMappingProposalExporter`.
+- Synthetic examples: party supplies, grocery, and clothing under `tests/Kandoo.InternalAI.Tests/Fixtures/`.
+- CI Run `43215850991` on commit `834ee3181ba3240e4f6ca4cb1705498068411368`: Success; 50/50 tests passed; source archive and SHA-256 manifest created.
+- Independent artifact verification: 46/46 manifest entries matched; inner source archive SHA-256 is `e82840707f259129f173cae83d9ee2c95eb5315928b7309b64840596e6c8a05e`.
+- PR #5 is open and intentionally unmerged. No Hub integration or production approval is implied.

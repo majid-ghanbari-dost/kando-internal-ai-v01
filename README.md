@@ -99,3 +99,16 @@ This is not semantic language understanding. The parser now removes request phra
 - Build 0.3 remains at approximately 90% because mapping proposals are generated in memory but do not yet have a versioned, deterministic export package.
 - Proposed next step: Build 0.5 mapping-proposal export. Its technical challenge is draft-only and awaits explicit Product Owner approval.
 - The Host has no authentication/authorization and must remain local fixture-only; do not expose it to a network or real store.
+
+
+## Mapping Proposal Export (Build 0.5 — fixture-only, CI verified)
+
+- `CatalogMappingProposalExporter` emits the versioned `kandoo.catalog-mapping-proposal` v1 JSON contract.
+- The proposal ID is deterministic; the content SHA-256 covers the canonical envelope excluding the digest field itself.
+- Import requires the exact canonical representation and rejects unknown/duplicate properties, unsupported versions, tampering, and non-canonical ordering.
+- Only public typed mapping candidates are exportable. Unknown fields remain quarantined; sensitive field names are listed as excluded, but field values and source rows are never serialized.
+- Checked-in synthetic review examples cover party supplies, grocery, and clothing under `tests/Kandoo.InternalAI.Tests/Fixtures/`.
+- Contract and review procedure: `docs/MAPPING-PROPOSAL-EXPORT-V1.md`.
+- Verification does not approve, persist, activate, or apply mappings. No Hub, real store data, external model, or parent-repository change is involved.
+
+- Latest verification: CI Run 43215850991, 50/50 tests passed; Manifest 46/46 verified; source archive SHA-256 `e82840707f259129f173cae83d9ee2c95eb5315928b7309b64840596e6c8a05e`. PR #5 remains open and unmerged.
