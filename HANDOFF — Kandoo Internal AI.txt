@@ -1,5 +1,5 @@
 # HANDOFF — Kandoo Internal AI
-**نسخه:** 1.32
+**نسخه:** 1.33
 **تاریخ:** ۱۲ نوامبر ۲۰۲۶
 **وضعیت:** Build 0.4 در محدوده Fixture-only تکمیل و CI آن تأیید شده است؛ Build 0.5 نیز در محدوده Fixture-only پیاده‌سازی و با CI موفق و راستی‌آزمایی مستقل 50/50 تست و Manifest 46/46 تأیید شده است. PR #5 باز و ادغام‌نشده است. هیچ اتصال Hub واقعی انجام نشده و این اتصال همچنان نیازمند تأیید مستقل مدیر پروژه Kandoo است.
 
@@ -1075,3 +1075,16 @@ Build 0.1 اکنون Solution قابل Build، API محلی، Fake Store Gateway
 - سند Challenge اکنون وضعیت IMPLEMENTED — fixture-only CI verified دارد؛ فرمت خروجی در `docs/MAPPING-PROPOSAL-EXPORT-V1.md` مستند شده است.
 - **نتیجه فنی:** Build 0.5 در محدوده Fixture-only معیارهای فنی و CI خود را پاس کرده است. این موفقیت به معنی تأیید انسانی Mapping، اتصال Hub، دسترسی به داده واقعی، احراز هویت Host یا آمادگی Production نیست.
 - هیچ PR ادغام نشده؛ هندآف فقط برای ثبت مدیریتی در main نیز آینه خواهد شد و این عمل ادغام کد محسوب نمی‌شود.
+
+
+## ۵۶. Build 0.5 — CI تکراری روی بسته کامل و هندآف v1.32
+
+- پس از به‌روزرسانی Challenge، README و هندآف v1.32، CI مجدداً روی Commit `f50049a243a5e9e6351f43dc783b14af7ecaa4b0` اجرا شد.
+- **CI Run `43216221512`، Run number 183: Success.** تمام مراحل Restore، Build، Test، Manifest، Source Archive و Uploadها موفق شدند.
+- TRX مستقل دریافت و خوانده شد: `50/50` تست Pass، صفر Failed.
+- Source Artifact ID: `13943323107`؛ digest: `sha256:41b58fdec11ee8aa64e38c7f5057e20d725a0e5f91b4dbf39901e9561dd81b15`.
+- Test Results Artifact ID: `13943363053`؛ digest: `sha256:706b3f4d689671bfb93c34a71dda48624bd6d8c89d18fd1a46b49cb2eb54ad29`.
+- آرشیو داخلی Source پس از دانلود و استخراج: SHA-256 برابر `fadd850dedebfefb8be887f968af52e33ddc73eb012cfda201d289f551fa1bc8`.
+- Manifest شامل 46 ورودی است؛ تمام 46 فایل مستقل بررسی شدند: `46 OK, 0 failed`.
+- CI URL: https://github.com/majid-ghanbari-dost/kando-internal-ai-v01/actions/runs/43216221512.
+- این اجرا، کد Build 0.5، سه نمونه JSON، تست‌ها، README، Challenge و Handoff v1.32 را در Commit آزموده‌شده پوشش می‌دهد. نسخه 1.33 صرفاً ثبت نتیجه و شماره نسخه است و کد اجرایی را تغییر نمی‌دهد.
