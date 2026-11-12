@@ -30,7 +30,7 @@ public static class PersianProductQueryParser
         ["رو", "نشان", "بده"], ["را", "نشان", "بده"], ["رو", "نشون", "بده"],
         ["را", "نشون", "بده"], ["رو", "نمایش", "بده"], ["را", "نمایش", "بده"],
         ["رو", "بگو"], ["را", "بگو"], ["رو", "بفرما"], ["را", "بفرما"],
-        ["چند", "تا", "داریم"], ["چند", "تا", "موجود", "داریم"],
+        ["چند", "تا", "داریم"], ["چند", "تا", "موجود", "داریم"], ["داریم"],
         ["چنده"], ["چقدر"], ["چند"], ["هست"], ["است"]
     ];
 
@@ -59,7 +59,7 @@ public static class PersianProductQueryParser
             return AssistantIntent.CurrentPrice;
 
         if (StockMarkers.Any(marker => ContainsPhrase(tokens, marker)) &&
-            (boundary.Overlaps(["موجودی", "موجود", "انبار", "تعداد", "چندتا", "چندت"]) ||
+            (boundary.Overlaps(["موجودی", "موجود", "انبار", "تعداد", "چندتا", "چندت", "چند"]) ||
              ContainsPhrase(tokens, ["چند", "تا", "داریم"])))
             return AssistantIntent.CurrentStock;
 
