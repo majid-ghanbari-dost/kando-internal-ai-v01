@@ -1,7 +1,7 @@
 # HANDOFF — Kandoo Internal AI
-**نسخه:** 1.36
+**نسخه:** 1.37
 **تاریخ:** ۱۲ نوامبر ۲۰۲۶
-**وضعیت:** Build 0.4 در محدوده Fixture-only تکمیل و CI آن تأیید شده است؛ Build 0.5 نیز در محدوده Fixture-only پیاده‌سازی و با CI موفق و راستی‌آزمایی مستقل 50/50 تست و Manifest 46/46 تأیید شده است. PR #5 باز و ادغام‌نشده است. هیچ اتصال Hub واقعی انجام نشده و این اتصال همچنان نیازمند تأیید مستقل مدیر پروژه Kandoo است.
+**وضعیت:** Build 0.4 و Build 0.5 در محدوده Fixture-only تکمیل و CI آن‌ها تأیید شده است. Build 0.6 با تصمیم فنی واگذارشده آغاز شده؛ قرارداد Review Decision، Exporter/Verifier، تست‌ها و مستندات اولیه ثبت شده‌اند؛ CI نهایی آن هنوز تأیید نشده است. PR #5 باز و ادغام‌نشده است؛ PR #6 هنوز ایجاد نشده. هیچ اتصال Hub واقعی انجام نشده است.
 
 ## ۰. قاعده دائمی مدیریت و به‌روزرسانی هندآف
 
@@ -1124,3 +1124,35 @@ Build 0.1 اکنون Solution قابل Build، API محلی، Fake Store Gateway
 - جهت فنی پیشنهادی Build 0.6: ساخت Review Decision Record که به `proposal_id` و `proposal_content_sha256` دقیق متصل باشد؛ تصمیم‌های Approved / Rejected / ChangesRequested را از هم جدا کند؛ mismatch فروشگاه/پروفایل/هش و proposal قدیمی را رد کند؛ و هرگز mapping را فعال یا ذخیره نکند.
 - **Build 0.6 تصویب نشده است و هیچ پیاده‌سازی آن شروع نشده.** شروع آن به تأیید مستقل Product Owner نیاز دارد.
 - Build 0.5 همچنان در PR #5 باز و Unmerged است؛ هیچ PR یا کدی ادغام نشده است.
+
+
+## ۶۰. Build 0.6 — تصمیم فنی واگذارشده و دستاورد اولیه
+
+- در ۱۲ نوامبر ۲۰۲۶، Product Owner برای دومین بار درباره انتخاب مسیر فنی گفت: «بهترین تصمیم فنی را خودت بگیر». Technical Manager این را واگذاری تصمیم برای همان محدودهٔ Challenge تعریف‌شده Build 0.6 تلقی کرد و اجرای Fixture-only را آغاز کرد.
+- شاخه مستقل: `build/0.6-human-mapping-review`، بر پایه Commit Build 0.5 با Handoff v1.36.
+- هیچ تغییری در ریپوی مادر Kandoo، Hub، دیتابیس واقعی، credential، محیط عملیاتی یا PRهای قبلی انجام نشده است.
+- قرارداد Core جدید: `CatalogMappingReviewDecisionRecord` و enum `CatalogMappingReviewDecision`.
+  - `Unspecified = 0` به‌صورت صریح اضافه شد و رد می‌شود؛ مقدار پیش‌فرض enum هرگز Approved نیست.
+  - تصمیم‌های مجاز: `Approved`, `Rejected`, `ChangesRequested`.
+- پیاده‌سازی `CatalogMappingReviewDecisionExporter`:
+  - پیش از صدور تصمیم، Build 0.5 proposal را با Exporter اصلی ImportAndVerify می‌کند.
+  - تصمیم به `proposal_id` و `proposal_content_sha256` دقیق متصل است.
+  - `store_id` و `profile_id` از proposal تأییدشده استخراج می‌شوند، نه از ورودی مستقل caller.
+  - Decision ID و digest با canonical JSON و SHA-256 قطعی ساخته می‌شوند.
+  - Import، قرارداد/نسخه، فیلدهای ناشناخته و تکراری، enum، canonical JSON، digest، ID، Proposal ID/digest و Store/Profile را بررسی می‌کند.
+  - timestamp باید UTC با offset صفر باشد؛ reviewer_ref شناسه مبهم fixture است و به معنی احراز هویت نیست.
+- تست‌های اولیه در `CatalogMappingReviewDecisionTests.cs` برای هر سه تصمیم، عدم پیش‌فرض Approved، deterministic output/ID، تغییر proposal، cross-store، tampering، unknown/duplicate property، enum نامعتبر، reviewer/reason نامعتبر، UTC و سه Fixture نوشته شدند.
+- سند قرارداد: `docs/MAPPING-REVIEW-DECISION-V1.md`.
+- Technical Challenge از DRAFT به APPROVED BY DELEGATED TECHNICAL DECISION — fixture-only implementation in progress تغییر کرد.
+- README به‌روز شد.
+- Commitهای اولیه:
+  - Core contract: `38004fc03312dc975717e417693ebcb1b5898d60`
+  - Exporter/verifier: `908dacbf023f2d6e19113466d618f63c729d13f4`
+  - Unspecified sentinel hardening: `c1829ea47e416afcf3f8eca77e2733774c51a8ec`
+  - Tests: `ae6cb73dbf3665fbe12f800a8a417a513ee30289`
+  - Challenge approval: `8b6e1979cb959ac5007de97f44288d7b38304cbd`
+  - Contract specification: `82ccf5ecb9a3bbe9a4138959fbf94a3e5c2b9bca`
+  - README: `a3f780be51a6270118997b000dbb1433e3cd13d6`
+- در زمان این ثبت، CI روی HEAD شاخه جدید هنوز اجرا/تأیید نشده است؛ هیچ ادعای تست موفق یا Manifest ثبت نمی‌شود.
+- محدودیت آگاهانه: چون هیچ registry/persistence وجود ندارد، جلوگیری سراسری از duplicate/revocation ممکن نیست؛ deterministic Decision ID امکان تشخیص duplicate artifact را در registry آینده فراهم می‌کند. این محدودیت مستند شده است.
+- وضعیت Build 0.6: **پیاده‌سازی اولیه ثبت شده؛ نیازمند Build/Tests، اصلاح احتمالی، CI، Source Archive، Manifest و SHA-256 مستقل است.**
