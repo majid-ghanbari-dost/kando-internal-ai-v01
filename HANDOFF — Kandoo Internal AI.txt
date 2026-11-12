@@ -1,5 +1,5 @@
 # HANDOFF — Kandoo Internal AI
-**نسخه:** 1.9
+**نسخه:** 1.10
 **تاریخ:** ۱۲ نوامبر ۲۰۲۶
 **وضعیت:** Build 0.2.1 و Build 0.2.2 هر دو در CI موفق بوده‌اند. PR شماره 1 و PR شماره 2 باز و ادغام‌نشده‌اند؛ PR شماره 2 اکنون به شاخه Build 0.2.1 retarget شده و Diff آن فقط افزوده‌های Build 0.2.2 را نشان می‌دهد. اتصال به Hub واقعی صریحاً تحت اختیار مدیر پروژه و ممنوع تا تأیید اوست.
 
@@ -655,3 +655,16 @@ Build 0.1 اکنون Solution قابل Build، API محلی، Fake Store Gateway
 - Commit اصلاح: `36d95d7681dd1f7e33455f202bdf40454ac99572`.
 - نتیجهٔ اصلاح هنوز توسط CI تأیید نشده است؛ تست، Manifest و آرشیو برای Run ناموفق اجرا نشدند.
 - اقدام بعدی: اجرای مجدد CI روی آخرین HEAD، بررسی تمام تست‌ها و سپس بررسی Artifact/Manifest/SHA-256. تا آن زمان وضعیت Build 0.3 همچنان in progress است.
+
+
+## ۲۶. Build 0.3 — اصلاح assertion نهایی در برش اول
+
+- CI Run `43204694138` روی Commit `4eceb50d49ec7a1ce1c69f011eb7f2a27e2f6fbb`:
+  - Restore: موفق.
+  - Release Build: موفق، ۰ Warning و ۰ Error.
+  - Tests: ۲۴ موفق از ۲۵؛ یک تست جدید شکست خورد.
+- علت شکست: تست Mapping Proposal به‌اشتباه انتظار یک Mapping داشت، درحالی‌که دو فیلد مجاز و type-compatible (`Color` و `DiameterCm`) به‌درستی پیشنهاد شده بودند. منطق پیاده‌سازی مطابق انتظار فنی بود؛ assertion تست اشتباه بود.
+- اصلاح تست: انتظار تعداد دو Mapping و حفظ assertionهای quarantine و PII exclusion.
+- Commit اصلاح: `372fa846d7603f063f1420a4b08457082a6e7a5e`.
+- Artifact تست Run ناموفق: ID `13936438630`؛ فقط برای شواهد تشخیصی است و جایگزین نتیجه موفق نیست.
+- CI مجدد برای Commit اصلاح‌شده هنوز باید اجرا و بررسی شود؛ Manifest و Source Archive هنوز تولید نشده‌اند.
