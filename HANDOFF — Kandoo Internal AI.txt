@@ -1,5 +1,5 @@
 # HANDOFF — Kandoo Internal AI
-**نسخه:** 1.24
+**نسخه:** 1.25
 **تاریخ:** ۱۲ نوامبر ۲۰۲۶
 **وضعیت:** Build 0.4 در محدوده Fixture-only تکمیل و CI آن تأیید شده است؛ PR #4 باز و ادغام‌نشده است. Build 0.3 از نظر قابلیت‌های اصلی پیاده‌سازی شده اما خروجی قابل‌تحویل Mapping Proposal هنوز باقی است. بسته بازبینی فنی مدیر پروژه و Technical Challenge مرحله بعد در شاخه کاری ثبت شده‌اند. هیچ PR ادغام نشده و اتصال Hub واقعی همچنان نیازمند تأیید مستقل مدیر پروژه Kandoo است.
 
@@ -956,3 +956,16 @@ Build 0.1 اکنون Solution قابل Build، API محلی، Fake Store Gateway
 - CI Run 43211946365 روی Commit 572f61d موفق و Artifact/Manifest آن مستقل بررسی شده است. این CI آخرین بسته فنی مستندات را پوشش می‌دهد؛ نسخه v1.24 هندآف یک تغییر نسخه/ثبت وضعیت پس از آن است.
 - PR #4 به Commit a001249 متصل است، Open و Unmerged باقی مانده و بدنه آن شواهد CI و اسناد بازبینی مدیر پروژه را ثبت می‌کند.
 - هندآف v1.24 در main همگام و با fetch مجدد تأیید شد؛ محتوای main و شاخه کاری یکسان است. این کار هیچ کد یا PR را merge نمی‌کند.
+
+
+## ۴۸. CI نهایی روی HEAD مستنداتی فعلی Build 0.4
+
+- Commit آزموده‌شده: f77fd1c583222400fcd65976b8e2d0beb5fc7218؛ شامل بسته بازبینی مدیر پروژه، Build 0.5 Challenge، README و هندآف v1.24.
+- CI Run 43212603522 موفق شد؛ Restore، Build، Test، Manifest، Source Archive و Uploadها همگی Success.
+- TRX از Artifact دانلود و بررسی شد: total=36, executed=36, passed=36, failed=0.
+- Source Artifact ID 13942915006؛ digest sha256:ab5e4e9e5812409711ab4d0fa64d8ebfa748ec2ed946d6e4e068fdaa647eaef5.
+- Test Artifact ID 13941248719؛ digest sha256:99f05b7fe75bf3608422986b58f613818fd38a4d601be6567e78b75eff7b63dc.
+- آرشیو داخلی kandoo-internal-ai-source.tar.gz پس از دانلود استخراج و بررسی شد؛ SHA-256 برابر 505e2dcbfdd8f7880147f9c6ee23ee2a1fd491bc4f49f589430a18ff41ce5e96.
+- Manifest دارای 39 ورودی بود؛ هر 39 فایل با SHA-256 تطبیق داده شد و 39/39 OK بودند.
+- CI URL: https://github.com/majid-ghanbari-dost/kando-internal-ai-v01/actions/runs/43212603522.
+- نسخه 1.25 پس از Commit آزموده‌شده صرفاً نتیجه CI و شماره نسخه هندآف را ثبت می‌کند؛ کد، تست، README، بسته بازبینی و Technical Challenge پس از Commit آزموده‌شده تغییر نکرده‌اند.
