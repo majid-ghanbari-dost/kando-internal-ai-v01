@@ -1,5 +1,5 @@
 # HANDOFF — Kandoo Internal AI
-**نسخه:** 1.8
+**نسخه:** 1.9
 **تاریخ:** ۱۲ نوامبر ۲۰۲۶
 **وضعیت:** Build 0.2.1 و Build 0.2.2 هر دو در CI موفق بوده‌اند. PR شماره 1 و PR شماره 2 باز و ادغام‌نشده‌اند؛ PR شماره 2 اکنون به شاخه Build 0.2.1 retarget شده و Diff آن فقط افزوده‌های Build 0.2.2 را نشان می‌دهد. اتصال به Hub واقعی صریحاً تحت اختیار مدیر پروژه و ممنوع تا تأیید اوست.
 
@@ -644,3 +644,14 @@ Build 0.1 اکنون Solution قابل Build، API محلی، Fake Store Gateway
   - Technical Challenge status: `b6e15599beb4be759b789c6bc39ae36c52c76a53`
 - هنوز هیچ CI موفق، Artifact، Manifest یا SHA-256 آرشیو برای Build 0.3 اعلام نمی‌شود؛ این موارد بعد از اجرای موفق workflow و بررسی Artifact ثبت خواهند شد.
 - هیچ Hub، دیتابیس واقعی، credential، parent repo، migration، live data یا write tool استفاده نشده است.
+
+
+## ۲۵. Build 0.3 — نخستین CI و اصلاح analyzer
+
+- CI Run `43204528758`، روی Commit `24395191dd5ec64794e3dcfd32e4eca1eaa1065b` اجرا شد.
+- Restore موفق بود؛ پروژه‌های Core، Application، Infrastructure و Host با موفقیت Build شدند.
+- Build در پروژه تست به دلیل ۴ خطای analyzer از نوع `xUnit2031` متوقف شد: استفاده از `Where` پیش از `Assert.Single`. این خطاها مربوط به سبک assertion بودند، نه خطای کامپایل قراردادهای اصلی.
+- اصلاح انجام‌شده: استفاده از overload فیلترکننده `Assert.Single(collection, predicate)` در تست‌های Build 0.3.
+- Commit اصلاح: `36d95d7681dd1f7e33455f202bdf40454ac99572`.
+- نتیجهٔ اصلاح هنوز توسط CI تأیید نشده است؛ تست، Manifest و آرشیو برای Run ناموفق اجرا نشدند.
+- اقدام بعدی: اجرای مجدد CI روی آخرین HEAD، بررسی تمام تست‌ها و سپس بررسی Artifact/Manifest/SHA-256. تا آن زمان وضعیت Build 0.3 همچنان in progress است.
