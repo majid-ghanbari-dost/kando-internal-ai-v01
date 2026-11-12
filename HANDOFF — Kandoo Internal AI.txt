@@ -1,7 +1,7 @@
 # HANDOFF — Kandoo Internal AI
-**نسخه:** 1.31
+**نسخه:** 1.32
 **تاریخ:** ۱۲ نوامبر ۲۰۲۶
-**وضعیت:** Build 0.4 در محدوده Fixture-only تکمیل و CI آن تأیید شده است؛ Build 0.5 برای خروجی نسخه‌دار و قطعی Mapping Proposal آغاز شده و هنوز منتظر CI نهایی است. PRها باز و ادغام‌نشده‌اند. هیچ اتصال Hub واقعی انجام نشده و این اتصال همچنان نیازمند تأیید مستقل مدیر پروژه Kandoo است.
+**وضعیت:** Build 0.4 در محدوده Fixture-only تکمیل و CI آن تأیید شده است؛ Build 0.5 نیز در محدوده Fixture-only پیاده‌سازی و با CI موفق و راستی‌آزمایی مستقل 50/50 تست و Manifest 46/46 تأیید شده است. PR #5 باز و ادغام‌نشده است. هیچ اتصال Hub واقعی انجام نشده و این اتصال همچنان نیازمند تأیید مستقل مدیر پروژه Kandoo است.
 
 ## ۰. قاعده دائمی مدیریت و به‌روزرسانی هندآف
 
@@ -1058,3 +1058,20 @@ Build 0.1 اکنون Solution قابل Build، API محلی، Fake Store Gateway
 - در زمان ثبت این نسخه، CI نهایی روی HEAD جاری هنوز راستی‌آزمایی نشده است؛ هیچ ادعای قبولی تست یا Manifest برای Build 0.5 ثبت نمی‌شود. گام بعدی: بررسی CI، اصلاح خطاهای احتمالی، سپس دریافت و بررسی مستقل TRX، Source Archive، Manifest و SHA-256.
 - وضعیت Build 0.5: **پیاده‌سازی اولیه ثبت شده؛ تکمیل فنی منوط به CI و بازبینی کد است.**
 - این نسخه هندآف، وضعیت و Commitهای واقعی تا این نقطه را ثبت می‌کند؛ PR جدید هنوز ایجاد/ادغام نشده و PRهای قبلی نیز ادغام‌نشده باقی می‌مانند.
+
+
+## ۵۵. Build 0.5 — CI موفق و راستی‌آزمایی مستقل بسته تحویل
+
+- CI Run `43215850991`، Run number 177، روی Commit `834ee3181ba3240e4f6ca4cb1705498068411368` موفق شد.
+- تمام مراحل workflow موفق بودند: Restore، Build، Test، ساخت Manifest، Source Archive و Upload هر دو Artifact.
+- TRX از Artifact دریافت و مستقیماً خوانده شد: `total=50, executed=50, passed=50, failed=0`.
+- Source Artifact ID: `13944355142`؛ digest: `sha256:15f74fcd471330cb915c48f66c3ca802309fa8b9b65600788e08244cc95bccd7`.
+- Test Results Artifact ID: `13944075686`؛ digest: `sha256:41b4775cfbfbd4bd95f2f4790a204bc01c1ccc7bdd9a6f8562fe435a4a37c8f7`.
+- Source ZIP دانلود و استخراج شد؛ SHA-256 آرشیو داخلی `kandoo-internal-ai-source.tar.gz`: `e82840707f259129f173cae83d9ee2c95eb5315928b7309b64840596e6c8a05e`.
+- Manifest دارای 46 ورودی است؛ هر 46 فایل با SHA-256 مستقل بررسی شد: `46 OK, 0 failed`.
+- سه فایل JSON نمونه برای Party Supplies، Grocery و Clothing داخل Source Archive موجودند و تست‌های جداگانه import/digest verification هر سه را اجرا کرده‌اند.
+- CI URL: https://github.com/majid-ghanbari-dost/kando-internal-ai-v01/actions/runs/43215850991.
+- PR #5: https://github.com/majid-ghanbari-dost/kando-internal-ai-v01/pull/5؛ Base برابر `build/0.4-assistant-catalog-integration` و Head برابر `build/0.5-mapping-proposal-export`. PR باز و ادغام‌نشده است.
+- سند Challenge اکنون وضعیت IMPLEMENTED — fixture-only CI verified دارد؛ فرمت خروجی در `docs/MAPPING-PROPOSAL-EXPORT-V1.md` مستند شده است.
+- **نتیجه فنی:** Build 0.5 در محدوده Fixture-only معیارهای فنی و CI خود را پاس کرده است. این موفقیت به معنی تأیید انسانی Mapping، اتصال Hub، دسترسی به داده واقعی، احراز هویت Host یا آمادگی Production نیست.
+- هیچ PR ادغام نشده؛ هندآف فقط برای ثبت مدیریتی در main نیز آینه خواهد شد و این عمل ادغام کد محسوب نمی‌شود.
