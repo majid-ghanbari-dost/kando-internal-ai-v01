@@ -1,5 +1,5 @@
 # HANDOFF — Kandoo Internal AI
-**نسخه:** 1.44
+**نسخه:** 1.45
 **تاریخ:** ۱۲ نوامبر ۲۰۲۶
 **وضعیت:** Build 0.4 و Build 0.5 در محدوده Fixture-only تکمیل و CI آن‌ها تأیید شده است. Build 0.6 در محدوده Fixture-only تکمیل و CI آن با 66/66 تست و Manifest 51/51 تأیید شده است؛ PR #6 باز و ادغام‌نشده است. PR #5 باز و ادغام‌نشده است؛ PR #6 هنوز ایجاد نشده. هیچ اتصال Hub واقعی انجام نشده است.
 
@@ -1264,3 +1264,18 @@ Build 0.1 اکنون Solution قابل Build، API محلی، Fake Store Gateway
 - وابستگی مهم: Mission 4.1 Write-Path Audit در ریپوی مادر باید پیش از هر ادعای کامل بودن Operation Log تکمیل و بازبینی شود.
 - **Build 0.7 فقط Draft است؛ هیچ پیاده‌سازی، migration، Hub connection، credential یا تغییر ریپوی مادر مجاز/انجام نشده است.** شروع اجرا نیازمند تأیید مستقل Product Owner است.
 - PR #6 Build 0.6 همچنان Open و Unmerged است. Build 0.7 سندی جدا و stacked خواهد بود؛ PR draft آن در صورت ایجاد فقط برای بازبینی Challenge است، نه تصویب اجرا.
+
+
+## ۶۸. Build 0.7 Challenge — CI و راستی‌آزمایی بسته مستندات
+
+- CI Run `43264627599`، Run number 239، روی Commit `903c3f400325d5bf15f5e3c698d9f9e016ab9d87` موفق شد.
+- این اجرا شاخه مستنداتی Build 0.7 را همراه کل کد و تست‌های پایه Build 0.6 Build کرد.
+- Restore، Build، Test، Manifest، Source Archive و هر دو Upload موفق شدند.
+- TRX: `66/66` passed، `0` failed.
+- Source Artifact ID: `13966285932`؛ digest: `sha256:956f57d1cdbdf68f22726d9328ae8d2ca5ce505f2d19ff05dd797def1dc88fee`.
+- Test Artifact ID: `13966021278`؛ digest: `sha256:6488199d2b6e4b2788d6320a2c4c783710b1b2d22c5082842bd83253415dbc98`.
+- SHA-256 آرشیو داخلی Source: `30d3ff133c8cf1086e478dcba64b9a455ae7e9173d10de992e7b342562f983fe`.
+- Manifest: `52/52 OK, 0 FAILED` در بررسی مستقل.
+- CI URL: https://github.com/majid-ghanbari-dost/kando-internal-ai-v01/actions/runs/43264627599.
+- PR #7: https://github.com/majid-ghanbari-dost/kando-internal-ai-v01/pull/7 — Draft, Open, documentation-only; Base `build/0.6-human-mapping-review`, Head `build/0.7-trust-authorization-challenge`.
+- نتیجه CI فقط سلامت build/tests موجود و بسته مستندات را تأیید می‌کند؛ به معنی تصویب Build 0.7 یا مجوز پیاده‌سازی نیست.
