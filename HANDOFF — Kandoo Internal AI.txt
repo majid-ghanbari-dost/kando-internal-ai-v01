@@ -1,5 +1,5 @@
 # HANDOFF — Kandoo Internal AI
-**نسخه:** 1.12
+**نسخه:** 1.13
 **تاریخ:** ۱۲ نوامبر ۲۰۲۶
 **وضعیت:** Build 0.2.1 و Build 0.2.2 هر دو در CI موفق بوده‌اند. PR شماره 1 و PR شماره 2 باز و ادغام‌نشده‌اند؛ PR شماره 2 اکنون به شاخه Build 0.2.1 retarget شده و Diff آن فقط افزوده‌های Build 0.2.2 را نشان می‌دهد. اتصال به Hub واقعی صریحاً تحت اختیار مدیر پروژه و ممنوع تا تأیید اوست.
 
@@ -712,3 +712,20 @@ Build 0.1 اکنون Solution قابل Build، API محلی، Fake Store Gateway
   - Technical Challenge: `37a790474074fe8add84576b3f11e5e52d606193`
 - CI برای این برش جدید هنوز در انتظار است؛ نتایج 25/25 و آرشیو بخش قبل فقط به Commit قبلی تعلق دارند و نباید به کد جدید تعمیم داده شوند.
 - گام بعدی: اجرای CI روی HEAD جدید؛ در صورت موفقیت، TRX، Manifest، Source Archive و SHA-256 مجدداً دریافت و بررسی می‌شوند.
+
+
+## ۲۹. Build 0.3 — CI موفق برش دوم و آرشیو راستی‌آزمایی‌شده
+
+- **CI: Success** — Run `43205142130`، Run number 89.
+- Commit تحت آزمون: `9d798df957edf68fd9803b80c2996cd74b38567a`.
+- Restore، Release Build، Test، Manifest، Source Archive و هر دو Upload همگی Success شدند.
+- TRX دانلود و بررسی شد: `total=29, executed=29, passed=29, failed=0`. چهار تست اعتبارسنجی ویژگی تایپ‌شده نسبت به برش قبلی اضافه شد.
+- Test Results Artifact ID: `13936922604`؛ Digest: `sha256:97789c8320c96f7aa9d7e767070b177e38bc01cd84a8393bc1c251c012e4cf99`.
+- Source Artifact ID: `13937850438`؛ Digest: `sha256:370c47775148992506759b54397a61aa04bfc41aa0e2ae6173433232b7358a84`.
+- آرشیو Source ZIP دانلود و باز شد؛ آرشیو داخلی `kandoo-internal-ai-source.tar.gz` استخراج شد.
+- SHA-256 آرشیو داخلی: `f3921d9398100aa920cf99e5e94c7bd8ec2ffa4fe9af264694434f3dc20e7b55`.
+- Manifest شامل ۳۴ فایل است؛ تمام ۳۴ مورد با `sha256sum -c` بررسی شدند و هیچ مورد ناموفق وجود نداشت.
+- اجرای CI: `https://github.com/majid-ghanbari-dost/kando-internal-ai-v01/actions/runs/43205142130`.
+- این CI دقیقاً Commit `9d798df` را اعتبارسنجی کرده است. نسخه 1.13 هندآف پس از آن به‌عنوان تغییر مستنداتی/ثبت نتیجه ایجاد شده؛ کد، تست‌ها و سند طراحی نسبت به Commit آزموده‌شده تغییری نکرده‌اند.
+- PR #3 همچنان Open و Unmerged است. هیچ Merge یا اتصال Hub انجام نشده است.
+- Build 0.3 همچنان در حال توسعه است؛ این موفقیت فقط معیارهای برش‌های قرارداد/Fixture/Mapping/Retrieval/Attribute Validation را پوشش می‌دهد و به معنی تکمیل کل Build 0.3 نیست.
