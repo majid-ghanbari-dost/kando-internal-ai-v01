@@ -82,3 +82,7 @@ public sealed record CatalogSearchEvidence(
 public sealed record CatalogSearchHit(CatalogProduct Product, CatalogSearchEvidence Evidence);
 
 public sealed record CatalogAttributeValidationResult(Guid StoreId, string ProductId, bool IsValid, IReadOnlyList<string> Issues);
+
+public enum CatalogQueryResolutionStatus { Resolved, ClarificationRequired, NotFound }
+public sealed record CatalogProductCandidate(string ProductId, string Name, string CategoryPath, string Unit);
+public sealed record CatalogQueryResult(CatalogQueryResolutionStatus Status, CatalogProduct? Product, CatalogSearchEvidence? Evidence, IReadOnlyList<CatalogProductCandidate> Candidates, string? ClarificationQuestion);
