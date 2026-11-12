@@ -1,5 +1,5 @@
 # HANDOFF — Kandoo Internal AI
-**نسخه:** 1.23
+**نسخه:** 1.24
 **تاریخ:** ۱۲ نوامبر ۲۰۲۶
 **وضعیت:** Build 0.4 در محدوده Fixture-only تکمیل و CI آن تأیید شده است؛ PR #4 باز و ادغام‌نشده است. Build 0.3 از نظر قابلیت‌های اصلی پیاده‌سازی شده اما خروجی قابل‌تحویل Mapping Proposal هنوز باقی است. بسته بازبینی فنی مدیر پروژه و Technical Challenge مرحله بعد در شاخه کاری ثبت شده‌اند. هیچ PR ادغام نشده و اتصال Hub واقعی همچنان نیازمند تأیید مستقل مدیر پروژه Kandoo است.
 
@@ -934,3 +934,16 @@ Build 0.1 اکنون Solution قابل Build، API محلی، Fake Store Gateway
 - هدف محدود: تبدیل CatalogMappingProposal درون‌حافظه‌ای به خروجی JSON نسخه‌دار، deterministic و قابل بررسی انسانی، با digest و آزمون round-trip.
 - این مرحله هیچ mapping را approve یا apply نمی‌کند؛ هیچ اتصال واقعی، داده واقعی، endpoint عمومی، مدل خارجی یا تغییر ریپوی مادر ندارد.
 - وضعیت: Draft / منتظر تأیید صریح Product Owner؛ هیچ کدنویسی Build 0.5 آغاز نشده است.
+
+
+## ۴۶. CI بسته بازبینی مدیر پروژه و Build 0.5 Challenge
+
+- Commit آزموده‌شده: 572f61d8f772e56f3bf6bf486406c175c62ee4ae؛ شامل بسته بازبینی مدیر پروژه، Technical Challenge پیش‌نویس Build 0.5، README به‌روزشده و هندآف با محتوای v1.23.
+- CI Run 43211946365 موفق شد: Restore، Build، Test، Manifest، Source Archive و Uploadها همگی Success.
+- TRX از Artifact دانلود و شمارنده‌ها بررسی شد: total=36, executed=36, passed=36, failed=0.
+- Source Artifact ID 13942231012؛ digest sha256:5112796d84e116336cdde0d513c80efeb817c5ee33925441c3fcbd987ec89d1d.
+- Test Artifact ID 13942026049؛ digest sha256:fc84b8d334ada2f129983bd74d1204c4a3677e04404525e5b74dd132d7b1f9c9.
+- ZIP منبع پس از دانلود بررسی شد؛ آرشیو داخلی kandoo-internal-ai-source.tar.gz دارای SHA-256 برابر fcb44524a5a5901bab0575b3c2e8faa732f1db479d4a0d65a2b4f58513aa6ca4 است.
+- Manifest دارای 39 ورودی بود؛ هر 39 مسیر با SHA-256 تطبیق داده شد و 39/39 مورد OK بودند.
+- CI URL: https://github.com/majid-ghanbari-dost/kando-internal-ai-v01/actions/runs/43211946365.
+- نسخه 1.24 هندآف پس از Commit آزموده‌شده فقط نسخه و ثبت شواهد را به‌روز می‌کند؛ هیچ کد اجرایی، تست، README یا سند Technical Challenge بعد از Commit آزموده‌شده تغییر نکرده است.
