@@ -24,6 +24,7 @@ All PRs #1–#4 are open and unmerged. PRs are stacked; no code has been merged 
 | 0.3 dynamic catalog | 100% fixture-only | Canonical contracts, three synthetic profiles, typed attributes, mapping proposal generation, quarantine, PII-like exclusion, schema-drift invalidation, approved aliases, scoped retrieval; portable proposal export completed by Build 0.5 |
 | 0.4 Assistant catalog integration | 100% fixture-only | HTTP path reaches catalog tool; typed attributes/evidence; ambiguity and tenant isolation; 36/36 tests passed |
 | 0.5 Mapping proposal export | 100% fixture-only | Canonical v1 JSON envelope, deterministic proposal ID/SHA-256, strict verified import, three synthetic examples; 50/50 tests passed; Manifest 46/46 independently verified |
+| 0.6 Human mapping review decision | 100% fixture-only | Proposal-bound decision artifact, three explicit outcomes, no-default-approval sentinel, deterministic ID/digest, strict import verification; 66/66 tests passed; Manifest 51/51 independently verified |
 
 The overall operational product remains substantially incomplete: no real LLM provider, authentication/authorization, Hub adapter, real store data, production deployment or operational validation.
 
@@ -114,7 +115,19 @@ This AI repository review does not waive any parent-repository blocker.
 
 ## 8. Proposed next step
 
-Build 0.5 is complete in the fixture-only scope. The next useful boundary is a **review-decision record**, not automatic mapping activation. A future Build 0.6 challenge should define a decision artifact bound to the exact proposal ID and content digest, with explicit Approved / Rejected / ChangesRequested outcomes, reviewer reference, timestamp and reason. Verification must reject stale or cross-store decisions. The implementation should remain fixture-only and must not persist or activate mappings until authentication, authorization and the Project Manager's separate Hub integration gate are satisfied.
+Build 0.6 is complete in the fixture-only scope. The next useful boundary is not another artifact format by itself; it is a **trust and authorization architecture challenge**. Before any real reviewer or Hub integration, define who may review, how identity is authenticated, how store-scoped authorization is enforced, how decisions are persisted and revoked, and how an approved mapping is activated with audit and rollback. Do not implement production authentication or connect the Hub until that separate challenge is approved.
 
-Technical Challenge: to be drafted as `docs/BUILD-0.6-HUMAN-MAPPING-REVIEW-CHALLENGE.md`.  
-Status: Not approved; no Build 0.6 implementation has started.
+Build 0.6 Challenge: `docs/BUILD-0.6-HUMAN-MAPPING-REVIEW-CHALLENGE.md`.  
+Status: Implemented; CI verified, fixture-only.
+
+
+## 9. Build 0.6 verification addendum
+
+- PR #6: https://github.com/majid-ghanbari-dost/kando-internal-ai-v01/pull/6 — open, unmerged.
+- CI Run 43262521925 on commit 6e3c8a2fcb5aadb8b2d6c4247f161eb71337fc76: Success.
+- TRX: 66/66 passed, 0 failed.
+- Source Artifact ID: 13963189597; digest sha256:ed4649c9fb4fdcae6cae06eefb30a8761019182726686750bab15520d3a68b18.
+- Test Artifact ID: 13963499290; digest sha256:e4c34b8bf239768b1c61fac16c2f0eeb1ec577de65c997d88a3245e48e955de4.
+- Inner source archive SHA-256: 0db32d0a8d109c95a320dcf70ba6d03fc372a2388e15fe800af0b256eda2fd21.
+- Manifest: 51/51 independently verified.
+- The build intentionally has no decision registry, authentication or revocation. Deterministic IDs enable duplicate detection by a future registry but do not prevent global duplicates here.

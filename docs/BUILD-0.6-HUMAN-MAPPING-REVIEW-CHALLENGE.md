@@ -1,6 +1,6 @@
 # Build 0.6 — Human Mapping Review Decision Record (Technical Challenge)
 
-**Status:** DRAFT — not approved; no implementation started  
+**Status:** IMPLEMENTED — fixture-only CI verified  
 **Date:** 2026-11-12  
 **Scope proposal:** Independent Kandoo Internal AI repository; synthetic fixtures only
 
@@ -51,7 +51,7 @@ The decision must bind to both proposal_id and proposal_content_sha256. A change
 - Add Core contracts for a review-decision artifact.
 - Add deterministic serializer/import verifier using built-in .NET libraries.
 - Add fixture-only examples for the three synthetic store profiles.
-- Add tests for decision binding, digest tampering, stale proposal, cross-store mismatch, missing/unknown fields, duplicate decisions, and no-default-approval.
+- Add tests for decision binding, digest tampering, stale proposal, cross-store mismatch, missing/unknown fields, deterministic duplicate identity, and no-default-approval.
 - Document the difference between a review record and production authorization.
 
 ## 6. Explicit non-goals / prohibitions
@@ -75,6 +75,12 @@ The decision must bind to both proposal_id and proposal_content_sha256. A change
 9. No decision persists or activates a mapping.
 10. CI, source archive, manifest and SHA-256 verification pass.
 
-## 8. Gate
+### Duplicate and revocation limitation
 
-This is a Technical Challenge draft only. **Build 0.6 implementation must not begin until the Product Owner explicitly approves its exact scope.** Build 0.5 approval does not authorize Build 0.6, real reviewer authentication, production approval, Hub integration, or mapping activation.
+This build intentionally has no durable decision registry. It therefore cannot globally reject a duplicate already stored elsewhere or revoke a previous decision. Exact duplicate inputs generate byte-identical artifacts and the same deterministic `decision_id`, enabling a future authenticated registry to detect duplicates. This limitation is explicit and must not be represented as duplicate prevention.
+
+## 8. Approval and implementation boundary
+
+On 12 November 2026, the Product Owner again delegated the technical decision with: “بهترین تصمیم فنی را خودت بگیر”. The Technical Manager accepted the exact fixture-only scope in this challenge and started implementation on branch `build/0.6-human-mapping-review`.
+
+This delegated decision authorizes only the isolated fixture-only work described above. It does not authorize real reviewer authentication, production approval, durable storage, Hub integration, mapping activation, parent-repository changes, or PR merge. Those remain separately gated.

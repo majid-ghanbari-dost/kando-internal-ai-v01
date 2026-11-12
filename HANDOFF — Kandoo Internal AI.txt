@@ -1,7 +1,7 @@
 # HANDOFF — Kandoo Internal AI
-**نسخه:** 1.36
+**نسخه:** 1.43
 **تاریخ:** ۱۲ نوامبر ۲۰۲۶
-**وضعیت:** Build 0.4 در محدوده Fixture-only تکمیل و CI آن تأیید شده است؛ Build 0.5 نیز در محدوده Fixture-only پیاده‌سازی و با CI موفق و راستی‌آزمایی مستقل 50/50 تست و Manifest 46/46 تأیید شده است. PR #5 باز و ادغام‌نشده است. هیچ اتصال Hub واقعی انجام نشده و این اتصال همچنان نیازمند تأیید مستقل مدیر پروژه Kandoo است.
+**وضعیت:** Build 0.4 و Build 0.5 در محدوده Fixture-only تکمیل و CI آن‌ها تأیید شده است. Build 0.6 در محدوده Fixture-only تکمیل و CI آن با 66/66 تست و Manifest 51/51 تأیید شده است؛ PR #6 باز و ادغام‌نشده است. PR #5 باز و ادغام‌نشده است؛ PR #6 هنوز ایجاد نشده. هیچ اتصال Hub واقعی انجام نشده است.
 
 ## ۰. قاعده دائمی مدیریت و به‌روزرسانی هندآف
 
@@ -1124,3 +1124,126 @@ Build 0.1 اکنون Solution قابل Build، API محلی، Fake Store Gateway
 - جهت فنی پیشنهادی Build 0.6: ساخت Review Decision Record که به `proposal_id` و `proposal_content_sha256` دقیق متصل باشد؛ تصمیم‌های Approved / Rejected / ChangesRequested را از هم جدا کند؛ mismatch فروشگاه/پروفایل/هش و proposal قدیمی را رد کند؛ و هرگز mapping را فعال یا ذخیره نکند.
 - **Build 0.6 تصویب نشده است و هیچ پیاده‌سازی آن شروع نشده.** شروع آن به تأیید مستقل Product Owner نیاز دارد.
 - Build 0.5 همچنان در PR #5 باز و Unmerged است؛ هیچ PR یا کدی ادغام نشده است.
+
+
+## ۶۰. Build 0.6 — تصمیم فنی واگذارشده و دستاورد اولیه
+
+- در ۱۲ نوامبر ۲۰۲۶، Product Owner برای دومین بار درباره انتخاب مسیر فنی گفت: «بهترین تصمیم فنی را خودت بگیر». Technical Manager این را واگذاری تصمیم برای همان محدودهٔ Challenge تعریف‌شده Build 0.6 تلقی کرد و اجرای Fixture-only را آغاز کرد.
+- شاخه مستقل: `build/0.6-human-mapping-review`، بر پایه Commit Build 0.5 با Handoff v1.36.
+- هیچ تغییری در ریپوی مادر Kandoo، Hub، دیتابیس واقعی، credential، محیط عملیاتی یا PRهای قبلی انجام نشده است.
+- قرارداد Core جدید: `CatalogMappingReviewDecisionRecord` و enum `CatalogMappingReviewDecision`.
+  - `Unspecified = 0` به‌صورت صریح اضافه شد و رد می‌شود؛ مقدار پیش‌فرض enum هرگز Approved نیست.
+  - تصمیم‌های مجاز: `Approved`, `Rejected`, `ChangesRequested`.
+- پیاده‌سازی `CatalogMappingReviewDecisionExporter`:
+  - پیش از صدور تصمیم، Build 0.5 proposal را با Exporter اصلی ImportAndVerify می‌کند.
+  - تصمیم به `proposal_id` و `proposal_content_sha256` دقیق متصل است.
+  - `store_id` و `profile_id` از proposal تأییدشده استخراج می‌شوند، نه از ورودی مستقل caller.
+  - Decision ID و digest با canonical JSON و SHA-256 قطعی ساخته می‌شوند.
+  - Import، قرارداد/نسخه، فیلدهای ناشناخته و تکراری، enum، canonical JSON، digest، ID، Proposal ID/digest و Store/Profile را بررسی می‌کند.
+  - timestamp باید UTC با offset صفر باشد؛ reviewer_ref شناسه مبهم fixture است و به معنی احراز هویت نیست.
+- تست‌های اولیه در `CatalogMappingReviewDecisionTests.cs` برای هر سه تصمیم، عدم پیش‌فرض Approved، deterministic output/ID، تغییر proposal، cross-store، tampering، unknown/duplicate property، enum نامعتبر، reviewer/reason نامعتبر، UTC و سه Fixture نوشته شدند.
+- سند قرارداد: `docs/MAPPING-REVIEW-DECISION-V1.md`.
+- Technical Challenge از DRAFT به APPROVED BY DELEGATED TECHNICAL DECISION — fixture-only implementation in progress تغییر کرد.
+- README به‌روز شد.
+- Commitهای اولیه:
+  - Core contract: `38004fc03312dc975717e417693ebcb1b5898d60`
+  - Exporter/verifier: `908dacbf023f2d6e19113466d618f63c729d13f4`
+  - Unspecified sentinel hardening: `c1829ea47e416afcf3f8eca77e2733774c51a8ec`
+  - Tests: `ae6cb73dbf3665fbe12f800a8a417a513ee30289`
+  - Challenge approval: `8b6e1979cb959ac5007de97f44288d7b38304cbd`
+  - Contract specification: `82ccf5ecb9a3bbe9a4138959fbf94a3e5c2b9bca`
+  - README: `a3f780be51a6270118997b000dbb1433e3cd13d6`
+- در زمان این ثبت، CI روی HEAD شاخه جدید هنوز اجرا/تأیید نشده است؛ هیچ ادعای تست موفق یا Manifest ثبت نمی‌شود.
+- محدودیت آگاهانه: چون هیچ registry/persistence وجود ندارد، جلوگیری سراسری از duplicate/revocation ممکن نیست؛ deterministic Decision ID امکان تشخیص duplicate artifact را در registry آینده فراهم می‌کند. این محدودیت مستند شده است.
+- وضعیت Build 0.6: **پیاده‌سازی اولیه و PR #6 ثبت شده؛ CI و راستی‌آزمایی Source Archive/Manifest/SHA-256 هنوز در انتظار است.**
+
+
+## ۶۱. Build 0.6 — سخت‌سازی پیش‌فرض تصمیم و ایجاد PR
+
+- بازبینی فنی پیش از CI یک نقص طراحی را مشخص کرد: اگر `Approved` مقدار صفر enum می‌بود، مقدار پیش‌فرض .NET می‌توانست ناخواسته به معنی تأیید تفسیر شود. برای جلوگیری، `Unspecified = 0` به enum افزوده و در ورودی صریحاً رد شد.
+- Guard در `CatalogMappingReviewDecisionExporter.ValidateDecisionInputs` اکنون هم مقادیر خارج از enum و هم `Unspecified` را رد می‌کند.
+- این اصلاح در Commit `1594f877371e7370c6eff0d13c8635c657ae86ef` ثبت شد.
+- PR #6 ایجاد شد: https://github.com/majid-ghanbari-dost/kando-internal-ai-v01/pull/6
+  - Base: `build/0.5-mapping-proposal-export`
+  - Head: `build/0.6-human-mapping-review`
+  - 7 فایل تغییر یافته؛ PR باز و ادغام‌نشده است.
+- CI برای PR ایجاد شده، اما در زمان ثبت این هندآف هنوز Run قابل مشاهده/تأیید نشده است؛ منتظر می‌مانیم و نتیجه را حدس نمی‌زنیم.
+- این بازبینی یک اصلاح پیشگیرانه مهم بود: هیچ default value نمی‌تواند بدون تصمیم صریح reviewer به Approved تبدیل شود.
+
+
+## ۶۲. Build 0.6 — تکمیل Fixture-only، CI موفق و راستی‌آزمایی مستقل
+
+- CI Run `43262521925`، Run number 213، روی Commit `6e3c8a2fcb5aadb8b2d6c4247f161eb71337fc76` موفق شد.
+- تمام مراحل Restore، Build، Test، ساخت Manifest، Source Archive و Upload هر دو Artifact موفق بودند.
+- TRX از Artifact دانلود و مستقیماً خوانده شد: `total=66, executed=66, passed=66, failed=0`.
+- Source Artifact ID: `13963189597`؛ digest: `sha256:ed4649c9fb4fdcae6cae06eefb30a8761019182726686750bab15520d3a68b18`.
+- Test Results Artifact ID: `13963499290`؛ digest: `sha256:e4c34b8bf239768b1c61fac16c2f0eeb1ec577de65c997d88a3245e48e955de4`.
+- SHA-256 آرشیو داخلی `kandoo-internal-ai-source.tar.gz`: `0db32d0a8d109c95a320dcf70ba6d03fc372a2388e15fe800af0b256eda2fd21`.
+- Manifest دارای 51 ورودی است؛ بررسی مستقل تک‌تک فایل‌ها: `51 OK, 0 mismatch`.
+- CI URL: https://github.com/majid-ghanbari-dost/kando-internal-ai-v01/actions/runs/43262521925.
+- پس از CI، سند Challenge به وضعیت IMPLEMENTED — fixture-only CI verified تغییر کرد؛ Project Manager Review و README نیز با نتیجه نهایی و محدودیت‌ها به‌روزرسانی شدند.
+- PR #6: https://github.com/majid-ghanbari-dost/kando-internal-ai-v01/pull/6 — Open, Unmerged؛ Base `build/0.5-mapping-proposal-export` و Head `build/0.6-human-mapping-review`.
+- **محدودیت مهم و صریح:** چون registry پایدار وجود ندارد، جلوگیری سراسری از duplicate یا revoke کردن تصمیم قبلی در Build 0.6 پیاده‌سازی نشده است. ورودی‌های یکسان، byte-identical و دارای Decision ID یکسان تولید می‌کنند تا registry آینده بتواند duplicate را تشخیص دهد. reviewer_ref احراز هویت نیست.
+- نتیجه: Build 0.6 فقط ثبت و اعتبارسنجی یک تصمیم انسانی در قالب artifact قابل حمل را فراهم می‌کند؛ نه مجوز Production، نه activation و نه persistence.
+- هیچ کد یا PR ادغام نشده و Hub/ریپوی مادر تغییر نکرده است.
+
+
+## ۶۳. Build 0.6 — تکرار نهایی CI روی بسته مستندات کامل و هندآف v1.39
+
+- CI Run `43263066293`، Run number 222، روی Commit `5044e47dbb32054ee3604b4bbed104c17d6fb79f` موفق شد.
+- این اجرا Build 0.6 را همراه با Challenge نهایی، Project Manager Review، README و Handoff v1.39 آزمود.
+- تمام مراحل Restore، Build، Test، Manifest، Source Archive و Upload موفق شدند.
+- TRX مستقل: `66/66` passed، `0` failed.
+- Source Artifact ID: `13965355344`؛ digest: `sha256:5155a7b253df181323ed615c6d57ffce2486093da9dabb1a2975614d048eca95`.
+- Test Artifact ID: `13965405347`؛ digest: `sha256:73a28f5cb2f6aafea16bc1a65f1b04034ab2f1474ed9c34afad6f7c925bddb44`.
+- آرشیو داخلی Source: SHA-256 برابر `43bac89e43d157f82e13938f0d235f13913bfdf4711c02c3195eab8caecfb6cc`.
+- Manifest شامل 51 ورودی است؛ تمام 51 فایل مستقل بررسی شدند: `51 OK, 0 failed`.
+- CI URL: https://github.com/majid-ghanbari-dost/kando-internal-ai-v01/actions/runs/43263066293.
+- این CI تکراری، نتیجه 66/66 و Manifest 51/51 را روی بسته مستندات نهایی Build 0.6 تأیید می‌کند.
+- فایل‌های خروجی قابل دریافت:
+  - Source ZIP: `build-0.6-final-source.zip` — SHA-256 بیرونی مطابق Artifact digest بالا.
+  - Test Results ZIP: `build-0.6-final-tests.zip` — SHA-256 بیرونی مطابق Artifact digest بالا.
+- PR #6 همچنان باز و Unmerged است. هیچ اتصال Hub یا تغییر ریپوی مادر انجام نشده است.
+
+
+## ۶۴. Build 0.6 — آخرین تأیید CI روی هندآف v1.40 و Artifactهای نهایی
+
+- CI Run `43263369193`، Run number 225، روی Commit `632dfbaa03e68185657fd4b993fd4a82a0ccfdf4` موفق شد.
+- این اجرا، Handoff v1.40، README، Challenge و Project Manager Review نهایی را همراه کد و تست Build 0.6 پوشش داد.
+- Restore، Build، Test، Manifest، Source Archive و هر دو Upload موفق شدند.
+- TRX مستقل: `66/66` passed، `0` failed.
+- Source Artifact ID: `13965555385`؛ digest: `sha256:c7ef02b356fa5020a1ded206922fc5b92fa39f19562695cda5ed08a50ac4f9c9`.
+- Test Results Artifact ID: `13965880217`؛ digest: `sha256:d1efd543a9661216c0dcafe99f8e47a89e1217f68d25c4ed25b3b0ea1dd61f3a`.
+- SHA-256 آرشیو داخلی Source: `e48a626fe7f3ee8001aa228caf5ed6528f1e04c6a063644200d7e1b49f9ed0a3`.
+- Manifest شامل 51 فایل است؛ راستی‌آزمایی مستقل: `51 OK, 0 FAILED`.
+- CI URL: https://github.com/majid-ghanbari-dost/kando-internal-ai-v01/actions/runs/43263369193.
+- این Artifactها آخرین بسته Build 0.6 با README/Challenge/PM Review نهایی هستند. Handoff v1.41 صرفاً همین نتیجه را ثبت می‌کند و کد اجرایی تغییر نکرده است.
+- PR #6 همچنان Open و Unmerged؛ mergeable true در آخرین وضعیت خوانده‌شده. هیچ merge انجام نشده است.
+
+
+## ۶۵. Build 0.6 — CI نهایی روی هندآف v1.41 و تأیید نهایی PR Head
+
+- CI Run `43263655653`، Run number 228، روی آخرین Commit PR در زمان اجرا `25b618c96fd39885b03015a5a5293459f5703f4e` موفق شد.
+- تمام مراحل Restore، Build، Test، Manifest، Source Archive و Upload موفق شدند.
+- TRX مستقل: `66/66` passed، `0` failed.
+- Source Artifact ID: `13963984946`؛ digest: `sha256:dc79bdc089a71900edf71c53f1b4d1b637a7291245815e2266cd590175ce4c13`.
+- Test Results Artifact ID: `13964024811`؛ digest: `sha256:c5722db20fa2f9c580dd6778b15515aa2507ec0918cad28b4a07281869e46deb`.
+- آرشیو داخلی Source: SHA-256 برابر `4acb2bc23cb85dbfd93be65c82049d9cedae7ec992d156c28e77c22fc0417689`.
+- Manifest: `51/51 OK, 0 FAILED` در بررسی مستقل.
+- CI URL: https://github.com/majid-ghanbari-dost/kando-internal-ai-v01/actions/runs/43263655653.
+- این اجرا روی آخرین PR Head که شامل Handoff v1.41 است انجام شد. نسخه 1.42 صرفاً نتیجه CI و Artifactهای این اجرا را ثبت می‌کند؛ کد اجرایی و تست‌ها تغییر نکرده‌اند.
+- PR #6 باز، Unmerged و در آخرین snapshot، mergeable=true است. تصمیم Merge همچنان با Product Owner است.
+
+
+## ۶۶. Build 0.6 — CI نهایی روی PR Head دارای Handoff v1.42
+
+- CI Run `43263970614`، Run number 231، روی Commit `d3859d3afacf2cf6b75fea36bbdedff5bfe27615` موفق شد.
+- این اجرا آخرین PR Head دارای Handoff v1.42 را Build و Test کرد؛ همه مراحل Restore، Build، Test، Manifest، Source Archive و Uploadها موفق شدند.
+- TRX: `66/66` passed، `0` failed.
+- Source Artifact ID: `13966105809`؛ digest: `sha256:2a0701ffd21e27f9649a23f8992b6a9d199e3564abbc999a6f0e8ff856279410`.
+- Test Results Artifact ID: `13964673104`؛ digest: `sha256:8ee2bb55d2098ba32b2cffd308bd37f6d4858f99ad9bcd0ae1034048a58a3682`.
+- آرشیو داخلی Source: SHA-256 برابر `aec8ab1019f193c02038900de0d02f1168024afc693c5d4ec9deb72d43f1fe0f`.
+- Manifest: `51/51 OK, 0 FAILED` با بررسی مستقل.
+- CI URL: https://github.com/majid-ghanbari-dost/kando-internal-ai-v01/actions/runs/43263970614.
+- Handoff v1.43 فقط نتیجه همین CI را ثبت می‌کند؛ کد، تست و اسناد فنی تغییر نکرده‌اند.
+- PR #6 باز، Unmerged و آخرین snapshot آن mergeable=true است. هیچ ادغامی انجام نشده است.
