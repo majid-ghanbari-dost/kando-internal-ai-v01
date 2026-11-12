@@ -1,5 +1,5 @@
 # HANDOFF — Kandoo Internal AI
-**نسخه:** 1.19
+**نسخه:** 1.20
 **تاریخ:** ۱۲ نوامبر ۲۰۲۶
 **وضعیت:** Build 0.3 روی شاخه مستقل خود باقی است. Build 0.4 با مجوز صریح Product Owner در ۱۲ نوامبر ۲۰۲۶ برای اجرای Fixture-only آغاز شده است. شاخه کاری جداگانه build/0.4-assistant-catalog-integration ایجاد شده؛ PR #3 و شاخه Build 0.3 دست‌نخورده می‌مانند. اتصال Hub واقعی همچنان نیازمند تأیید مستقل مدیر پروژه Kandoo است.
 
@@ -839,5 +839,26 @@ Build 0.1 اکنون Solution قابل Build، API محلی، Fake Store Gateway
 - بررسی کد تأیید کرد CatalogProductQueryService در Build 0.3 وجود داشت اما به مسیر HTTP Assistant متصل نشده بود.
 - تصمیم اجرایی: گزینه B سند Technical Challenge انتخاب شد؛ قرارداد IAssistantTool و خروجی قدیمی Product Lookup حفظ می‌شود و مرز محدود IAssistantCatalogTool برای پاسخ‌های توصیفی اضافه می‌شود.
 - برش نخست شامل اتصال ابزار کاتالوگ، route قطعی fixture در FakeModelProvider، ثبت DI در Host، پاسخ ساختاریافته با فیلدهای typed و evidence، و تست HTTP برای سه پروفایل فروشگاهی است.
-- در لحظه ثبت، تغییرات کد و تست به GitHub نوشته شده و منتظر CI هستند؛ تا دریافت Run معتبر هیچ نتیجه Build/Test ادعا نمی‌شود.
+- CI Run 43208602845 روی Commit 56007c0557b50fc04767fae84d96a35e517373a8 با نتیجه Success تمام شد: Restore، Build، Test، Manifest، Source Archive و Uploadها همگی موفق.
+- TRX از Artifact دانلود و بررسی شد: 36/36 تست Pass و صفر Failed.
+- Source Artifact ID 13940501391؛ digest: sha256:3aa01c3fe9072bed4d366d5524f02d6566959584cc3cc26508d864b54285e18d.
+- Test Artifact ID 13940182078؛ digest: sha256:438468f606d383ff1b5420703682586eee907ce8f06e8240f7ac52cc3fb2446c.
+- آرشیو داخلی kandoo-internal-ai-source.tar.gz دارای SHA-256 برابر 3e1288f9f2ba88adae955a0de5d335d58ea64c1d83046de6c6f23a846cdf5381 است.
+- Manifest شامل 37 ورودی است؛ تمام 37 مورد پس از استخراج با SHA-256 بررسی شدند و OK هستند.
+- PR #4 ایجاد شد: https://github.com/majid-ghanbari-dost/kando-internal-ai-v01/pull/4؛ Base برابر build/0.3-dynamic-catalog و Head برابر build/0.4-assistant-catalog-integration. PR باز و ادغام‌نشده است.
+- CI URL: https://github.com/majid-ghanbari-dost/kando-internal-ai-v01/actions/runs/43208602845.
 - داده‌ها فقط Synthetic Fixture هستند. قیمت و موجودی در پاسخ کاتالوگ توصیفی ارائه نمی‌شوند.
+
+
+## ۳۹. Build 0.4 — برش اتصال کاتالوگ به Assistant تکمیل شد
+
+- ابزار CatalogQueryTool با نام allowlisted catalog.product.describe به مرز Application اضافه شد؛ قرارداد legacy ابزار product.lookup دست‌نخورده ماند.
+- FakeModelProvider برای واژگان مشخص ویژگی‌های توصیفی، route قطعی fixture ایجاد می‌کند. این route یک rule-based test double است و نباید به‌عنوان درک معنایی مدل واقعی معرفی شود.
+- AssistantService به‌صورت صریح ابزار توصیفی کاتالوگ را dispatch می‌کند و سه وضعیت Resolved، ClarificationRequired و NotFound را مدیریت می‌کند.
+- پاسخ resolved دارای هویت محصول، Category، Unit، ویژگی‌های typed با slotهای نوع‌دار، SourceField، ProfileId و SourceVersion است. قیمت و موجودی در قرارداد این پاسخ وجود ندارند.
+- پاسخ ambiguous فقط Candidate identity و سؤال روشن‌کننده دارد؛ Product و Evidence قطعی برنمی‌گرداند.
+- Host، FixtureCatalogRepository، CatalogProductQueryService و CatalogQueryTool را از DI ثبت می‌کند.
+- تست‌های HTTP جدید، مسیر محصول جشن، خواربار و پوشاک، مقدار typed، evidence، ambiguity و cross-store isolation را پوشش می‌دهند.
+- نتیجه CI 36/36 شامل تست‌های قبلی نیز هست؛ legacy product lookup و Build 0.3 regressionها سبز ماندند.
+- PR #4 با عنوان Build 0.4 — Connect dynamic catalog to Assistant HTTP flow باز و Unmerged است؛ PR #3 نیز جداگانه باز و Unmerged باقی مانده است.
+- نتیجه فعلی فقط تکمیل برش اجرای Fixture-only در ریپوی AI است؛ به معنی انتخاب مدل واقعی، احراز هویت، Hub Integration یا آمادگی عملیاتی فروشگاه نیست.

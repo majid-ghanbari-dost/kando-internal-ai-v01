@@ -3,7 +3,7 @@
 A model-independent assistant core for Kandoo store workflows.
 
 ## Current build
-Build 0.3 is preserved on branch build/0.3-dynamic-catalog. Build 0.4 is approved and under fixture-only implementation on branch build/0.4-assistant-catalog-integration. Its first implementation slice introduces a shared canonical product contract, typed extensible attributes, three synthetic store catalogs (party supplies, grocery, clothing), versioned mapping proposals, default quarantine/exclusion rules, and deterministic store-scoped retrieval. Build 0.2.2 retains explicit ambiguity handling; Build 0.2.1 provides the synthetic Persian query corpus. The parser remains a deterministic rule-based baseline. No live Hub or real store data is connected.
+Build 0.3 is preserved on branch build/0.3-dynamic-catalog. Build 0.4 fixture-only implementation is complete on branch build/0.4-assistant-catalog-integration; PR #4 is open and unmerged pending review. Its first implementation slice introduces a shared canonical product contract, typed extensible attributes, three synthetic store catalogs (party supplies, grocery, clothing), versioned mapping proposals, default quarantine/exclusion rules, and deterministic store-scoped retrieval. Build 0.2.2 retains explicit ambiguity handling; Build 0.2.1 provides the synthetic Persian query corpus. The parser remains a deterministic rule-based baseline. No live Hub or real store data is connected.
 
 ## Architecture
 - **Core:** request, intent, plan, product and evidence contracts.

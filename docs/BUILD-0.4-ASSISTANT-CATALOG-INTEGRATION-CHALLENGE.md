@@ -82,3 +82,19 @@ The registry must remain an explicit allowlist. No reflection-based discovery of
 ## 8. Gate
 
 Product Owner approval was explicitly received on 2026-11-12 for implementation within this AI repository, limited to the fixture-only scope above. Implementation may proceed on build/0.4-assistant-catalog-integration. Hub integration remains separately blocked until the Kandoo Project Manager independently approves it.
+
+
+## 9. Implementation outcome (2026-11-12)
+
+Build 0.4 fixture-only implementation is complete on branch build/0.4-assistant-catalog-integration.
+
+- Selected architecture: Option B; the legacy ProductLookup tool contract remains unchanged and a separate IAssistantCatalogTool contract is used for descriptive catalog queries.
+- The Host registers the fixture repository, catalog query service and catalog tool.
+- Deterministic FakeModelProvider routes known descriptive-attribute markers to catalog.product.describe. This is a rule-based fixture route, not a claim of LLM semantic understanding.
+- Assistant responses include typed attribute value slots, source-field provenance, profile/version identity and evidence.
+- Ambiguity returns candidates and clarification only; not-found remains distinct; cross-store isolation is tested.
+- Current price and stock are absent from the descriptive catalog response.
+- HTTP integration tests cover party supplies, grocery, clothing, ambiguity, not-found/cross-store behavior and legacy lookup regression.
+- CI Run 43208602845 on commit 56007c0557b50fc04767fae84d96a35e517373a8 passed: 36/36 tests, 0 failed; manifest 37/37 verified.
+- PR #4: https://github.com/majid-ghanbari-dost/kando-internal-ai-v01/pull/4 (open, unmerged).
+- No live Hub, real store DB, external LLM, production credential, migration, parent-repository change or write tool was introduced.
